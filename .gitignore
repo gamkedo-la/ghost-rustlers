@@ -1,0 +1,6 @@
+.DS_Store
+.idea/
+.vscode/
+.vs/
+
+not_for_repo/
