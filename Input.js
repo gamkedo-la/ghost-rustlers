@@ -17,11 +17,6 @@ function setKeyHoldState(thisKey, setTo) {
     if(thisKey == KEY_RIGHT_ARROW) {
       holdRight = setTo;
     }
-    if(thisKey == KEY_UP_ARROW || thisKey == KEY_SPACE) {
-      if(jumperOnGround) {
-        jumperSpeedY = -JUMP_POWER;
-      }
-    }
 }
   
 function keyPressed(evt) {
