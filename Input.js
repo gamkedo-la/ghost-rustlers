@@ -4,6 +4,17 @@ const KEY_RIGHT_ARROW = 39;
 const KEY_SPACE = 32;
 var holdLeft = false;
 var holdRight = false;
+
+function calculateMousePos(evt)	{
+  var	rect	=	canvas.getBoundingClientRect(),	root	= document.documentElement;
+  //	account	for	the	margins,	canvas	position	on	page,	scroll	amount,	etc.
+  var	mouseX	=	evt.clientX	-	rect.left	-	root.scrollLeft;
+  var	mouseY	=	evt.clientY	-	rect.top	-	root.scrollTop;
+  return	{
+      x:	mouseX,
+      y:	mouseY
+  };
+}
   
 function initInput() {
     document.addEventListener("keydown", keyPressed);

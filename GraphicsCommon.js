@@ -30,5 +30,5 @@ function drawBricks() {
 
 function drawUI(){
     canvasContext.fillStyle = 'white';
-    canvasContext.fillText("Arrow keys to run, spacebar to jump",8,14);
+    canvasContext.fillText("(" + mousePos.x + ", " + mousePos.y + ")",8,14);
 }
