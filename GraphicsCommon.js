@@ -30,5 +30,12 @@ function drawBricks() {
 
 function drawUI(){
     canvasContext.fillStyle = 'white';
-    canvasContext.fillText("(" + mousePos.x + ", " + mousePos.y + ")",8,14);
+    canvasContext.fillText("Mouse Position: (" + mousePos.x + ", " + mousePos.y + ")",8,14);
+    canvasContext.fillText("Character Position: (" + Math.floor(jumperX) + ", " + Math.floor(jumperY) + ")",8,24);
+    canvasContext.fillText("Distance: (" + DistanceBetweenPoints(mousePos.x, mousePos.y, jumperX, jumperY) + ")",8,34);
+}
+
+function DistanceBetweenPoints(x1, y1, x2, y2){
+    distance = Math.floor(Math.hypot(Math.floor(x1)-Math.floor(x2), Math.floor(y1)-Math.floor(y2)))
+    return distance;
 }
