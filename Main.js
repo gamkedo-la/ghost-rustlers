@@ -24,16 +24,16 @@ window.onload = function() {
     drawEverything();
   }, 1000/framesPerSecond);
       
-  jumperReset();
+  characterReset();
 }
 
 function moveEverything() {
-  jumperMove();
+  characterMove();
 }
   
 function drawEverything() {
   drawBackground();
   drawBricks();
-  drawJumper();
+  drawCharacter();
   drawUI();
 }
