@@ -37,4 +37,3 @@ function drawEverything() {
   drawCharacter();
   drawUI();
 }
-//a comment for testing Github. Will be erased -j5shuatree
