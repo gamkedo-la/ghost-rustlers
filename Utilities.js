@@ -55,3 +55,11 @@ function DistanceBetweenPoints(x1, y1, x2, y2) {
     distance = Math.floor(Math.hypot(Math.floor(x1) - Math.floor(x2), Math.floor(y1) - Math.floor(y2)))
     return distance;
 }
+
+function AngleOfLine(x1, y1, x2, y2) {
+    var dx = x2 - x1;
+    var dy = y2 - y1;
+    var theta = Math.atan2(dy, dx);
+    theta *= 180 / Math.PI;
+    return theta;
+}

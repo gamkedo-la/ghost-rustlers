@@ -1,6 +1,6 @@
 const BRICK_W = 40;
 const BRICK_H = 40;
-const BRICK_GAP = 1;
+const BRICK_GAP = 0;
 const BRICK_COLS = 20;
 const BRICK_ROWS = 15;
 var brickGrid = [
@@ -28,7 +28,7 @@ function drawBricks() {
             if (isBrickAtTileCoord(eachCol, eachRow)) {
                 var brickLeftEdgeX = eachCol * BRICK_W;
                 var brickTopEdgeY = eachRow * BRICK_H;
-                colorRect(brickLeftEdgeX, brickTopEdgeY, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, 'blue');
+                colorRect(brickLeftEdgeX, brickTopEdgeY, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, 'brown');
             } // end of isBrickAtTileCoord()
 
         } // end of for eachRow
