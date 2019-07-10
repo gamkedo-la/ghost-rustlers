@@ -6,34 +6,34 @@ const GRAVITY = 0.6;
 
 var canvas, canvasContext;
 var mousePos;
-  
-window.onload = function() {
+
+window.onload = function () {
   canvas = document.getElementById('gameCanvas');
   canvasContext = canvas.getContext('2d');
-    
+
   initInput();
 
-  canvas.addEventListener('mousemove', function(evt) {
+  canvas.addEventListener('mousemove', function (evt) {
     mousePos = calculateMousePos(evt);
-  }	);
- 
+  });
+
   // these next few lines set up our game logic and render to happen 30 times per second
-  var framesPerSecond = 30;
-  setInterval(function() {
+  var framesPerSecond = 60;
+  setInterval(function () {
     moveEverything();
     drawEverything();
-  }, 1000/framesPerSecond);
-      
+  }, 1000 / framesPerSecond);
   characterReset();
 }
 
 function moveEverything() {
   characterMove();
 }
-  
+
 function drawEverything() {
   drawBackground();
   drawBricks();
   drawCharacter();
   drawUI();
+  colorLine(mousePos.x, mousePos.y, Math.floor(characterX), Math.floor(characterY), 'red');
 }
