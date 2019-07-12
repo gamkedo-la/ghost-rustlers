@@ -5,7 +5,11 @@ var characterSpeedY = 0;
 var characterOnGround = false;
 var CHARACTER_HEIGHT = 80;
 var CHARACTER_WIDTH = 40;
-var movementDestinationIndex = 0;
+//var movementDestinationIndex = 0;
+var destinationCol;
+var destinationRow;
+var destinationXCoord;
+var destinationYCoord;
 
 function drawCharacter() {
   colorRect(characterX - (CHARACTER_WIDTH / 2), characterY - (CHARACTER_HEIGHT / 2), CHARACTER_WIDTH, CHARACTER_HEIGHT, 'white');
@@ -22,12 +26,35 @@ function characterMove() {
     }
   }
 
+  destinationXCoord = colCenterCoord(destinationCol);
+
+  if (characterX > destinationXCoord){
+    if ((characterX - RUN_SPEED) < destinationXCoord){
+      characterX = destinationXCoord;
+      characterSpeedX = 0;
+    } else {
+      characterSpeedX = -RUN_SPEED
+    }
+  }
+
+  if (characterX < destinationXCoord){
+    if ((characterX  + RUN_SPEED) > destinationXCoord){
+      characterX = destinationXCoord;
+      characterSpeedX = 0;
+    } else {
+      characterSpeedX = RUN_SPEED;
+    }
+  }
+
+  /*
   if (holdLeft) {
     characterSpeedX = -RUN_SPEED;
   }
   if (holdRight) {
     characterSpeedX = RUN_SPEED;
   }
+  */
+
   if (hold_E_Key) {
     setCharacterDestination();
   }
@@ -57,7 +84,8 @@ function characterMove() {
 }
 
 function setCharacterDestination() {
-  movementDestinationIndex = getBrickIndexAtPixelCoord(mousePos.x, mousePos.y);
+  destinationCol = colAtXCoord(mousePos.x);
+  destinationRow = rowAtYCoord(mousePos.y);
 }
 
 function characterReset() {

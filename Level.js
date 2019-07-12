@@ -1,6 +1,6 @@
 const BRICK_W = 40;
 const BRICK_H = 40;
-const BRICK_GAP = 0;
+const BRICK_GAP = 2;
 const BRICK_COLS = 20;
 const BRICK_ROWS = 15;
 var brickGrid = [

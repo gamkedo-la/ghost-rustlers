@@ -2,6 +2,18 @@ function brickTileToIndex(tileCol, tileRow) {
     return (tileCol + BRICK_COLS * tileRow);
 }
 
+function colAtXCoord(pixelX){
+    return Math.floor(pixelX / BRICK_W);
+}
+
+function rowAtYCoord(pixelY){
+    return Math.floor(pixelY / BRICK_H);
+}
+
+function colCenterCoord(tileCol){
+    return ((tileCol * BRICK_W) + BRICK_W / 2)
+}
+
 function getBrickIndexAtPixelCoord(pixelX, pixelY) {
     var brickCol = pixelX / BRICK_W;
     var brickRow = pixelY / BRICK_H;
@@ -49,11 +61,6 @@ function BrickBelowMouse() {
     if (isBrickAtPixelCoord(mousePos.x, mousePos.y)) {
         return true;
     }
-}
-
-function DistanceBetweenPoints(x1, y1, x2, y2) {
-    distance = Math.floor(Math.hypot(Math.floor(x1) - Math.floor(x2), Math.floor(y1) - Math.floor(y2)))
-    return distance;
 }
 
 function AngleOfLine(x1, y1, x2, y2) {
