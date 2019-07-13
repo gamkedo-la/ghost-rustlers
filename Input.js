@@ -11,6 +11,7 @@ const KEY_3 = 51;
 const KEY_4 = 52;
 var holdLeft = false;
 var holdRight = false;
+var hold_Space_Key = false;
 var hold_E_Key = false;
 var hold_Q_Key = false;
 var hold_W_Key = false;
@@ -72,5 +73,14 @@ function keyPressed(evt) {
 }
 
 function keyReleased(evt) {
-  setKeyHoldState(evt.keyCode, false);
+
+  if (evt.keyCode == KEY_SPACE) {
+    endTurn();
+  } else if (evt.keyCode == KEY_E) {
+    character1.setCharacterDestination();
+    character2.setCharacterDestination();
+  } else {
+    setKeyHoldState(evt.keyCode, false);
+  }
+
 }

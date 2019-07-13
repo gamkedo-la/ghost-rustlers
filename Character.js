@@ -5,9 +5,12 @@ const AIR_RESISTANCE = 0.95;
 const RUN_SPEED = 4.0;
 const JUMP_POWER = 12.0;
 const GRAVITY = 0.6;
+const ACTIONS_PER_TURN = 2;
 
-function characterClass() {
+function characterClass(character_team, character_color) {
 
+  this.team = character_team;
+  this.color = character_color;
   this.characterY = 75;
   this.characterX = 75;
   this.characterSpeedX = 0;
@@ -18,9 +21,10 @@ function characterClass() {
   this.destinationXCoord;
   this.destinationYCoord;
   this.isActive = false;
+  this.actionsRemaining = ACTIONS_PER_TURN;
 
   this.drawCharacter = function () {
-    colorRect(this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2), CHARACTER_WIDTH, CHARACTER_HEIGHT, 'white');
+    colorRect(this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2), CHARACTER_WIDTH, CHARACTER_HEIGHT, character_color);
   }
 
   this.characterMove = function () {
@@ -63,9 +67,17 @@ function characterClass() {
     }
     */
 
+    /*
     if (hold_E_Key) {
       this.setCharacterDestination();
     }
+    */
+
+    /*
+    if(hold_Space_Key){
+      endTurn();
+    }
+    */
 
     if (this.characterSpeedY < 0 && isBrickAtPixelCoord(this.characterX, this.characterY - (CHARACTER_HEIGHT / 2)) == 1) {
       this.characterY = (Math.floor(this.characterY / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
@@ -92,9 +104,10 @@ function characterClass() {
   }
 
   this.setCharacterDestination = function () {
-    if (this.isActive) {
+    if (this.isActive && this.actionsRemaining > 0) {
       this.destinationCol = colAtXCoord(mousePos.x);
       this.destinationRow = rowAtYCoord(mousePos.y);
+      this.actionsRemaining--;
     }
   }
 
