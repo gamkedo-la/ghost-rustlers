@@ -1,95 +1,114 @@
-var characterX = 75;
-var characterY = 75;
-var characterSpeedX = 0;
-var characterSpeedY = 0;
-var characterOnGround = false;
-var CHARACTER_HEIGHT = 80;
-var CHARACTER_WIDTH = 40;
-//var movementDestinationIndex = 0;
-var destinationCol;
-var destinationRow;
-var destinationXCoord;
-var destinationYCoord;
+const CHARACTER_HEIGHT = 80;
+const CHARACTER_WIDTH = 40;
+const GROUND_FRICTION = 0.8;
+const AIR_RESISTANCE = 0.95;
+const RUN_SPEED = 4.0;
+const JUMP_POWER = 12.0;
+const GRAVITY = 0.6;
 
-function drawCharacter() {
-  colorRect(characterX - (CHARACTER_WIDTH / 2), characterY - (CHARACTER_HEIGHT / 2), CHARACTER_WIDTH, CHARACTER_HEIGHT, 'white');
-}
+function characterClass() {
 
-function characterMove() {
-  if (characterOnGround) {
-    characterSpeedX *= GROUND_FRICTION;
-  } else {
-    characterSpeedX *= AIR_RESISTANCE;
-    characterSpeedY += GRAVITY;
-    if (characterSpeedY > CHARACTER_HEIGHT) { // cheap test to ensure can't fall through floor
-      characterSpeedY = CHARACTER_HEIGHT;
-    }
+  this.characterY = 75;
+  this.characterX = 75;
+  this.characterSpeedX = 0;
+  this.characterSpeedY = 0;
+  this.characterOnGround = false;
+  this.destinationCol;
+  this.destinationRow;
+  this.destinationXCoord;
+  this.destinationYCoord;
+  this.isActive = false;
+
+  this.drawCharacter = function () {
+    colorRect(this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2), CHARACTER_WIDTH, CHARACTER_HEIGHT, 'white');
   }
 
-  destinationXCoord = colCenterCoord(destinationCol);
-
-  if (characterX > destinationXCoord){
-    if ((characterX - RUN_SPEED) < destinationXCoord){
-      characterX = destinationXCoord;
-      characterSpeedX = 0;
+  this.characterMove = function () {
+    if (this.characterOnGround) {
+      this.characterSpeedX *= GROUND_FRICTION;
     } else {
-      characterSpeedX = -RUN_SPEED
+      this.characterSpeedX *= AIR_RESISTANCE;
+      this.characterSpeedY += GRAVITY;
+      if (this.characterSpeedY > CHARACTER_HEIGHT) { // cheap test to ensure can't fall through floor
+        this.characterSpeedY = CHARACTER_HEIGHT;
+      }
     }
-  }
 
-  if (characterX < destinationXCoord){
-    if ((characterX  + RUN_SPEED) > destinationXCoord){
-      characterX = destinationXCoord;
-      characterSpeedX = 0;
-    } else {
+    this.destinationXCoord = colCenterCoord(this.destinationCol);
+
+    if (this.characterX > this.destinationXCoord) {
+      if ((this.characterX - RUN_SPEED) < this.destinationXCoord) {
+        this.characterX = this.destinationXCoord;
+        this.characterSpeedX = 0;
+      } else {
+        this.characterSpeedX = -RUN_SPEED
+      }
+    }
+
+    if (this.characterX < this.destinationXCoord) {
+      if ((this.characterX + RUN_SPEED) > this.destinationXCoord) {
+        this.characterX = this.destinationXCoord;
+        this.characterSpeedX = 0;
+      } else {
+        this.characterSpeedX = RUN_SPEED;
+      }
+    }
+
+    /*
+    if (holdLeft) {
+      characterSpeedX = -RUN_SPEED;
+    }
+    if (holdRight) {
       characterSpeedX = RUN_SPEED;
     }
+    */
+
+    if (hold_E_Key) {
+      this.setCharacterDestination();
+    }
+
+    if (this.characterSpeedY < 0 && isBrickAtPixelCoord(this.characterX, this.characterY - (CHARACTER_HEIGHT / 2)) == 1) {
+      this.characterY = (Math.floor(this.characterY / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
+      this.characterSpeedY = 0.0;
+    }
+
+    if (this.characterSpeedY > 0 && isBrickAtPixelCoord(this.characterX, this.characterY + (CHARACTER_HEIGHT / 2)) == 1) {
+      this.characterY = (1 + Math.floor(this.characterY / BRICK_H)) * BRICK_H - (CHARACTER_HEIGHT / 2);
+      this.characterOnGround = true;
+      this.characterSpeedY = 0;
+    } else if (isBrickAtPixelCoord(this.characterX, this.characterY + (CHARACTER_HEIGHT / 2) + 2) == 0) {
+      this.characterOnGround = false;
+    }
+
+    if (this.characterSpeedX < 0 && isBrickAtPixelCoord(this.characterX - (CHARACTER_WIDTH / 2), this.characterY) == 1) {
+      this.characterX = (Math.floor(this.characterX / BRICK_W)) * BRICK_W + (CHARACTER_WIDTH / 2);
+    }
+    if (this.characterSpeedX > 0 && isBrickAtPixelCoord(this.characterX + (CHARACTER_WIDTH / 2), this.characterY) == 1) {
+      this.characterX = (1 + Math.floor(this.characterX / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
+    }
+
+    this.characterX += this.characterSpeedX; // move the character based on its current horizontal speed 
+    this.characterY += this.characterSpeedY; // same as above, but for vertical
   }
 
-  /*
-  if (holdLeft) {
-    characterSpeedX = -RUN_SPEED;
-  }
-  if (holdRight) {
-    characterSpeedX = RUN_SPEED;
-  }
-  */
-
-  if (hold_E_Key) {
-    setCharacterDestination();
+  this.setCharacterDestination = function () {
+    if (this.isActive) {
+      this.destinationCol = colAtXCoord(mousePos.x);
+      this.destinationRow = rowAtYCoord(mousePos.y);
+    }
   }
 
-  if (characterSpeedY < 0 && isBrickAtPixelCoord(characterX, characterY - (CHARACTER_HEIGHT / 2)) == 1) {
-    characterY = (Math.floor(characterY / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
-    characterSpeedY = 0.0;
+  this.characterReset = function () {
+    // center character on screen
+    this.characterX = canvas.width / 2;
+    this.characterY = canvas.height / 2;
   }
 
-  if (characterSpeedY > 0 && isBrickAtPixelCoord(characterX, characterY + (CHARACTER_HEIGHT / 2)) == 1) {
-    characterY = (1 + Math.floor(characterY / BRICK_H)) * BRICK_H - (CHARACTER_HEIGHT / 2);
-    characterOnGround = true;
-    characterSpeedY = 0;
-  } else if (isBrickAtPixelCoord(characterX, characterY + (CHARACTER_HEIGHT / 2) + 2) == 0) {
-    characterOnGround = false;
+  this.activateCharacter = function(){
+    this.isActive = true;
   }
 
-  if (characterSpeedX < 0 && isBrickAtPixelCoord(characterX - (CHARACTER_WIDTH / 2), characterY) == 1) {
-    characterX = (Math.floor(characterX / BRICK_W)) * BRICK_W + (CHARACTER_WIDTH / 2);
+  this.deactivateCharacter = function(){
+    this.isActive = false;
   }
-  if (characterSpeedX > 0 && isBrickAtPixelCoord(characterX + (CHARACTER_WIDTH / 2), characterY) == 1) {
-    characterX = (1 + Math.floor(characterX / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
-  }
-
-  characterX += characterSpeedX; // move the character based on its current horizontal speed 
-  characterY += characterSpeedY; // same as above, but for vertical
-}
-
-function setCharacterDestination() {
-  destinationCol = colAtXCoord(mousePos.x);
-  destinationRow = rowAtYCoord(mousePos.y);
-}
-
-function characterReset() {
-  // center character on screen
-  characterX = canvas.width / 2;
-  characterY = canvas.height / 2;
 }
