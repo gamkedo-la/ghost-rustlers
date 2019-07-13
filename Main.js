@@ -1,6 +1,8 @@
 var canvas, canvasContext;
 var mousePos;
 
+var allCharacters = [];
+
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
 var enemy1 = new characterClass('PLAYER_ENEMY', 'white');
@@ -23,12 +25,12 @@ window.onload = function () {
   var framesPerSecond = 60;
   setInterval(function () {
     
-    if (hold_Q_Key) {
+    if (hold_1_Key) {
       character1.activateCharacter();
       character2.deactivateCharacter();
     }
     
-    if (hold_W_Key) {
+    if (hold_2_Key) {
       character1.deactivateCharacter();
       character2.activateCharacter();
     }
@@ -36,9 +38,11 @@ window.onload = function () {
     moveEverything();
     drawEverything();
   }, 1000 / framesPerSecond);
-  character1.characterReset();
-  character2.characterReset();
-  enemy1.characterReset();
+
+  character1.characterSpawn();
+  character2.characterSpawn();
+  enemy1.characterSpawn();
+
 }
 
 function moveEverything() {
@@ -55,6 +59,7 @@ function drawEverything() {
   enemy1.drawCharacter();
   drawUI();
 
+  //draw lines to active character for debugging
   if (character1.isActive){
     colorLine(mousePos.x, mousePos.y, Math.floor(character1.characterX), Math.floor(character1.characterY), 'red');
   }
@@ -66,11 +71,15 @@ function drawEverything() {
 
 function endTurn(){
   turnCount++
-  character1.actionsRemaining = ACTIONS_PER_TURN;
-  character2.actionsRemaining = ACTIONS_PER_TURN;
-  enemy1.actionsRemaining = ACTIONS_PER_TURN;
-  character1.deactivateCharacter();
-  character2.deactivateCharacter();
+
+  character1.characterReset();
+  character2.characterReset();
+  enemy1.characterReset();
+
+  enemyTurn();
+}
+
+function enemyTurn(){
   enemy1.activateCharacter();
   enemy1.setCharacterDestination();
 }

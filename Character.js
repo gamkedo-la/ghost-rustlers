@@ -58,27 +58,6 @@ function characterClass(character_team, character_color) {
       }
     }
 
-    /*
-    if (holdLeft) {
-      characterSpeedX = -RUN_SPEED;
-    }
-    if (holdRight) {
-      characterSpeedX = RUN_SPEED;
-    }
-    */
-
-    /*
-    if (hold_E_Key) {
-      this.setCharacterDestination();
-    }
-    */
-
-    /*
-    if(hold_Space_Key){
-      endTurn();
-    }
-    */
-
     if (this.characterSpeedY < 0 && isBrickAtPixelCoord(this.characterX, this.characterY - (CHARACTER_HEIGHT / 2)) == 1) {
       this.characterY = (Math.floor(this.characterY / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
       this.characterSpeedY = 0.0;
@@ -111,10 +90,16 @@ function characterClass(character_team, character_color) {
     }
   }
 
-  this.characterReset = function () {
+  this.characterSpawn = function () {
     // center character on screen
     this.characterX = canvas.width / 2;
     this.characterY = canvas.height / 2;
+    allCharacters.push(this);
+  }
+
+  this.characterReset = function () {
+    this.actionsRemaining = ACTIONS_PER_TURN;
+    this.deactivateCharacter();
   }
 
   this.activateCharacter = function(){

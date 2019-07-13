@@ -10,4 +10,5 @@ function drawUI() {
     canvasContext.fillText("Turn: " + turnCount, 8, 84);
     canvasContext.fillText("C1 Actions: " + character1.actionsRemaining, 8, 94);
     canvasContext.fillText("C2 Actions: " + character2.actionsRemaining, 8, 104);
+    canvasContext.fillText(allCharacters, 8, 114);
 }
