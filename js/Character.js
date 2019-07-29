@@ -6,6 +6,7 @@ const RUN_SPEED = 4.0;
 const JUMP_POWER = 12.0;
 const GRAVITY = 0.6;
 const ACTIONS_PER_TURN = 2;
+const ARM_SEGMENT_LENGTH = 50;
 
 function characterClass(character_team, character_color) {
 
@@ -22,12 +23,54 @@ function characterClass(character_team, character_color) {
   this.destinationYCoord;
   this.isActive = false;
   this.actionsRemaining = ACTIONS_PER_TURN;
+  this.shoulderAngle = Math.PI;
+  this.elbowAngle = -Math.PI/3;
+
+  this.leftShoulderJoint = {x: 0, y: 0}
+  this.rightShoulderJoint = {x: 0, y: 0}
+  this.leftElbow = {x: 0 , y: 0};
+  this.rightElbow = {x: 0 , y: 0};
+  this.leftHand = {x: 0 , y: 0};
+  this.rightHand = {x: 0 , y: 0};
+
+  this.distShoulderToHand;
 
   this.drawCharacter = function () {
     colorRect(this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2), CHARACTER_WIDTH, CHARACTER_HEIGHT, character_color);
+    
+    var bicepLength = ARM_SEGMENT_LENGTH;
+    var forarmLength = ARM_SEGMENT_LENGTH;
+    
+    var jointX = this.characterX;
+    var jointY = this.characterY;
+    var limbAng = 0;
+    limbAng += this.shoulderAngle;
+    var limbX = bicepLength*Math.cos(limbAng);
+    var limbY = bicepLength*Math.sin(limbAng);
+
+
+    colorLine( jointX, jointY, jointX + limbX, jointY + limbY, 'yellow');
+
+    jointX += limbX;
+    jointY += limbY;
+    limbAng += this.elbowAngle
+    limbX = bicepLength*Math.cos(limbAng);
+    limbY = bicepLength*Math.sin(limbAng);
+
+    colorLine( jointX, jointY, jointX + limbX, jointY + limbY, 'cyan');
   }
 
   this.characterMove = function () {
+
+    /*
+    this.distShoulderToHand = DistanceBetweenPoints(mousePos.x, mousePos.y, character1.characterX, character1.characterY);
+    if (this.distShoulderToHand > (ARM_SEGMENT_LENGTH*2)){
+      this.distShoulderToHand = ARM_SEGMENT_LENGTH*2;
+    }
+    */
+   this.characterX += this.characterSpeedX; // move the character based on its current horizontal speed 
+   this.characterY += this.characterSpeedY; // same as above, but for vertical
+
     if (this.characterOnGround) {
       this.characterSpeedX *= GROUND_FRICTION;
     } else {
@@ -78,8 +121,23 @@ function characterClass(character_team, character_color) {
       this.characterX = (1 + Math.floor(this.characterX / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
     }
 
-    this.characterX += this.characterSpeedX; // move the character based on its current horizontal speed 
-    this.characterY += this.characterSpeedY; // same as above, but for vertical
+    var targetShoulderAngle = 0;
+    var targetElbowAngle = 0;
+    var jointSmoothingRate = 0.85;
+
+    if (isAiming && this.isActive){
+      targetShoulderAngle = Math.atan2(mousePos.y - this.characterY, mousePos.x - this.characterX);
+      targetElbowAngle = -Math.PI/3;
+      targetShoulderAngle -= this.elbowAngle/2;
+    } else {
+      targetShoulderAngle = Math.PI*0;
+      targetElbowAngle = -Math.PI*0.7;
+      targetShoulderAngle -= this.elbowAngle/2;
+    }
+
+    this.shoulderAngle = targetShoulderAngle* (1.0 - jointSmoothingRate) + this.shoulderAngle * jointSmoothingRate;
+    this.elbowAngle = targetElbowAngle* (1.0 - jointSmoothingRate) + this.elbowAngle * jointSmoothingRate;
+
   }
 
   this.setCharacterDestination = function () {
@@ -95,6 +153,13 @@ function characterClass(character_team, character_color) {
     this.characterX = canvas.width / 2;
     this.characterY = canvas.height / 2;
     allCharacters.push(this);
+
+    //this.leftShoulderJoint = {x: characterX, y: characterY}
+    //this.rightShoulderJoint = {x: characterX, y: characterY}
+    this.leftElbow = {x: 0 , y: 0};
+    this.rightElbow = {x: 0 , y: 0};
+    this.leftHand = {x: 0 , y: 0};
+    this.rightHand = {x: 0 , y: 0};
   }
 
   this.characterReset = function () {

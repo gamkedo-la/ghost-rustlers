@@ -6,6 +6,7 @@ const KEY_1 = 49;
 const KEY_2 = 50;
 const KEY_3 = 51;
 const KEY_4 = 52;
+const KEY_E = 69;
 var holdLeft = false;
 var holdRight = false;
 var hold_Space_Key = false;
@@ -51,6 +52,12 @@ function setKeyHoldState(thisKey, setTo) {
   }
   if (thisKey == KEY_4) {
     hold_4_Key = setTo;
+  }
+  if (thisKey == KEY_E) {
+    if (setTo){
+      isAiming = !isAiming;
+    }
+    //hold_E_Key = setTo;
   }
 }
 

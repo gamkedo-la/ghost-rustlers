@@ -1,5 +1,6 @@
 var canvas, canvasContext;
 var mousePos;
+var isAiming = false;
 
 var allCharacters = [];
 
