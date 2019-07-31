@@ -63,6 +63,7 @@ function BrickBelowMouse() {
     }
 }
 
+/*
 function AngleOfLine(x1, y1, x2, y2) {
     var dx = x2 - x1;
     var dy = y2 - 0;
@@ -79,3 +80,4 @@ function TriOppSideFromTwoSides (hypot, adjacent) {
 function degToRad(degrees) {
     return degrees * Math.PI / 180;
   };
+*/

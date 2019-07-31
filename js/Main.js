@@ -62,10 +62,10 @@ function drawEverything() {
 
   //draw lines to active character for debugging
   if (character1.isActive){
-    colorLine(mousePos.x, mousePos.y, Math.floor(character1.characterX), Math.floor(character1.characterY), 'red');
+    colorLine(mousePos.x, mousePos.y, Math.floor(character1.rightShoulderJoint.x), Math.floor(character1.rightShoulderJoint.y), 'red');
   }
   if (character2.isActive){
-    colorLine(mousePos.x, mousePos.y, Math.floor(character2.characterX), Math.floor(character2.characterY), 'green');
+    colorLine(mousePos.x, mousePos.y, Math.floor(character2.rightShoulderJoint.x), Math.floor(character2.rightShoulderJoint.y), 'green');
   }
 
 }

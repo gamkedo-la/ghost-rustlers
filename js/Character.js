@@ -3,7 +3,6 @@ const CHARACTER_WIDTH = 40;
 const GROUND_FRICTION = 0.8;
 const AIR_RESISTANCE = 0.95;
 const RUN_SPEED = 4.0;
-const JUMP_POWER = 12.0;
 const GRAVITY = 0.6;
 const ACTIONS_PER_TURN = 2;
 const ARM_SEGMENT_LENGTH = 50;
@@ -23,8 +22,9 @@ function characterClass(character_team, character_color) {
   this.destinationYCoord;
   this.isActive = false;
   this.actionsRemaining = ACTIONS_PER_TURN;
-  this.shoulderAngle = Math.PI;
-  this.elbowAngle = -Math.PI/3;
+  this.shoulderAngle = 0;
+  this.elbowAngle = 0;
+  this.handAngle = 0;
 
   this.leftShoulderJoint = {x: 0, y: 0}
   this.rightShoulderJoint = {x: 0, y: 0}
@@ -37,37 +37,25 @@ function characterClass(character_team, character_color) {
 
   this.drawCharacter = function () {
     colorRect(this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2), CHARACTER_WIDTH, CHARACTER_HEIGHT, character_color);
-    
-    var bicepLength = ARM_SEGMENT_LENGTH;
-    var forarmLength = ARM_SEGMENT_LENGTH;
-    
-    var jointX = this.characterX;
-    var jointY = this.characterY;
-    var limbAng = 0;
-    limbAng += this.shoulderAngle;
-    var limbX = bicepLength*Math.cos(limbAng);
-    var limbY = bicepLength*Math.sin(limbAng);
 
+    //sets location of shoulder joints
+    this.rightShoulderJoint.x = this.characterX;
+    this.rightShoulderJoint.y = this.characterY - (CHARACTER_HEIGHT/4);
 
-    colorLine( jointX, jointY, jointX + limbX, jointY + limbY, 'yellow');
+    //draws upper arm
+    this.rightElbow.x = ARM_SEGMENT_LENGTH*Math.cos(this.shoulderAngle) + this.rightShoulderJoint.x;
+    this.rightElbow.y = ARM_SEGMENT_LENGTH*Math.sin(this.shoulderAngle) + this.rightShoulderJoint.y;
+    colorLine(this.rightShoulderJoint.x, this.rightShoulderJoint.y, this.rightElbow.x, this.rightElbow.y, 'yellow'); //draws line between the shoulder and elbow
 
-    jointX += limbX;
-    jointY += limbY;
-    limbAng += this.elbowAngle
-    limbX = bicepLength*Math.cos(limbAng);
-    limbY = bicepLength*Math.sin(limbAng);
-
-    colorLine( jointX, jointY, jointX + limbX, jointY + limbY, 'cyan');
+    //draws lower arm
+    this.handAngle = this.shoulderAngle + this.elbowAngle;
+    this.rightHand.x = ARM_SEGMENT_LENGTH*Math.cos(this.handAngle) + this.rightElbow.x;
+    this.rightHand.y = ARM_SEGMENT_LENGTH*Math.sin(this.handAngle) + this.rightElbow.y;
+    colorLine(this.rightElbow.x, this.rightElbow.y, this.rightHand.x, this.rightHand.y, 'cyan'); //draws line between the elbow and hand
   }
 
   this.characterMove = function () {
 
-    /*
-    this.distShoulderToHand = DistanceBetweenPoints(mousePos.x, mousePos.y, character1.characterX, character1.characterY);
-    if (this.distShoulderToHand > (ARM_SEGMENT_LENGTH*2)){
-      this.distShoulderToHand = ARM_SEGMENT_LENGTH*2;
-    }
-    */
    this.characterX += this.characterSpeedX; // move the character based on its current horizontal speed 
    this.characterY += this.characterSpeedY; // same as above, but for vertical
 
@@ -123,18 +111,18 @@ function characterClass(character_team, character_color) {
 
     var targetShoulderAngle = 0;
     var targetElbowAngle = 0;
-    var jointSmoothingRate = 0.85;
+    var jointSmoothingRate = 0.65;
 
+    //sets angles of arm segments
     if (isAiming && this.isActive){
-      targetShoulderAngle = Math.atan2(mousePos.y - this.characterY, mousePos.x - this.characterX);
-      targetElbowAngle = -Math.PI/3;
-      targetShoulderAngle -= this.elbowAngle/2;
+      targetShoulderAngle = Math.atan2(mousePos.y - this.rightShoulderJoint.y, mousePos.x - this.rightShoulderJoint.x);
+      targetElbowAngle = -Math.PI/6;
     } else {
       targetShoulderAngle = Math.PI*0;
       targetElbowAngle = -Math.PI*0.7;
-      targetShoulderAngle -= this.elbowAngle/2;
     }
 
+    targetShoulderAngle -= this.elbowAngle/2;
     this.shoulderAngle = targetShoulderAngle* (1.0 - jointSmoothingRate) + this.shoulderAngle * jointSmoothingRate;
     this.elbowAngle = targetElbowAngle* (1.0 - jointSmoothingRate) + this.elbowAngle * jointSmoothingRate;
 
