@@ -14,4 +14,14 @@ function drawUI() {
         //canvasContext.fillText(allCharacters, 8, 114);
         //canvasContext.fillText(TriOppSideFromTwoSides(ARM_SEGMENT_LENGTH, (DistanceBetweenPoints(mousePos.x, mousePos.y, character1.characterX, character1.characterY))/2), 8, 124);
     }
+
+    drawCharacterInfo();
+}
+
+function drawCharacterInfo() {
+    for (i = 0; i < character1.health; i++) {
+        var healthPipSlot = i;
+        var healthPipSize = 5;
+        colorRect(character1.characterX - (CHARACTER_WIDTH / 2) + (healthPipSlot * (healthPipSize + 1)), character1.characterY - (CHARACTER_HEIGHT / 2) - 10, healthPipSize, healthPipSize, 'green');
+    }
 }

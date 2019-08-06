@@ -9,6 +9,7 @@ const ARM_SEGMENT_LENGTH = 50;
 
 function characterClass(character_team, character_color) {
 
+  this.health = 8;
   this.team = character_team;
   this.color = character_color;
   this.characterY = 75;
