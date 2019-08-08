@@ -24,4 +24,10 @@ function drawCharacterInfo() {
         var healthPipSize = 5;
         colorRect(character1.characterX - (CHARACTER_WIDTH / 2) + (healthPipSlot * (healthPipSize + 1)), character1.characterY - (CHARACTER_HEIGHT / 2) - 10, healthPipSize, healthPipSize, 'green');
     }
+
+    for (i = 0; i < character2.health; i++) {
+        var healthPipSlot = i;
+        var healthPipSize = 5;
+        colorRect(character2.characterX - (CHARACTER_WIDTH / 2) + (healthPipSlot * (healthPipSize + 1)), character2.characterY - (CHARACTER_HEIGHT / 2) - 10, healthPipSize, healthPipSize, 'green');
+    }
 }
