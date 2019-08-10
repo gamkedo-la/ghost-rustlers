@@ -82,6 +82,7 @@ function keyReleased(evt) {
 }
 
 function mouseReleased(evt) {
-  character1.setCharacterDestination();
-  character2.setCharacterDestination();
+
+  character1.handleClick();
+  character2.handleClick();
 }

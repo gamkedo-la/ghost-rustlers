@@ -179,10 +179,14 @@ function characterClass(character_team, character_color) {
 
   }
 
-  this.setCharacterDestination = function () {
+  this.handleClick = function () {
     if (this.isActive && this.actionsRemaining > 0) {
-      this.destinationCol = colAtXCoord(mousePos.x);
-      this.destinationRow = rowAtYCoord(mousePos.y);
+      if (isAiming){
+        bulletT = 0.0;
+      } else {
+        this.destinationCol = colAtXCoord(mousePos.x);
+        this.destinationRow = rowAtYCoord(mousePos.y);
+      }
       this.actionsRemaining--;
     }
   }

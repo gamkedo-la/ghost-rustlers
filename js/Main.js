@@ -10,6 +10,11 @@ var characterUpperArmPic = document.createElement("img");
 var characterUpperArmPicLoaded = false;
 var characterLowerArmPic = document.createElement("img");
 var characterLowerArmPicLoaded = false;
+var bulletT = 1.0; //might migrate to character
+var aimFromX = 0;
+var aimFromY = 0;
+var aimToX = 0;
+var aimToY = 0;
 
 var allCharacters = [];
 
@@ -28,22 +33,22 @@ window.onload = function () {
   characterBodyRightPic.onload = function () {
     characterBodyRightPicLoaded = true;
   }
-  characterBodyRightPic.src="characterBodyPlaceHolderRight.png";
+  characterBodyRightPic.src = "characterBodyPlaceHolderRight.png";
 
   characterBodyLeftPic.onload = function () {
     characterBodyLeftPicLoaded = true;
   }
-  characterBodyLeftPic.src="characterBodyPlaceHolderLeft.png";
+  characterBodyLeftPic.src = "characterBodyPlaceHolderLeft.png";
 
   characterUpperArmPic.onload = function () {
     characterUpperArmPicLoaded = true;
   }
-  characterUpperArmPic.src="characterUpperArmPlaceHolder.png";
+  characterUpperArmPic.src = "characterUpperArmPlaceHolder.png";
 
   characterLowerArmPic.onload = function () {
     characterLowerArmPicLoaded = true;
   }
-  characterLowerArmPic.src="characterLowerArmPlaceHolder.png";
+  characterLowerArmPic.src = "characterLowerArmPlaceHolder.png";
 
 
   initInput();
@@ -90,14 +95,40 @@ function drawEverything() {
   //enemy1.drawCharacter();
   drawUI();
 
+  if (bulletT <= 1.0){
+    var lineLength = DistanceBetweenPoints(aimFromX, aimFromY, aimToX, aimToY);
+    bulletT += 5/lineLength;
+  } else {
+
   //draw lines to active character for debugging
+  aimToX = mousePos.x;
+  aimToY = mousePos.y;
+  }
+  var aimColor = 'yellow';
+
   if (character1.isActive) {
-    colorLine(mousePos.x, mousePos.y, Math.floor(character1.rightShoulderJoint.x), Math.floor(character1.rightShoulderJoint.y), 'red');
+    aimFromX = Math.floor(character1.rightShoulderJoint.x);
+    aimFromY = Math.floor(character1.rightShoulderJoint.y);
+    aimColor = 'red';
   }
   if (character2.isActive) {
-    colorLine(mousePos.x, mousePos.y, Math.floor(character2.rightShoulderJoint.x), Math.floor(character2.rightShoulderJoint.y), 'green');
+    aimFromX = Math.floor(character2.rightShoulderJoint.x);
+    aimFromY = Math.floor(character2.rightShoulderJoint.y);
+    aimColor = 'green';
   }
+  colorLine(aimFromX, aimFromY, aimToX, aimToY, aimColor);
+  if (bulletT < 1) {
+    drawBulletOnLine(aimFromX, aimFromY, aimToX, aimToY, bulletT);
+  }
+}
 
+function drawBulletOnLine(startX, startY, endX, endY, percent) {
+  var oppositePerc = 1.0 - percent;
+  // for some startX, startY, endX, endY:
+  var positionNowX = startX * oppositePerc + endX * percent;
+  var positionNowY = startY * oppositePerc + endY * percent;
+
+  colorCircle(positionNowX, positionNowY, 5, 'white')
 }
 
 function endTurn() {
