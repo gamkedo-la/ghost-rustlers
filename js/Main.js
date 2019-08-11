@@ -125,7 +125,7 @@ function drawBulletOnLine(startX, startY, endX, endY, percent) {
   colorCircle(positionNowX, positionNowY, 5, 'white')
 }
 
-function endTurn() {
+function endPlayerTurn() {
   turnCount++
 
   character1.characterReset();
@@ -135,4 +135,12 @@ function endTurn() {
 }
 
 function enemyTurn() {
+
+  //Enemy Actions
+
+  endEnemyTurn()
+}
+
+function endEnemyTurn(){
+  character1.activateCharacter();
 }

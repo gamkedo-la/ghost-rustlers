@@ -74,7 +74,7 @@ function keyPressed(evt) {
 function keyReleased(evt) {
 
   if (evt.keyCode == KEY_SPACE) {
-    endTurn();
+    endPlayerTurn();
   } else {
     setKeyHoldState(evt.keyCode, false);
   }
