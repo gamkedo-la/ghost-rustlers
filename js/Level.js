@@ -28,7 +28,7 @@ function drawGroundBlocks() {
             if (isBrickAtTileCoord(eachCol, eachRow)) {
                 var brickLeftEdgeX = eachCol * BRICK_W;
                 var brickTopEdgeY = eachRow * BRICK_H;
-                colorRect(brickLeftEdgeX, brickTopEdgeY, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, 'brown');
+                colorRect(brickLeftEdgeX, brickTopEdgeY, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, 'BurlyWood ');
             } // end of isBrickAtTileCoord()
 
         } // end of for eachRow
