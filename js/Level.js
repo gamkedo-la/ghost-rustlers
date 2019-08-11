@@ -21,7 +21,7 @@ var brickGrid = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 ];
 
-function drawBricks() {
+function drawGroundBlocks() {
     for (var eachCol = 0; eachCol < BRICK_COLS; eachCol++) { // in each column...
         for (var eachRow = 0; eachRow < BRICK_ROWS; eachRow++) { // in each row within that col
 
@@ -33,4 +33,4 @@ function drawBricks() {
 
         } // end of for eachRow
     } // end of for eachCol
-} // end of drawBricks()
+} // end of drawGroundBlocks()
