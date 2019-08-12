@@ -1,5 +1,5 @@
 var canvas, canvasContext;
-var mousePos;
+var mousePos = {x:0,y:0};
 var isAiming = false;
 var debugMode = false;
 var characterBodyRightPic = document.createElement("img");
