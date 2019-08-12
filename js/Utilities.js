@@ -18,7 +18,7 @@ function getBrickIndexAtPixelCoord(pixelX, pixelY) {
     var brickCol = pixelX / BRICK_W;
     var brickRow = pixelY / BRICK_H;
 
-    //	we'll	use	Math.floor	to	round	down	to	the	nearest	whole	number
+    //	we'll use Math.floor to round down to the nearest whole number
     brickCol = Math.floor(brickCol);
     brickRow = Math.floor(brickRow);
 

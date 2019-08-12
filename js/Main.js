@@ -23,6 +23,8 @@ var characterUpperArmPic = document.createElement("img");
 var characterUpperArmPicLoaded = false;
 var characterLowerArmPic = document.createElement("img");
 var characterLowerArmPicLoaded = false;
+var wallPic = document.createElement("img");
+var wallPicLoaded = false;
 
 function initArt() {
 
@@ -37,7 +39,10 @@ function initArt() {
     
   characterLowerArmPic.onload = function () { characterLowerArmPicLoaded = true; }
   characterLowerArmPic.src = "images/characterLowerArmPlaceHolder.png";
-    
+
+  wallPic.onload = function () { wallPicLoaded = true; }
+  wallPic.src = "images/wall.png";
+
 }
 
 function initMouse() {
