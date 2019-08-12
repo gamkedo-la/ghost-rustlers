@@ -59,11 +59,24 @@ function moveEverything() {
   character2.characterMove();
 }
 
+function drawAimer() {
+    
+    if (isAiming) {
+        canvasContext.drawImage(targetAimerPic,mousePos.x-targetAimerPic.width/2,mousePos.y-targetAimerPic.height/2);
+    } else {
+        // FIXME: the y coordinate of the move cursor should look 
+        // at the level data + player position or just follow mouse as above
+        canvasContext.drawImage(moveAimerPic,mousePos.x-moveAimerPic.width/2,520);
+    }
+
+}
+
 function drawEverything() {
   drawBackground();
   drawGroundBlocks();
   character1.drawCharacter();
   character2.drawCharacter();
+  drawAimer();
   drawUI();
 
   if (bulletT <= 1.0){
