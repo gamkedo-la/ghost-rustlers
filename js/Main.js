@@ -2,6 +2,19 @@ var canvas, canvasContext;
 var mousePos = {x:0,y:0};
 var isAiming = false;
 var debugMode = false;
+var bulletT = 1.0; //might migrate to character
+var aimFromX = 0;
+var aimFromY = 0;
+var aimToX = 0;
+var aimToY = 0;
+var allCharacters = [];
+var character1 = new characterClass('PLAYER_TEAM', 'red');
+var character2 = new characterClass('PLAYER_TEAM', 'green');
+character1.activateCharacter();
+character2.deactivateCharacter();
+var turnCount = 1;
+
+// all art assets
 var characterBodyRightPic = document.createElement("img");
 var characterBodyRightPicLoaded = false;
 var characterBodyLeftPic = document.createElement("img");
@@ -10,68 +23,57 @@ var characterUpperArmPic = document.createElement("img");
 var characterUpperArmPicLoaded = false;
 var characterLowerArmPic = document.createElement("img");
 var characterLowerArmPicLoaded = false;
-var bulletT = 1.0; //might migrate to character
-var aimFromX = 0;
-var aimFromY = 0;
-var aimToX = 0;
-var aimToY = 0;
 
-var allCharacters = [];
+function initArt() {
 
-var character1 = new characterClass('PLAYER_TEAM', 'red');
-var character2 = new characterClass('PLAYER_TEAM', 'green');
-character1.activateCharacter();
-character2.deactivateCharacter();
+  characterBodyRightPic.onload = function () { characterBodyRightPicLoaded = true; }
+  characterBodyRightPic.src = "images/characterBodyPlaceHolderRight.png";
+    
+  characterBodyLeftPic.onload = function () { characterBodyLeftPicLoaded = true; }
+  characterBodyLeftPic.src = "images/characterBodyPlaceHolderLeft.png";
+   
+  characterUpperArmPic.onload = function () { characterUpperArmPicLoaded = true; }
+  characterUpperArmPic.src = "images/characterUpperArmPlaceHolder.png";
+    
+  characterLowerArmPic.onload = function () { characterLowerArmPicLoaded = true; }
+  characterLowerArmPic.src = "images/characterLowerArmPlaceHolder.png";
+    
+}
 
-var turnCount = 1;
+function initMouse() {
+    canvas.addEventListener('mousemove', function (evt) {
+        mousePos = calculateMousePos(evt);
+      });
+}
+
+function initRenderLoop() {
+    var framesPerSecond = 60;
+    setInterval(function () {
+  
+      if (hold_1_Key) {
+        character1.activateCharacter();
+        character2.deactivateCharacter();
+      }
+  
+      if (hold_2_Key) {
+        character1.deactivateCharacter();
+        character2.activateCharacter();
+      }
+  
+      moveEverything();
+      drawEverything();
+    }, 1000 / framesPerSecond);
+}
 
 window.onload = function () {
+
   canvas = document.getElementById('gameCanvas');
   canvasContext = canvas.getContext('2d');
 
-  characterBodyRightPic.onload = function () {
-    characterBodyRightPicLoaded = true;
-  }
-  characterBodyRightPic.src = "characterBodyPlaceHolderRight.png";
-
-  characterBodyLeftPic.onload = function () {
-    characterBodyLeftPicLoaded = true;
-  }
-  characterBodyLeftPic.src = "characterBodyPlaceHolderLeft.png";
-
-  characterUpperArmPic.onload = function () {
-    characterUpperArmPicLoaded = true;
-  }
-  characterUpperArmPic.src = "characterUpperArmPlaceHolder.png";
-
-  characterLowerArmPic.onload = function () {
-    characterLowerArmPicLoaded = true;
-  }
-  characterLowerArmPic.src = "characterLowerArmPlaceHolder.png";
-
-
+  initArt();
   initInput();
-
-  canvas.addEventListener('mousemove', function (evt) {
-    mousePos = calculateMousePos(evt);
-  });
-
-  var framesPerSecond = 60;
-  setInterval(function () {
-
-    if (hold_1_Key) {
-      character1.activateCharacter();
-      character2.deactivateCharacter();
-    }
-
-    if (hold_2_Key) {
-      character1.deactivateCharacter();
-      character2.activateCharacter();
-    }
-
-    moveEverything();
-    drawEverything();
-  }, 1000 / framesPerSecond);
+  initMouse();
+  initRenderLoop();
 
   character1.characterSpawn();
   character2.characterSpawn();
