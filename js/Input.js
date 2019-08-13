@@ -7,6 +7,7 @@ const KEY_2 = 50;
 const KEY_3 = 51;
 const KEY_4 = 52;
 const KEY_E = 69;
+const KEY_P = 80;
 const KEY_TILDE = 192;
 var holdLeft = false;
 var holdRight = false;
@@ -58,6 +59,12 @@ function setKeyHoldState(thisKey, setTo) {
     if (setTo){
       isAiming = !isAiming;
     }
+  }
+  if (thisKey == KEY_P) {
+      if (setTo) {
+        isPaused = !isPaused;
+       console.log ("P pressed");
+      }
   }
   if (thisKey == KEY_TILDE) {
     if (setTo){

@@ -1,6 +1,7 @@
 var canvas, canvasContext;
 var mousePos = {x:0,y:0};
 var isAiming = false;
+var isPaused = false;
 var debugMode = false;
 var bulletT = 1.0; //might migrate to character
 var aimFromX = 0;
