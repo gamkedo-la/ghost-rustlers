@@ -1,6 +1,7 @@
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
+const KEY_DOWN_ARROW = 40;
 const KEY_SPACE = 32;
 const KEY_1 = 49;
 const KEY_2 = 50;
@@ -11,6 +12,8 @@ const KEY_P = 80;
 const KEY_TILDE = 192;
 var holdLeft = false;
 var holdRight = false;
+var holdUp = false;
+var holdDown = false;
 var hold_Space_Key = false;
 var hold_E_Key = false;
 var hold_1_Key = false;
@@ -42,6 +45,12 @@ function setKeyHoldState(thisKey, setTo) {
   }
   if (thisKey == KEY_RIGHT_ARROW) {
     holdRight = setTo;
+  }
+  if(thisKey == KEY_UP_ARROW) {
+    holdUp = setTo;
+  }
+  if(thisKey == KEY_DOWN_ARROW) {
+    holdDown = setTo;
   }
   if (thisKey == KEY_1) {
     hold_1_Key = setTo;

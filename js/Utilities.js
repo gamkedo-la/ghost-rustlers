@@ -62,22 +62,3 @@ function BrickBelowMouse() {
         return true;
     }
 }
-
-/*
-function AngleOfLine(x1, y1, x2, y2) {
-    var dx = x2 - x1;
-    var dy = y2 - 0;
-    var theta = Math.atan2(dy, dx);
-    //theta *= 180 / Math.PI;
-    return theta;
-}
-
-function TriOppSideFromTwoSides (hypot, adjacent) {
-    var opposite = Math.sqrt(Math.pow(hypot,2) - Math.pow(adjacent,2));
-    return opposite;
-}
-
-function degToRad(degrees) {
-    return degrees * Math.PI / 180;
-  };
-*/
