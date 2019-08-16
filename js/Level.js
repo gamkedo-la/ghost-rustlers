@@ -3,6 +3,9 @@ const BRICK_H = 40;
 const BRICK_GAP = 2;
 const BRICK_COLS = 30;
 const BRICK_ROWS = 20;
+var levelTurns = 6; //place holder.
+
+
 var brickGrid = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,

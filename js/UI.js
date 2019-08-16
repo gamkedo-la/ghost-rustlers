@@ -1,3 +1,5 @@
+var gameOver = false;
+
 function drawUI() {
     if (debugMode) {
         canvasContext.fillStyle = 'white';
@@ -21,11 +23,24 @@ function drawUI() {
     canvasContext.fillText("Press 1 & 2 to select Character.", 50, 70);
     canvasContext.fillText("Left Mouse Click to Move when not Aiming or Shoot when Aiming.", 50, 80);
     canvasContext.fillText("Press Arrow Keys to Pan Camera", 50, 90);
+    canvasContext.fillText(turnCount + "/" + levelTurns, 50, 290);
+	colorText(turnCount + "/" + levelTurns, 390, 40, "white", font = "30px Arial Black");
+	
+	
     if (character1.actionsRemaining == 0 && character2.actionsRemaining == 0) {
+		if(turnCount <= levelTurns){
         canvasContext.fillStyle = 'white';
         canvasContext.font = "30px Verdana";
         canvasContext.fillText("Press Space to End Turn", 225, 200);
-    }
+		}
+	}
+	
+	if (turnCount > levelTurns){
+		colorText("Game Over Man!", 225, 300, "white", font = "14px Arial Black");
+		colorText("Press Space to Reset Game", 225, 500, "white", font = "14px Arial Black");
+		gameOver = true;
+	}
+	
 }
 
 function drawCharacterInfo() {        

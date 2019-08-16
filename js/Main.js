@@ -184,3 +184,10 @@ function enemyTurn() {
 function endEnemyTurn() {
   character1.activateCharacter();
 }
+
+function resetGame(){
+	character1.characterReset();
+	character2.characterReset();
+	turnCount = 1;
+	gameOver = false;
+}

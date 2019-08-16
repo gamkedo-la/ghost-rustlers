@@ -3,6 +3,13 @@ function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
     canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
 }
 
+function colorText(showWords, textX, textY, fillColor, font = "14px Arial Black") {
+  canvasContext.textAlign = "left";
+  canvasContext.fillStyle = fillColor;
+  canvasContext.font = font;
+  canvasContext.fillText(showWords, textX, textY);
+}
+
 function colorCircle(centerX, centerY, radius, fillColor) {
     canvasContext.fillStyle = fillColor;
     canvasContext.beginPath();

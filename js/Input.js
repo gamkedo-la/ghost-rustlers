@@ -89,8 +89,11 @@ function keyPressed(evt) {
 
 function keyReleased(evt) {
 
-  if (evt.keyCode == KEY_SPACE) {
+  if (evt.keyCode == KEY_SPACE && character1.actionsRemaining == 0 && character2.actionsRemaining == 0) {
     endPlayerTurn();
+	if(evt.keyCode == KEY_SPACE && gameOver){
+		resetGame()
+	}
   } else {
     setKeyHoldState(evt.keyCode, false);
   }
