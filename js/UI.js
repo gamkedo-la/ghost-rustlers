@@ -28,43 +28,56 @@ function drawUI() {
     }
 }
 
-function drawCharacterInfo() {
-    for (i = 0; i < character1.health; i++) {
-        var healthPipSlot = i;
-        var healthPipSize = 5;
-        //draw health pips
-        colorRect(character1.characterX - (CHARACTER_WIDTH / 2) + (healthPipSlot * (healthPipSize + 1)), character1.characterY - (CHARACTER_HEIGHT / 2) - 10, healthPipSize, healthPipSize, 'green');
-        canvasContext.fillStyle = 'red';
-        canvasContext.font = "20px Verdana";
-        canvasContext.fillText("Character 1", 150, 20);
-        canvasContext.fillText("Actions Remaining: " + character1.actionsRemaining, 150, 40);
-        /*
-        if (character1.isActive) {
-            canvasContext.strokeStyle = "red";
-            canvasContext.rect(145, 0, 225, 50);
-            canvasContext.stroke();
-        }
-        */
-        
+function drawCharacterInfo() {        
+    canvasContext.fillStyle = 'red';
+    canvasContext.font = "20px Verdana";
+    canvasContext.fillText("Character 1", 150, 20);
+    canvasContext.fillText("Actions Remaining: " + character1.actionsRemaining, 150, 40);
+    /*
+     if (character1.isActive) {
+        canvasContext.strokeStyle = "red";
+        canvasContext.rect(145, 0, 225, 50);
+        canvasContext.stroke();
     }
+    */
+    
+    canvasContext.fillStyle = 'green';
+    canvasContext.fillText("Character 2", 500, 20);
+    canvasContext.fillText("Actions Remaining: " + character2.actionsRemaining, 500, 40);
 
-    for (i = 0; i < character2.health; i++) {
-        var healthPipSlot = i;
-        var healthPipSize = 5;
-        //draw health pips
-        colorRect(character2.characterX - (CHARACTER_WIDTH / 2) + (healthPipSlot * (healthPipSize + 1)), character2.characterY - (CHARACTER_HEIGHT / 2) - 10, healthPipSize, healthPipSize, 'green');
-        canvasContext.fillStyle = 'green';
-        canvasContext.font = "20px Verdana";
-        canvasContext.fillText("Character 2", 500, 20);
-        canvasContext.fillText("Actions Remaining: " + character2.actionsRemaining, 500, 40);
-
-        /*
-        if (character2.isActive) {
-            //convasContext.begin();
-            canvasContext.strokeStyle = "green";
-            canvasContext.rect(495, 0, 225, 50);
-            canvasContext.stroke();
-        }
-        */
+    /*
+    if (character2.isActive) {
+        //convasContext.begin();
+        canvasContext.strokeStyle = "green";
+        canvasContext.rect(495, 0, 225, 50);
+        canvasContext.stroke();
     }
+    */
+
+   drawHealthBar(character1);
+   drawHealthBar(character2);
+} //End of drawCharacterInfo
+
+function drawHealthBar(char) {
+    var pipSize = 10,
+        pipGap = Math.round(pipSize/5);
+        pipPositionX = char.characterX - ((pipSize * char.health) + (char.health + pipGap)) / 2 ;
+        pipPositionY = char.characterY - (CHARACTER_HEIGHT / 2) - pipSize * 2;
+    
+    canvasContext.save();
+    canvasContext.translate(-camPanX, -camPanY);
+    canvasContext.fillStyle = char.color;
+    canvasContext.font = "12px Verdana";
+    canvasContext.textAlign = 'center';
+    canvasContext.fillText(char.team + ' ' + char.color, char.characterX, pipPositionY - (pipSize + pipGap))
+
+    colorRect(pipPositionX - pipGap, pipPositionY - pipGap, (pipSize + pipGap) * char.health + pipGap, pipSize + pipGap * 2, 'black');
+    for (var i = 0; i < char.health; i++) {
+        var healthQuotient = i/char.maxHealth;
+        var pipColor = 'rgb(' + (255 * (1 - healthQuotient)) + ', ' + (255 * healthQuotient) + ', 0)';
+        //draw health pips
+        colorRect(pipPositionX, pipPositionY, pipSize, pipSize, pipColor);
+        pipPositionX += pipSize + pipGap;
+    }
+    canvasContext.restore();
 }
