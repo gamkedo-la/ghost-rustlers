@@ -6,7 +6,7 @@ var mousePos = {
 var isAiming = false;
 var isPaused = false;
 var debugMode = false;
-var bulletT = 1.0; //might migrate to character
+var bulletT = 3.0; //might migrate to character
 var aimFromX = 0;
 var aimFromY = 0;
 var aimToX = 0;
@@ -127,7 +127,7 @@ function drawEverything() {
   drawAimer();
 
   //TODO: Move aiming and firing code somwhere else?
-  if (bulletT <= 1.0) {
+  if (bulletT <= 3.0) {
     var lineLength = DistanceBetweenPoints(aimFromX, aimFromY, aimToX, aimToY);
     bulletT += 30 / lineLength;
   } else {
@@ -149,7 +149,7 @@ function drawEverything() {
     aimColor = 'green';
   }
   //colorLine(aimFromX, aimFromY, aimToX, aimToY, aimColor);
-  if (bulletT < 1) {
+  if (bulletT < 3) {
     drawBulletOnLine(aimFromX, aimFromY, aimToX, aimToY, bulletT);
   }
 
