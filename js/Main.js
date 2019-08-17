@@ -96,9 +96,34 @@ function drawAimer() {
   if (isAiming) {
     canvasContext.drawImage(targetAimerPic, mousePos.x - targetAimerPic.width / 2, mousePos.y - targetAimerPic.height / 2);
   } else {
-    // FIXME: the y coordinate of the move cursor should look 
-    // at the level data + player position or just follow mouse as above
-    canvasContext.drawImage(moveAimerPic, mousePos.x - moveAimerPic.width / 2, 520);
+    let mouseY = mousePos.y;
+        checkCol = colAtXCoord(mousePos.x),
+        startRow = rowAtYCoord(mousePos.y);
+        checkIndex = brickTileToIndex(checkCol, startRow);
+    //If the cursor is already inside of a wall
+    if (brickGrid[checkIndex] > 0) {
+      //Find nearest empty tile above the cursor
+      for (let i = startRow; i >= 0; i--) {
+        checkIndex = brickTileToIndex(checkCol, i);
+        if (brickGrid[checkIndex] < 1) {
+          mouseY = (i + 1) * BRICK_H;
+          break;
+        }
+      }
+    //Otherwise mouse is already in an empty tile
+    } else {
+      //Find nearest solid tile beneath the cursor.
+      for (let i = startRow; i < BRICK_ROWS; i++) {
+        checkIndex = brickTileToIndex(checkCol, i);
+        if (brickGrid[checkIndex] > 0) {
+          mouseY = i * BRICK_H;
+          break;
+        }
+      }
+    }
+
+
+    canvasContext.drawImage(moveAimerPic, mousePos.x - moveAimerPic.width / 2, mouseY - targetAimerPic.height);
   }
 
 }
