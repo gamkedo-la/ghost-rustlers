@@ -67,7 +67,7 @@ function characterClass(character_team, character_color) {
     //colorRect(this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2), CHARACTER_WIDTH, CHARACTER_HEIGHT, character_color);
 
     if (characterBodyRightPicLoaded && characterBodyLeftPicLoaded) {
-      if (mousePos.x < this.characterX - (CHARACTER_WIDTH / 2)) {
+      if (aimerX < this.characterX - (CHARACTER_WIDTH / 2)) {
         canvasContext.drawImage(characterBodyLeftPic, this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2))
       } else {
         canvasContext.drawImage(characterBodyRightPic, this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2))
@@ -166,7 +166,7 @@ function characterClass(character_team, character_color) {
 
     //sets angles of arm segments
     if (isAiming && this.isActive) {
-      targetShoulderAngle = Math.atan2(mousePos.y - this.rightShoulderJoint.y, mousePos.x - this.rightShoulderJoint.x);
+      targetShoulderAngle = Math.atan2(aimerY - this.rightShoulderJoint.y, aimerX - this.rightShoulderJoint.x);
       targetElbowAngle = -Math.PI / 6;
     } else {
       targetShoulderAngle = Math.PI * 0;
@@ -184,8 +184,8 @@ function characterClass(character_team, character_color) {
       if (isAiming){
         bulletT = 0.0;
       } else {
-        this.destinationCol = colAtXCoord(mousePos.x);
-        this.destinationRow = rowAtYCoord(mousePos.y);
+        this.destinationCol = colAtXCoord(aimerX);
+        this.destinationRow = rowAtYCoord(aimerY);
       }
       this.actionsRemaining--;
     }
