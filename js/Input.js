@@ -21,6 +21,28 @@ var hold_2_Key = false;
 var hold_3_Key = false;
 var hold_4_Key = false;
 
+var mousePos = {
+  x: 0,
+  y: 0
+};
+
+function initInput() {
+  initMouse();
+  initKeys();
+}
+
+function initMouse() {
+  document.addEventListener('mouseup', mouseReleased);
+  canvas.addEventListener('mousemove', function (evt) {
+    mousePos = calculateMousePos(evt);
+  });
+}
+
+function initKeys() {
+  document.addEventListener("keydown", keyPressed);
+  document.addEventListener("keyup", keyReleased);
+}
+
 function calculateMousePos(evt) {
   var rect = canvas.getBoundingClientRect(),
     root = document.documentElement;
@@ -31,12 +53,6 @@ function calculateMousePos(evt) {
     x: mouseX,
     y: mouseY
   };
-}
-
-function initInput() {
-  document.addEventListener("keydown", keyPressed);
-  document.addEventListener("keyup", keyReleased);
-  document.addEventListener('mouseup', mouseReleased);
 }
 
 function setKeyHoldState(thisKey, setTo) {

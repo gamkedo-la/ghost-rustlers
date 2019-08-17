@@ -1,8 +1,4 @@
 var canvas, canvasContext;
-var mousePos = {
-  x: 0,
-  y: 0
-};
 var isAiming = false;
 var isPaused = false;
 var debugMode = false;
@@ -23,12 +19,6 @@ var camPanX = 0.0;
 var camPanY = 0.0;
 const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X = 150;
 const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y = 100;
-
-function initMouse() {
-  canvas.addEventListener('mousemove', function (evt) {
-    mousePos = calculateMousePos(evt);
-  });
-}
 
 function initRenderLoop() {
   var framesPerSecond = 60;
@@ -56,7 +46,6 @@ window.onload = function () {
 
   initArt();
   initInput();
-  initMouse();
   initRenderLoop();
 
   character1.characterSpawn();
