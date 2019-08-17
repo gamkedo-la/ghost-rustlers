@@ -175,8 +175,19 @@ function drawBulletOnLine(startX, startY, endX, endY, percent) {
   var oppositePerc = 1.0 - percent;
   var positionNowX = startX * oppositePerc + endX * percent;
   var positionNowY = startY * oppositePerc + endY * percent;
+  var maxRicochets = 0;
+  var ricochetCount = 0;
 
-  colorCircle(positionNowX, positionNowY, 5, 'white')
+  if (isBrickAtPixelCoord(positionNowX, positionNowY) == 1) {
+    ricochetCount++;
+  }
+
+  if (ricochetCount > maxRicochets){
+    bulletT = 3.0
+  } else {
+    colorCircle(positionNowX, positionNowY, 5, 'white');
+  }
+
 }
 
 function endPlayerTurn() {
