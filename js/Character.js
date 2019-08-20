@@ -36,9 +36,17 @@ function characterClass(character_team, character_color) {
   this.bulletT = MAX_BULLET_T;
   this.hasFired = false;
 
-  this.projectileOriginPoint = {
-    x: 0,
-    y: 0
+  this.projectileTrajectory1 = {
+    x1: 0,
+    y1: 0,
+    x2: 0,
+    y2: 0
+  }
+  this.projectileTrajectory2 = {
+    x1: 0,
+    y1: 0,
+    x2: 0,
+    y2: 0
   }
   this.upperArm = {
     x: 0,
@@ -214,7 +222,16 @@ function characterClass(character_team, character_color) {
       aimFromX = Math.floor(this.rightHand.x);
       aimFromY = Math.floor(this.rightHand.y);
       aimColor = 'red';
-      colorLine(aimFromX, aimFromY, aimToX, aimToY, aimColor);
+
+      this.projectileTrajectory1.x1 = aimFromX;
+      this.projectileTrajectory1.y1 = aimFromY;
+      this.projectileTrajectory1.x2 = aimToX;
+      this.projectileTrajectory1.y2 = aimToY;
+
+      this.projectileTrajectory2.x1 = this.projectileTrajectory1.x2;
+      this.projectileTrajectory2.y1 = this.projectileTrajectory1.y2;
+
+      colorLine(this.projectileTrajectory1.x1, this.projectileTrajectory1.y1, this.projectileTrajectory1.x2, this.projectileTrajectory1.y2, aimColor);
     }
 
   }
