@@ -35,8 +35,11 @@ function characterClass(character_team, character_color) {
   this.handAngle = 0;
   this.bulletT = MAX_BULLET_T;
   this.hasFired = false;
-  this.isAiming
 
+  this.projectileOriginPoint = {
+    x: 0,
+    y: 0
+  }
   this.upperArm = {
     x: 0,
     y: 0
@@ -111,7 +114,7 @@ function characterClass(character_team, character_color) {
       this.hasFired = false;
     }
 
-    if (isAiming) {
+    if (isAiming && this.isActive || this.hasFired) {
       this.drawProjectileTrajectory();
     }
 
@@ -184,7 +187,7 @@ function characterClass(character_team, character_color) {
     var jointSmoothingRate = 0.65;
 
     //sets angles of arm segments
-    if (isAiming && this.isActive) {
+    if (isAiming && this.isActive ) {
       targetShoulderAngle = Math.atan2(aimerY - this.rightShoulderJoint.y, aimerX - this.rightShoulderJoint.x);
       targetElbowAngle = -Math.PI / 6;
     } else {
@@ -199,37 +202,31 @@ function characterClass(character_team, character_color) {
   }
 
   this.drawProjectileTrajectory = function () {
-    if (this.bulletT <= MAX_BULLET_T) {
+    if (this.hasFired) {
       var lineLength = DistanceBetweenPoints(aimFromX, aimFromY, aimToX, aimToY);
-      this.bulletT += 15 / lineLength;
+      this.bulletT += 3 / lineLength;
     } else {
       aimToX = aimerX;
       aimToY = aimerY;
     }
 
-    if (character1.isActive) {
-      aimFromX = Math.floor(character1.rightHand.x);
-      aimFromY = Math.floor(character1.rightHand.y);
+    if (this.isActive  && !this.hasFired) {
+      aimFromX = Math.floor(this.rightHand.x);
+      aimFromY = Math.floor(this.rightHand.y);
       aimColor = 'red';
+      colorLine(aimFromX, aimFromY, aimToX, aimToY, aimColor);
     }
-    if (character2.isActive) {
-      aimFromX = Math.floor(character2.rightHand.x);
-      aimFromY = Math.floor(character2.rightHand.y);
-      aimColor = 'green';
-    }
-
-    colorLine(aimFromX, aimFromY, aimToX, aimToY, aimColor);
 
   }
 
   this.fireWeapon = function () {
     this.hasFired = true;
     this.bulletT = 0.0;
-    console.log(this.hasFired);
+    
   }
 
   this.handleClick = function () {
-    if (this.isActive && this.actionsRemaining > 0) {
+    if (this.isActive && this.actionsRemaining > 0  && !this.hasFired) {
       if (isAiming) {
         this.fireWeapon();
       } else {
