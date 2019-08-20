@@ -6,6 +6,12 @@ const RUN_SPEED = 4.0;
 const GRAVITY = 0.6;
 const ACTIONS_PER_TURN = 2;
 const ARM_SEGMENT_LENGTH = 50;
+const MAX_BULLET_T = 3.0;
+var aimFromX = 0;
+var aimFromY = 0;
+var aimToX = 0;
+var aimToY = 0;
+isAiming = false;
 
 function characterClass(character_team, character_color) {
 
@@ -27,6 +33,9 @@ function characterClass(character_team, character_color) {
   this.shoulderAngle = 0;
   this.elbowAngle = 0;
   this.handAngle = 0;
+  this.bulletT = MAX_BULLET_T;
+  this.hasFired = false;
+  this.isAiming
 
   this.upperArm = {
     x: 0,
@@ -64,7 +73,6 @@ function characterClass(character_team, character_color) {
   this.distShoulderToHand;
 
   this.drawCharacter = function () {
-    //colorRect(this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2), CHARACTER_WIDTH, CHARACTER_HEIGHT, character_color);
 
     if (characterBodyRightPicLoaded && characterBodyLeftPicLoaded) {
       if (aimerX < this.characterX - (CHARACTER_WIDTH / 2)) {
@@ -82,15 +90,9 @@ function characterClass(character_team, character_color) {
     this.rightElbow.x = ARM_SEGMENT_LENGTH * Math.cos(this.shoulderAngle) + this.rightShoulderJoint.x;
     this.rightElbow.y = ARM_SEGMENT_LENGTH * Math.sin(this.shoulderAngle) + this.rightShoulderJoint.y;
 
-    //this.upperArm = (this.rightElbow - this.rightShoulderJoint)/2;
+    this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
+    this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
 
-    this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x)/2);
-    this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y)/2);
-
-    //console.log(this.upperArm.x);
-    //console.log(this.upperArm.y);
-
-    //colorLine(this.rightShoulderJoint.x, this.rightShoulderJoint.y, this.rightElbow.x, this.rightElbow.y, 'yellow'); //draws line between the shoulder and elbow
     drawImageCenteredAtLocationWithRotation(characterUpperArmPic, this.upperArm.x, this.upperArm.y, this.shoulderAngle)
 
     //draws lower arm
@@ -98,12 +100,29 @@ function characterClass(character_team, character_color) {
     this.rightHand.x = ARM_SEGMENT_LENGTH * Math.cos(this.handAngle) + this.rightElbow.x;
     this.rightHand.y = ARM_SEGMENT_LENGTH * Math.sin(this.handAngle) + this.rightElbow.y;
 
-    this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x)/2);
-    this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y)/2);
+    this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
+    this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
 
-    //colorLine(this.rightElbow.x, this.rightElbow.y, this.rightHand.x, this.rightHand.y, 'cyan'); //draws line between the elbow and hand
     drawImageCenteredAtLocationWithRotation(characterLowerArmPic, this.lowerArm.x, this.lowerArm.y, this.handAngle)
-}
+
+    if (this.bulletT < MAX_BULLET_T) {
+      this.hasFired = true;
+    } else {
+      this.hasFired = false;
+    }
+
+    if (isAiming) {
+      this.drawProjectileTrajectory();
+    }
+
+    if (this.hasFired) {
+      this.drawProjectile();
+    }
+  }
+
+  this.drawProjectile = function () {
+    drawBulletOnLine(aimFromX, aimFromY, aimToX, aimToY, this.bulletT);
+  }
 
   this.characterMove = function () {
 
@@ -179,10 +198,40 @@ function characterClass(character_team, character_color) {
 
   }
 
+  this.drawProjectileTrajectory = function () {
+    if (this.bulletT <= MAX_BULLET_T) {
+      var lineLength = DistanceBetweenPoints(aimFromX, aimFromY, aimToX, aimToY);
+      this.bulletT += 15 / lineLength;
+    } else {
+      aimToX = aimerX;
+      aimToY = aimerY;
+    }
+
+    if (character1.isActive) {
+      aimFromX = Math.floor(character1.rightHand.x);
+      aimFromY = Math.floor(character1.rightHand.y);
+      aimColor = 'red';
+    }
+    if (character2.isActive) {
+      aimFromX = Math.floor(character2.rightHand.x);
+      aimFromY = Math.floor(character2.rightHand.y);
+      aimColor = 'green';
+    }
+
+    colorLine(aimFromX, aimFromY, aimToX, aimToY, aimColor);
+
+  }
+
+  this.fireWeapon = function () {
+    this.hasFired = true;
+    this.bulletT = 0.0;
+    console.log(this.hasFired);
+  }
+
   this.handleClick = function () {
     if (this.isActive && this.actionsRemaining > 0) {
-      if (isAiming){
-        bulletT = 0.0;
+      if (isAiming) {
+        this.fireWeapon();
       } else {
         this.destinationCol = colAtXCoord(aimerX);
         this.destinationRow = rowAtYCoord(aimerY);
@@ -229,4 +278,24 @@ function characterClass(character_team, character_color) {
   this.deactivateCharacter = function () {
     this.isActive = false;
   }
+}
+
+function drawBulletOnLine(startX, startY, endX, endY, percent) {
+  var oppositePerc = 1.0 - percent;
+  var positionNowX = startX * oppositePerc + endX * percent;
+  var positionNowY = startY * oppositePerc + endY * percent;
+  var maxRicochets = 0;
+  var ricochetCount = 0;
+
+  if (isBrickAtPixelCoord(positionNowX, positionNowY) == 1) {
+    ricochetCount++;
+  }
+
+  if (ricochetCount > maxRicochets) {
+    character1.bulletT = 3.0;
+    character2.bulletT = 3.0;
+  } else {
+    colorCircle(positionNowX, positionNowY, 5, 'white');
+  }
+
 }

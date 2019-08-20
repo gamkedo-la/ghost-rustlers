@@ -1,12 +1,6 @@
 var canvas, canvasContext;
-var isAiming = false;
 var isPaused = false;
 var debugMode = false;
-var bulletT = 3.0; //might migrate to character
-var aimFromX = 0;
-var aimFromY = 0;
-var aimToX = 0;
-var aimToY = 0;
 var allCharacters = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
@@ -104,52 +98,9 @@ function drawEverything() {
   character2.drawCharacter();
   drawAimer();
 
-  //TODO: Move aiming and firing code somwhere else?
-  if (bulletT <= 3.0) {
-    var lineLength = DistanceBetweenPoints(aimFromX, aimFromY, aimToX, aimToY);
-    bulletT += 30 / lineLength;
-  } else {
-
-    aimToX = aimerX;
-    aimToY = aimerY;
-  }
-
-  if (character1.isActive) {
-    aimFromX = Math.floor(character1.rightHand.x);
-    aimFromY = Math.floor(character1.rightHand.y);
-    aimColor = 'red';
-  }
-  if (character2.isActive) {
-    aimFromX = Math.floor(character2.rightHand.x);
-    aimFromY = Math.floor(character2.rightHand.y);
-    aimColor = 'green';
-  }
-  //colorLine(aimFromX, aimFromY, aimToX, aimToY, aimColor);
-  if (bulletT < 3) {
-    drawBulletOnLine(aimFromX, aimFromY, aimToX, aimToY, bulletT);
-  }
-
   canvasContext.restore(); // undoes the .translate() used for cam scroll
+
   drawUI();
-}
-
-function drawBulletOnLine(startX, startY, endX, endY, percent) {
-  var oppositePerc = 1.0 - percent;
-  var positionNowX = startX * oppositePerc + endX * percent;
-  var positionNowY = startY * oppositePerc + endY * percent;
-  var maxRicochets = 0;
-  var ricochetCount = 0;
-
-  if (isBrickAtPixelCoord(positionNowX, positionNowY) == 1) {
-    ricochetCount++;
-  }
-
-  if (ricochetCount > maxRicochets){
-    bulletT = 3.0
-  } else {
-    colorCircle(positionNowX, positionNowY, 5, 'white');
-  }
-
 }
 
 function endPlayerTurn() {
