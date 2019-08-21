@@ -36,3 +36,29 @@ function drawImageCenteredAtLocationWithRotation(graphic, atX, atY, withAngle){
 function drawBackground() {
     colorRect(0, 0, canvas.width, canvas.height, 'SkyBlue');
 }
+
+var _tintImageCanvas = document.createElement('canvas');
+var _tintImageCTX = _tintImageCanvas.getContext('2d');
+function tintImage (image, color) {
+  _tintImageCanvas.width = image.width;
+  _tintImageCanvas.height = image.height;
+  _tintImageCTX.fillStyle = color;
+  _tintImageCTX.fillRect(0, 0, _tintImageCanvas.width, _tintImageCanvas.height);
+  _tintImageCTX.globalCompositeOperation = 'destination-atop';
+  _tintImageCTX.globalAlpha = 1;
+  _tintImageCTX.drawImage(image, 0, 0);
+  return _tintImageCanvas; // gets modified by the next call to this func
+}
+
+function createTintedSprite (image, color) {
+  var newCanvas = document.createElement('canvas');
+  var newContext = newCanvas.getContext('2d');
+  newCanvas.width = image.width;
+  newCanvas.height = image.height;
+  newContext.fillStyle = color;
+  newContext.fillRect(0, 0, newCanvas.width, newCanvas.height);
+  newContext.globalCompositeOperation = 'destination-atop';
+  newContext.globalAlpha = 1;
+  newContext.drawImage(image, 0, 0);
+  return newCanvas; // reuse me
+}

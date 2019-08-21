@@ -84,7 +84,10 @@ function characterClass(character_team, character_color) {
   this.distShoulderToHand;
 
   this.drawCharacter = function () {
-	 
+	
+	//Here's another method that might look better than the tinted sprite approach.
+	//To test this, uncomment this and the last line, and set the inActiveColor and usedColor to #00000000 in the Assets.js.
+	/*
 	if(this.actionsRemaining <= 0)
 	{
 		canvasContext.globalCompositeOperation  = "darken";
@@ -93,12 +96,13 @@ function characterClass(character_team, character_color) {
 	{
 		canvasContext.globalCompositeOperation = "overlay";
 	}
+	*/
 	  
     if (characterBodyRightPicLoaded && characterBodyLeftPicLoaded) {
       if (aimerX < this.characterX - (CHARACTER_WIDTH / 2)) {
-        canvasContext.drawImage(characterBodyLeftPic, this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2))
+        canvasContext.drawImage( (this.actionsRemaining <= 0 ? characterBodyLeftPic_used : (this.isActive ? characterBodyLeftPic : characterBodyLeftPic_inActive) ), this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2));
       } else {
-        canvasContext.drawImage(characterBodyRightPic, this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2))
+		canvasContext.drawImage( (this.actionsRemaining <= 0 ? characterBodyRightPic_used : (this.isActive ? characterBodyRightPic : characterBodyRightPic_inActive) ), this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2));
       }
     }
 
@@ -112,8 +116,8 @@ function characterClass(character_team, character_color) {
 
     this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
     this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
-
-    drawImageCenteredAtLocationWithRotation(characterUpperArmPic, this.upperArm.x, this.upperArm.y, this.shoulderAngle)
+	
+    drawImageCenteredAtLocationWithRotation( (this.actionsRemaining <= 0 ? characterUpperArmPic_used : (this.isActive ?characterUpperArmPic : characterUpperArmPic_inActive) ), this.upperArm.x, this.upperArm.y, this.shoulderAngle)
 
     //draws lower arm
     this.handAngle = this.shoulderAngle + this.elbowAngle;
@@ -123,7 +127,7 @@ function characterClass(character_team, character_color) {
     this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
     this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
 
-    drawImageCenteredAtLocationWithRotation(characterLowerArmPic, this.lowerArm.x, this.lowerArm.y, this.handAngle)
+    drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? characterLowerArmPic_used : (this.isActive ?characterLowerArmPic : characterLowerArmPic_inActive) ), this.lowerArm.x, this.lowerArm.y, this.handAngle)
 
     if (this.bulletT < MAX_BULLET_T) {
       this.hasFired = true;
@@ -139,7 +143,7 @@ function characterClass(character_team, character_color) {
       this.drawProjectile();
     }
 	
-	canvasContext.globalCompositeOperation  = "source-over";
+	//canvasContext.globalCompositeOperation  = "source-over";
   }
 
   this.drawProjectile = function () {
