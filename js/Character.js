@@ -84,7 +84,16 @@ function characterClass(character_team, character_color) {
   this.distShoulderToHand;
 
   this.drawCharacter = function () {
-
+	 
+	if(this.actionsRemaining <= 0)
+	{
+		canvasContext.globalCompositeOperation  = "darken";
+	}
+	else if(!this.isActive)
+	{
+		canvasContext.globalCompositeOperation = "overlay";
+	}
+	  
     if (characterBodyRightPicLoaded && characterBodyLeftPicLoaded) {
       if (aimerX < this.characterX - (CHARACTER_WIDTH / 2)) {
         canvasContext.drawImage(characterBodyLeftPic, this.characterX - (CHARACTER_WIDTH / 2), this.characterY - (CHARACTER_HEIGHT / 2))
@@ -129,6 +138,8 @@ function characterClass(character_team, character_color) {
     if (this.hasFired) {
       this.drawProjectile();
     }
+	
+	canvasContext.globalCompositeOperation  = "source-over";
   }
 
   this.drawProjectile = function () {
