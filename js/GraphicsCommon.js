@@ -4,10 +4,10 @@ function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
 }
 
 function colorText(showWords, textX, textY, fillColor, font = "14px Arial Black") {
-  canvasContext.textAlign = "left";
-  canvasContext.fillStyle = fillColor;
-  canvasContext.font = font;
-  canvasContext.fillText(showWords, textX, textY);
+    canvasContext.textAlign = "left";
+    canvasContext.fillStyle = fillColor;
+    canvasContext.font = font;
+    canvasContext.fillText(showWords, textX, textY);
 }
 
 function colorCircle(centerX, centerY, radius, fillColor) {
@@ -25,13 +25,13 @@ function colorLine(x1, y1, x2, y2, color) {
     canvasContext.stroke();
 }
 
-function drawImageCenteredAtLocationWithRotation(graphic, atX, atY, withAngle){
-    canvasContext.save();	//	allows	us	to	undo	translate	movement	and	rotate	spin
-    canvasContext.translate(atX, atY);	//	sets	the	point	where	our	graphic	will	go
-    canvasContext.rotate(withAngle);	//	sets	the	rotation
-    canvasContext.drawImage(graphic,-graphic.width/2,-graphic.height/2);	//	center,	draw
-    canvasContext.restore();	//	undo	the	translation	movement	and	rotation	since	save()
- }
+function drawImageCenteredAtLocationWithRotation(graphic, atX, atY, withAngle) {
+    canvasContext.save(); //	allows	us	to	undo	translate	movement	and	rotate	spin
+    canvasContext.translate(atX, atY); //	sets	the	point	where	our	graphic	will	go
+    canvasContext.rotate(withAngle); //	sets	the	rotation
+    canvasContext.drawImage(graphic, -graphic.width / 2, -graphic.height / 2); //	center,	draw
+    canvasContext.restore(); //	undo	the	translation	movement	and	rotation	since	save()
+}
 
 function drawBackground() {
     colorRect(0, 0, canvas.width, canvas.height, 'SkyBlue');
@@ -39,26 +39,27 @@ function drawBackground() {
 
 var _tintImageCanvas = document.createElement('canvas');
 var _tintImageCTX = _tintImageCanvas.getContext('2d');
-function tintImage (image, color) {
-  _tintImageCanvas.width = image.width;
-  _tintImageCanvas.height = image.height;
-  _tintImageCTX.fillStyle = color;
-  _tintImageCTX.fillRect(0, 0, _tintImageCanvas.width, _tintImageCanvas.height);
-  _tintImageCTX.globalCompositeOperation = 'destination-atop';
-  _tintImageCTX.globalAlpha = 1;
-  _tintImageCTX.drawImage(image, 0, 0);
-  return _tintImageCanvas; // gets modified by the next call to this func
+
+function tintImage(image, color) {
+    _tintImageCanvas.width = image.width;
+    _tintImageCanvas.height = image.height;
+    _tintImageCTX.fillStyle = color;
+    _tintImageCTX.fillRect(0, 0, _tintImageCanvas.width, _tintImageCanvas.height);
+    _tintImageCTX.globalCompositeOperation = 'destination-atop';
+    _tintImageCTX.globalAlpha = 1;
+    _tintImageCTX.drawImage(image, 0, 0);
+    return _tintImageCanvas; // gets modified by the next call to this func
 }
 
-function createTintedSprite (image, color) {
-  var newCanvas = document.createElement('canvas');
-  var newContext = newCanvas.getContext('2d');
-  newCanvas.width = image.width;
-  newCanvas.height = image.height;
-  newContext.fillStyle = color;
-  newContext.fillRect(0, 0, newCanvas.width, newCanvas.height);
-  newContext.globalCompositeOperation = 'destination-atop';
-  newContext.globalAlpha = 1;
-  newContext.drawImage(image, 0, 0);
-  return newCanvas; // reuse me
+function createTintedSprite(image, color) {
+    var newCanvas = document.createElement('canvas');
+    var newContext = newCanvas.getContext('2d');
+    newCanvas.width = image.width;
+    newCanvas.height = image.height;
+    newContext.fillStyle = color;
+    newContext.fillRect(0, 0, newCanvas.width, newCanvas.height);
+    newContext.globalCompositeOperation = 'destination-atop';
+    newContext.globalAlpha = 1;
+    newContext.drawImage(image, 0, 0);
+    return newCanvas; // reuse me
 }

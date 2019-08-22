@@ -58,3 +58,23 @@ function drawGroundBlocks() {
         } // end of for eachRow
     } // end of for eachCol
 } // end of drawGroundBlocks()
+
+/* WIP
+function createWallColiders() {
+    for (var eachCol = cameraLeftMostCol; eachCol < cameraRightMostCol; eachCol++) {
+        for (var eachRow = cameraTopMostRow; eachRow < cameraBottomMostRow; eachRow++) {
+
+            if (isBrickAtTileCoord(eachCol, eachRow)) {
+                var brickLeftEdgeX = eachCol * BRICK_W;
+                var brickTopEdgeY = eachRow * BRICK_H;
+
+                
+
+                
+
+            }
+
+        }
+    }
+}
+*/

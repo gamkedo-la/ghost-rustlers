@@ -89,7 +89,7 @@ function moveEverything() {
 function drawEverything() {
 
   drawBackground();
-  
+
   canvasContext.save();
   canvasContext.translate(-camPanX, -camPanY);
 
@@ -101,6 +101,7 @@ function drawEverything() {
   canvasContext.restore(); // undoes the .translate() used for cam scroll
 
   drawUI();
+
 }
 
 function endPlayerTurn() {
@@ -123,9 +124,9 @@ function endEnemyTurn() {
   character1.activateCharacter();
 }
 
-function resetGame(){
-	character1.characterReset();
-	character2.characterReset();
-	turnCount = 1;
-	gameOver = false;
+function resetGame() {
+  character1.characterReset();
+  character2.characterReset();
+  turnCount = 1;
+  gameOver = false;
 }

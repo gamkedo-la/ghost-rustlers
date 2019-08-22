@@ -2,15 +2,15 @@ function brickTileToIndex(tileCol, tileRow) {
     return (tileCol + BRICK_COLS * tileRow);
 }
 
-function colAtXCoord(pixelX){
+function colAtXCoord(pixelX) {
     return Math.floor(pixelX / BRICK_W);
 }
 
-function rowAtYCoord(pixelY){
+function rowAtYCoord(pixelY) {
     return Math.floor(pixelY / BRICK_H);
 }
 
-function colCenterCoord(tileCol){
+function colCenterCoord(tileCol) {
     return ((tileCol * BRICK_W) + BRICK_W / 2)
 }
 
@@ -60,5 +60,23 @@ function DistanceBetweenPoints(x1, y1, x2, y2) {
 function BrickBelowMouse() {
     if (isBrickAtPixelCoord(mousePos.x, mousePos.y)) {
         return true;
+    }
+}
+
+// Returns whether 2 lines intersect (as a bool) and the x and y points of that intersection.
+function getLineIntersection(l1, l2) {
+    var det, gamma, lambda, oppositeLambda;
+    det = (l1.x2 - l1.x1) * (l2.y2 - l2.y1) - (l2.x2 - l2.x1) * (l1.y2 - l1.y1);
+    if (det === 0) {
+        return false;
+    } else {
+        lambda = ((l2.y2 - l2.y1) * (l2.x2 - l1.x1) + (l2.x1 - l2.x2) * (l2.y2 - l1.y1)) / det;
+        gamma = ((l1.y1 - l1.y2) * (l2.x2 - l1.x1) + (l1.x2 - l1.x1) * (l2.y2 - l1.y1)) / det;
+        oppositeLambda = 1.0 - lambda;
+        return {
+            linesIntersect: (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1),
+            x: l1.x1 * oppositeLambda + l1.x2 * lambda,
+            y: l1.y1 * oppositeLambda + l1.y2 * lambda
+        }
     }
 }
