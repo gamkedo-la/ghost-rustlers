@@ -7,7 +7,7 @@ function drawUI() {
         canvasContext.fillText("Mouse Position: (" + mousePos.x + ", " + mousePos.y + ")", 50, 180);
         canvasContext.fillText("Character Position: (" + Math.floor(character1.characterX) + ", " + Math.floor(character1.characterY) + ")", 50, 100);
         canvasContext.fillText("Distance: (" + character1.distShoulderToHand + ")", 50, 110);
-        canvasContext.fillText("Tile: " + getBrickIndexAtPixelCoord(mousePos.x, mousePos.y), 50, 120);
+        canvasContext.fillText("Tile: " + levelTileIndexAtPixelCoord(mousePos.x, mousePos.y), 50, 120);
         canvasContext.fillText("Character1 Team: " + character1.team, 50, 130);
         canvasContext.fillText("Character2 Team: " + character2.team, 50, 140);
         canvasContext.fillText("Turn: " + turnCount, 50, 150);

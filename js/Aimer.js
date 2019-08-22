@@ -40,14 +40,14 @@ function findGround(x, y) {
     let groundY = y;
         checkCol = colAtXCoord(x),
         startRow = rowAtYCoord(y),
-        checkIndex = brickTileToIndex(checkCol, startRow);
+        checkIndex = levelTileIndexAtColRowCoord(checkCol, startRow);
 
     //If the cursor is already inside of a wall
-    if (brickGrid[checkIndex] > 0) {
+    if (levelTileGrid[checkIndex] > 0) {
         //Find nearest empty tile above the cursor
         for (let i = startRow; i >= 0; i--) {
-            checkIndex = brickTileToIndex(checkCol, i);
-            if (brickGrid[checkIndex] < 1) {
+            checkIndex = levelTileIndexAtColRowCoord(checkCol, i);
+            if (levelTileGrid[checkIndex] < 1) {
                 groundY = (i + 1) * BRICK_H;
                 break;
             }
@@ -56,8 +56,8 @@ function findGround(x, y) {
     } else {
         //Find nearest solid tile beneath the cursor.
         for (let i = startRow; i < BRICK_ROWS; i++) {
-            checkIndex = brickTileToIndex(checkCol, i);
-            if (brickGrid[checkIndex] > 0) {
+            checkIndex = levelTileIndexAtColRowCoord(checkCol, i);
+            if (levelTileGrid[checkIndex] > 0) {
                 groundY = i * BRICK_H;
                 break;
             }

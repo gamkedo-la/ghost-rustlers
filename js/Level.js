@@ -6,7 +6,7 @@ const BRICK_ROWS = 20;
 var levelTurns = 6; //place holder.
 
 
-var brickGrid = [
+var levelTileGrid = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -47,13 +47,13 @@ function drawGroundBlocks() {
     for (var eachCol = cameraLeftMostCol; eachCol < cameraRightMostCol; eachCol++) {
         for (var eachRow = cameraTopMostRow; eachRow < cameraBottomMostRow; eachRow++) {
 
-            if (isBrickAtTileCoord(eachCol, eachRow)) {
+            if (isWallTileAtLevelTileCoord(eachCol, eachRow)) {
                 var brickLeftEdgeX = eachCol * BRICK_W;
                 var brickTopEdgeY = eachRow * BRICK_H;
 
                 canvasContext.drawImage(wallPic,brickLeftEdgeX,brickTopEdgeY);
 
-            } // end of isBrickAtTileCoord()
+            } // end of isWallTileAtLevelTileCoord()
 
         } // end of for eachRow
     } // end of for eachCol
@@ -64,7 +64,7 @@ function createWallColiders() {
     for (var eachCol = cameraLeftMostCol; eachCol < cameraRightMostCol; eachCol++) {
         for (var eachRow = cameraTopMostRow; eachRow < cameraBottomMostRow; eachRow++) {
 
-            if (isBrickAtTileCoord(eachCol, eachRow)) {
+            if (isWallTileAtLevelTileCoord(eachCol, eachRow)) {
                 var brickLeftEdgeX = eachCol * BRICK_W;
                 var brickTopEdgeY = eachRow * BRICK_H;
 

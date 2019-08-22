@@ -1,5 +1,21 @@
-function brickTileToIndex(tileCol, tileRow) {
+function levelTileIndexAtColRowCoord(tileCol, tileRow) {
     return (tileCol + BRICK_COLS * tileRow);
+}
+
+function levelTileIndexAtPixelCoord(pixelX, pixelY) {
+    var brickCol = pixelX / BRICK_W;
+    var brickRow = pixelY / BRICK_H;
+
+    //	we'll use Math.floor to round down to the nearest whole number
+    brickCol = Math.floor(brickCol);
+    brickRow = Math.floor(brickRow);
+
+    var levelTileIndex = levelTileIndexAtColRowCoord(brickCol, brickRow);
+    if (levelTileGrid[levelTileIndex] == 1) {
+        return levelTileIndex;
+    } else {
+        return 0;
+    }
 }
 
 function colAtXCoord(pixelX) {
@@ -10,55 +26,34 @@ function rowAtYCoord(pixelY) {
     return Math.floor(pixelY / BRICK_H);
 }
 
-function colCenterCoord(tileCol) {
+function xCoordAtCenterOfCol(tileCol) {
     return ((tileCol * BRICK_W) + BRICK_W / 2)
 }
 
-function getBrickIndexAtPixelCoord(pixelX, pixelY) {
-    var brickCol = pixelX / BRICK_W;
-    var brickRow = pixelY / BRICK_H;
-
-    //	we'll use Math.floor to round down to the nearest whole number
-    brickCol = Math.floor(brickCol);
-    brickRow = Math.floor(brickRow);
-
-    var brickIndex = brickTileToIndex(brickCol, brickRow);
-    if (brickGrid[brickIndex] == 1) {
-        return brickIndex;
-    } else {
-        return 0;
-    }
+function isWallTileAtLevelTileCoord(levelTileCol, levelTileRow) {
+    var levelTileIndex = levelTileIndexAtColRowCoord(levelTileCol, levelTileRow);
+    return (levelTileGrid[levelTileIndex] == 1);
 }
 
-function isBrickAtTileCoord(brickTileCol, brickTileRow) {
-    var brickIndex = brickTileToIndex(brickTileCol, brickTileRow);
-    return (brickGrid[brickIndex] == 1);
-}
+function isWallTileAtPixelCoord(pixelX, pixelY) {
 
-function isBrickAtPixelCoord(hitPixelX, hitPixelY) {
-    var tileCol = hitPixelX / BRICK_W;
-    var tileRow = hitPixelY / BRICK_H;
+    var levelTileCol = colAtXCoord(pixelX);
+    var levelTileRow = rowAtYCoord(pixelY);
 
-    // using Math.floor to round down to the nearest whole number
-    tileCol = Math.floor(tileCol);
-    tileRow = Math.floor(tileRow);
-
-    // first check whether the character is within any part of the brick wall
-    if (tileCol < 0 || tileCol >= BRICK_COLS || tileRow < 0 || tileRow >= BRICK_ROWS) {
+    if (levelTileCol < 0 || levelTileCol >= BRICK_COLS || levelTileRow < 0 || levelTileRow >= BRICK_ROWS) {
         return false;
     }
 
-    var brickIndex = brickTileToIndex(tileCol, tileRow);
-    return (brickGrid[brickIndex] == 1);
+    return isWallTileAtLevelTileCoord(levelTileCol, levelTileRow);
 }
 
-function DistanceBetweenPoints(x1, y1, x2, y2) {
+function DistanceBetweenTwoPixelCoords(x1, y1, x2, y2) {
     distance = Math.floor(Math.hypot(Math.floor(x1) - Math.floor(x2), Math.floor(y1) - Math.floor(y2)))
     return distance;
 }
 
-function BrickBelowMouse() {
-    if (isBrickAtPixelCoord(mousePos.x, mousePos.y)) {
+function isBrickAtMousePos() {
+    if (isWallTileAtPixelCoord(mousePos.x, mousePos.y)) {
         return true;
     }
 }

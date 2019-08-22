@@ -155,7 +155,7 @@ function characterClass(character_team, character_color) {
       }
     }
 
-    this.destinationXCoord = colCenterCoord(this.destinationCol);
+    this.destinationXCoord = xCoordAtCenterOfCol(this.destinationCol);
 
     if (this.characterX > this.destinationXCoord) {
       if ((this.characterX - RUN_SPEED) < this.destinationXCoord) {
@@ -175,23 +175,23 @@ function characterClass(character_team, character_color) {
       }
     }
 
-    if (this.characterSpeedY < 0 && isBrickAtPixelCoord(this.characterX, this.characterY - (CHARACTER_HEIGHT / 2)) == 1) {
+    if (this.characterSpeedY < 0 && isWallTileAtPixelCoord(this.characterX, this.characterY - (CHARACTER_HEIGHT / 2)) == 1) {
       this.characterY = (Math.floor(this.characterY / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
       this.characterSpeedY = 0.0;
     }
 
-    if (this.characterSpeedY > 0 && isBrickAtPixelCoord(this.characterX, this.characterY + (CHARACTER_HEIGHT / 2)) == 1) {
+    if (this.characterSpeedY > 0 && isWallTileAtPixelCoord(this.characterX, this.characterY + (CHARACTER_HEIGHT / 2)) == 1) {
       this.characterY = (1 + Math.floor(this.characterY / BRICK_H)) * BRICK_H - (CHARACTER_HEIGHT / 2);
       this.characterOnGround = true;
       this.characterSpeedY = 0;
-    } else if (isBrickAtPixelCoord(this.characterX, this.characterY + (CHARACTER_HEIGHT / 2) + 2) == 0) {
+    } else if (isWallTileAtPixelCoord(this.characterX, this.characterY + (CHARACTER_HEIGHT / 2) + 2) == 0) {
       this.characterOnGround = false;
     }
 
-    if (this.characterSpeedX < 0 && isBrickAtPixelCoord(this.characterX - (CHARACTER_WIDTH / 2), this.characterY) == 1) {
+    if (this.characterSpeedX < 0 && isWallTileAtPixelCoord(this.characterX - (CHARACTER_WIDTH / 2), this.characterY) == 1) {
       this.characterX = (Math.floor(this.characterX / BRICK_W)) * BRICK_W + (CHARACTER_WIDTH / 2);
     }
-    if (this.characterSpeedX > 0 && isBrickAtPixelCoord(this.characterX + (CHARACTER_WIDTH / 2), this.characterY) == 1) {
+    if (this.characterSpeedX > 0 && isWallTileAtPixelCoord(this.characterX + (CHARACTER_WIDTH / 2), this.characterY) == 1) {
       this.characterX = (1 + Math.floor(this.characterX / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
     }
 
@@ -239,7 +239,7 @@ function characterClass(character_team, character_color) {
 
   this.drawProjectileTrajectory = function () {
     if (this.hasFired) {
-      var lineLength = DistanceBetweenPoints(aimFromX, aimFromY, aimToX, aimToY);
+      var lineLength = DistanceBetweenTwoPixelCoords(aimFromX, aimFromY, aimToX, aimToY);
       this.bulletT += 3 / lineLength;
     } else {
       aimToX = aimerX;
@@ -352,7 +352,7 @@ function drawBulletOnLine(startX, startY, endX, endY, percent) {
   var positionNowY = startY * oppositePerc + endY * percent;
   var ricochetCount = 0;
 
-  if (isBrickAtPixelCoord(positionNowX, positionNowY) == 1) {
+  if (isWallTileAtPixelCoord(positionNowX, positionNowY) == 1) {
     //ricochetCount++;
   }
 
