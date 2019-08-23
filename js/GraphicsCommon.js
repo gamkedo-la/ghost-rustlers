@@ -34,7 +34,11 @@ function drawImageCenteredAtLocationWithRotation(graphic, atX, atY, withAngle) {
 }
 
 function drawBackground() {
-    colorRect(0, 0, canvas.width, canvas.height, 'SkyBlue');
+    if (!backgroundPicLoaded) {
+        colorRect(0, 0, canvas.width, canvas.height, 'SkyBlue');
+    } else {
+        canvasContext.drawImage(backgroundPic,0,0,canvas.width,canvas.height);
+    }
 }
 
 var _tintImageCanvas = document.createElement('canvas');

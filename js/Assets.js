@@ -24,6 +24,10 @@ var targetAimerPicLoaded = false;
 var moveAimerPic = document.createElement("img");
 var moveAimerPicLoaded = false;
 
+var backgroundPic = document.createElement("img");
+var backgroundPicLoaded = false;
+
+
 //var inActiveColor = "#88880088";
 //var usedColor = "#000000AA";
 
@@ -101,6 +105,12 @@ function initArt() {
 	}
   moveAimerPic.src = "images/moveAimer.png";
 
+
+  // TODO: load as multilple parallax layers?
+  backgroundPic.onload = function () {
+    backgroundPicLoaded = true;
+  }
+  backgroundPic.src = "images/background.png";
 
 }
 
