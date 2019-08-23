@@ -34,7 +34,7 @@ function drawUI() {
         canvasContext.fillText("Press Space to End Turn", 225, 200);
 		}
 	}
-	
+    
 	if (turnCount > levelTurns){
 		colorText("Game Over Man!", 225, 300, "white", font = "14px Arial Black");
 		colorText("Press Space to Reset Game", 225, 500, "white", font = "14px Arial Black");
@@ -59,6 +59,11 @@ function drawCharacterInfo() {
     canvasContext.fillStyle = 'green';
     canvasContext.fillText("Character 2", 500, 20);
     canvasContext.fillText("Actions Remaining: " + character2.actionsRemaining, 500, 40);
+
+    //for(i= 0; i<ghostRemaining; i++){
+        //drawGhosts(canvasContext, canvas.width * 0.75+(i*.02), 10, 25, 60);
+    //}
+    
 
     /*
     if (character2.isActive) {
@@ -96,3 +101,21 @@ function drawHealthBar(char) {
     }
     canvasContext.restore();
 }
+
+function drawGhosts(context, x, y, width, height){
+    canvasContext.save();
+            context.beginPath();
+            context.moveTo(x, y);
+            // top left edge
+            context.lineTo(x - width / 4, y + height / 4);
+            // bottom left edge
+            context.lineTo(x, y + height);
+            // bottom right edge
+            context.lineTo(x + width / 4, y + height / 4);
+            // closing the path automatically creates
+            // the top right edge
+            context.closePath();
+            context.fillStyle = "white";
+            context.fill();
+    canvasContext.restore();
+        }
