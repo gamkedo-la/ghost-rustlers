@@ -8,6 +8,14 @@ var characterUpperArmPic = document.createElement("img");
 var characterUpperArmPicLoaded = false;
 var characterLowerArmPic = document.createElement("img");
 var characterLowerArmPicLoaded = false;
+var enemyBodyRightPic = document.createElement("img");
+var enemyBodyRightPicLoaded = false;
+var enemyBodyLeftPic = document.createElement("img");
+var enemyBodyLeftPicLoaded = false;
+var enemyUpperArmPic = document.createElement("img");
+var enemyUpperArmPicLoaded = false;
+var enemyLowerArmPic = document.createElement("img");
+var enemyLowerArmPicLoaded = false;
 
 var wallPic = document.createElement("img");
 var wallPicLoaded = false;
@@ -62,6 +70,22 @@ function initArt() {
 	}
   characterLowerArmPic.src = "images/characterLowerArmPlaceHolder.png";
 
+  enemyBodyRightPic.src = "images/ghostBanditBodyRight.gif";
+  enemyBodyRightPic.onload = function() {
+	  enemyBodyRightPicLoaded = true;
+  };
+  enemyBodyLeftPic.src = "images/ghostBanditBodyLeft.gif";
+  enemyBodyLeftPic.onload = function() {
+	  enemyBodyLeftPicLoaded = true;
+  };
+  enemyLowerArmPic.src = "images/enemyLowerArm.gif";
+  enemyLowerArmPic.onload = function() {
+	  enemyLowerArmPicLoaded = true;
+  };
+  enemyUpperArmPic.src = "images/enemyUpperArm.gif";
+  enemyUpperArmPic.onload = function() {
+	  enemyUpperArmPicLoaded = true;
+  };
   wallPic.onload = function () {
 	  wallPicLoaded = true;
 	}

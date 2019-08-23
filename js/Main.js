@@ -4,6 +4,7 @@ var debugMode = false;
 var allCharacters = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
+var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
 character1.activateCharacter();
 character2.deactivateCharacter();
 var turnCount = 1;
@@ -82,6 +83,7 @@ function moveCamera() {
 function moveEverything() {
   character1.characterMove();
   character2.characterMove();
+  enemy1.characterMove();
   moveAimer();
   moveCamera();
 }
@@ -96,6 +98,7 @@ function drawEverything() {
   drawGroundBlocks();
   character1.drawCharacter();
   character2.drawCharacter();
+  enemy1.drawCharacter();
   drawAimer();
 
   canvasContext.restore(); // undoes the .translate() used for cam scroll
