@@ -16,8 +16,11 @@ var targetAimerPicLoaded = false;
 var moveAimerPic = document.createElement("img");
 var moveAimerPicLoaded = false;
 
-var inActiveColor = "#88880088";
-var usedColor = "#000000AA";
+//var inActiveColor = "#88880088";
+//var usedColor = "#000000AA";
+
+var inActiveColor = "#00000000";
+var usedColor = "#00000000";
 
 var characterBodyRightPic_inActive;
 var characterBodyLeftPic_inActive;

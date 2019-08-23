@@ -5,7 +5,7 @@ function drawUI() {
         canvasContext.fillStyle = 'white';
         canvasContext.font = "10px Verdana";
         canvasContext.fillText("Mouse Position: (" + mousePos.x + ", " + mousePos.y + ")", 50, 180);
-        canvasContext.fillText("Character Position: (" + Math.floor(character1.characterX) + ", " + Math.floor(character1.characterY) + ")", 50, 100);
+        canvasContext.fillText("Character Position: (" + Math.floor(character1.x) + ", " + Math.floor(character1.y) + ")", 50, 100);
         canvasContext.fillText("Distance: (" + character1.distShoulderToHand + ")", 50, 110);
         canvasContext.fillText("Tile: " + levelTileIndexAtPixelCoord(mousePos.x, mousePos.y), 50, 120);
         canvasContext.fillText("Character1 Team: " + character1.team, 50, 130);
@@ -76,15 +76,15 @@ function drawCharacterInfo() {
 function drawHealthBar(char) {
     var pipSize = 10,
         pipGap = Math.round(pipSize/5);
-        pipPositionX = char.characterX - ((pipSize * char.health) + (char.health + pipGap)) / 2 ;
-        pipPositionY = char.characterY - (CHARACTER_HEIGHT / 2) - pipSize * 2;
+        pipPositionX = char.x - ((pipSize * char.health) + (char.health + pipGap)) / 2 ;
+        pipPositionY = char.y - (CHARACTER_HEIGHT / 2) - pipSize * 2;
     
     canvasContext.save();
     canvasContext.translate(-camPanX, -camPanY);
     canvasContext.fillStyle = char.color;
     canvasContext.font = "12px Verdana";
     canvasContext.textAlign = 'center';
-    canvasContext.fillText(char.team + ' ' + char.color, char.characterX, pipPositionY - (pipSize + pipGap))
+    canvasContext.fillText(char.team + ' ' + char.color, char.x, pipPositionY - (pipSize + pipGap))
 
     colorRect(pipPositionX - pipGap, pipPositionY - pipGap, (pipSize + pipGap) * char.health + pipGap, pipSize + pipGap * 2, 'black');
     for (var i = 0; i < char.health; i++) {

@@ -7,24 +7,24 @@ var aimerX = 0,
 function moveAimer() {
     aimerX = mousePos.x;
     aimerY = mousePos.y;
-    if (isAiming) {
+    if (isInAimMode) {
         return;
     }
 
     //If character1 is active set to character 1, else set to character 2
     let activeChar = character1.isActive ? character1 : character2,
-    xDelta = activeChar.characterX - aimerX;
+    xDelta = activeChar.x - aimerX;
     if (Math.abs(xDelta) > DISTANCE_PER_ACTION) {
         outOfRangeY = findGround(mousePos.x, mousePos.y);
          //Set aimerX to max distance in the correct direction
-        aimerX = xDelta > 0 ? activeChar.characterX - DISTANCE_PER_ACTION : activeChar.characterX + DISTANCE_PER_ACTION;
+        aimerX = xDelta > 0 ? activeChar.x - DISTANCE_PER_ACTION : activeChar.x + DISTANCE_PER_ACTION;
     }
 
     aimerY = findGround(aimerX, aimerY);
 }
 
 function drawAimer() {
-    if (isAiming) {
+    if (isInAimMode) {
         canvasContext.drawImage(targetAimerPic, aimerX - targetAimerPic.width / 2, aimerY - targetAimerPic.height / 2);
     } else {
         if (aimerX != mousePos.x) {

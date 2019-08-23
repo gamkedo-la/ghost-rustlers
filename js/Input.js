@@ -86,7 +86,7 @@ function setKeyHoldState(thisKey, setTo) {
   }
   if (thisKey == KEY_E) {
     if (setTo){
-      isAiming = !isAiming;
+      isInAimMode = !isInAimMode;
     }
   }
   if (thisKey == KEY_P) {
