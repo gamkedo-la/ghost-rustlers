@@ -129,7 +129,7 @@ function characterClass(character_team, character_color) {
       this.drawProjectile();
     }
 
-    //canvasContext.globalCompositeOperation  = "source-over";
+    canvasContext.globalCompositeOperation  = "source-over";
   }
 
   this.drawProjectile = function () {
@@ -333,6 +333,8 @@ function characterClass(character_team, character_color) {
   }
 
   this.activateCharacter = function () {
+	camPanX = this.x - 400;
+	camPanY = this.y - 300;
     this.isActive = true;
   }
 
