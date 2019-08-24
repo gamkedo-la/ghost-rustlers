@@ -26,6 +26,10 @@ var moveAimerPicLoaded = false;
 
 var backgroundPic = document.createElement("img");
 var backgroundPicLoaded = false;
+var sunGlarePic = document.createElement("img");
+var sunGlarePicLoaded = false;
+
+
 
 
 //var inActiveColor = "#88880088";
@@ -111,6 +115,12 @@ function initArt() {
     backgroundPicLoaded = true;
   }
   backgroundPic.src = "images/background.png";
+  sunGlarePic.onload = function () {
+    sunGlarePicLoaded = true;
+  }
+  sunGlarePic.src = "images/sun-glare.png";
+  
+
 
 }
 

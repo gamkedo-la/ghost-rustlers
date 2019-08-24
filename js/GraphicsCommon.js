@@ -38,6 +38,7 @@ function drawBackground() {
         colorRect(0, 0, canvas.width, canvas.height, 'SkyBlue');
     } else {
         canvasContext.drawImage(backgroundPic,0,0,canvas.width,canvas.height);
+        drawImageCenteredAtLocationWithRotation(sunGlarePic,canvas.width*0.75,canvas.height*0.5,performance.now()/6000);
     }
 }
 
