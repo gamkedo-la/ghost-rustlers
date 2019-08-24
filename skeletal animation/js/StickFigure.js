@@ -105,6 +105,11 @@ var bones = new Array(torso, rightUpperArm, rightForeArm, head,
 
 //Experimenting with stick man relative distances
 
+function boneChildren(){
+	leftForeArm.childOfOtherBone = true;
+	//leftForeArm.parentBone = leftUpperArm;
+	
+}
 
 function initializeBonePositions(){
 	torso.startPosition.x = 200;
@@ -129,12 +134,14 @@ function initializeBonePositions(){
 	leftUpperArm.startPosition.x = torso.startPosition.x;
 	leftUpperArm.startPosition.y = torso.startPosition.y -35;
 	leftUpperArm.limbLength = 50;
-	leftUpperArm.limbAngle = Math.PI;
+	leftUpperArm.limbAngle = Math.PI*0.9;
+	
 	
 	leftForeArm.startPosition.x = leftUpperArm.endPosition.x;
 	leftForeArm.startPosition.y = leftUpperArm.endPosition.y;
 	leftForeArm.limbLength = 50;
-	leftForeArm.limbAngle = Math.PI;
+	leftForeArm.limbAngle = Math.PI*0.1;
+	leftForeArm.parentBoneLimbAngle = leftUpperArm.limbAngle;
 	
 	leftUpperLeg.startPosition.x = torso.startPosition.x;
 	leftUpperLeg.startPosition.y = torso.startPosition.y;
@@ -170,24 +177,15 @@ function boneImages(){
 	rightLowerLeg.limbImage = stickUpperArm;
 }
 
-function drawBones(){	
-	/*for(i = 0; i < 4; i++){
-		bones[i].drawBone();
-	}*/
+function drawBones(){
+	boneChildren();
 	initializeBonePositions();
 	boneImages();
-	bones[0].drawBone();
-	bones[1].drawBone();
-	bones[2].drawBone();
-	bones[3].drawBone();
-	bones[4].drawBone();
-	bones[5].drawBone();
-	bones[6].drawBone();
-	bones[7].drawBone();
-	bones[8].drawBone();
-	bones[9].drawBone();
-
-	//console.log(bones[0].endPosition.y);	
+	for(i = 0; i < bones.length; i++){
+		bones[i].drawBone();
+	}
+	//console.log(leftForeArm.parentBoneLimbAngle);	
+	//console.log(leftForeArm.combinedLimbAngle);
 }
 	
 
