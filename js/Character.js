@@ -333,8 +333,8 @@ function characterClass(character_team, character_color) {
   }
 
   this.activateCharacter = function () {
-	camPanX = this.x - 400;
-	camPanY = this.y - 300;
+	  camPanX = this.x - canvas.width / 2;
+	  camPanY = this.y - canvas.height / 2;
     this.isActive = true;
   }
 

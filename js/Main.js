@@ -5,8 +5,6 @@ var allCharacters = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
 var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
-character1.activateCharacter();
-character2.deactivateCharacter();
 var turnCount = 1;
 
 //Camera Pan Variables
@@ -46,20 +44,22 @@ window.onload = function () {
   character1.characterSpawn();
   character2.characterSpawn();
 
+  character1.activateCharacter();
+  character2.deactivateCharacter();
 }
 
 function moveCamera() {
 
-  if (holdRight) {
+  if (holdRight || mousePos.x >= canvas.width - BRICK_W) {
     camPanX += RUN_SPEED;
   }
-  if (holdLeft) {
+  if (holdLeft || mousePos.x <= BRICK_W) {
     camPanX -= RUN_SPEED;
   }
-  if (holdUp) {
+  if (holdUp || mousePos.y <= BRICK_H) {
     camPanY -= RUN_SPEED;
   }
-  if (holdDown) {
+  if (holdDown || mousePos.y >= canvas.height - BRICK_H) {
     camPanY += RUN_SPEED;
   }
 
@@ -84,8 +84,8 @@ function moveEverything() {
   character1.characterMove();
   character2.characterMove();
   enemy1.characterMove();
-  moveAimer();
   moveCamera();
+  moveAimer();
 }
 
 function drawEverything() {

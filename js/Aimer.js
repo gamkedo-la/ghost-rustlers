@@ -5,31 +5,33 @@ var aimerX = 0,
     outOfRangeY = 0;
 
 function moveAimer() {
-    aimerX = mousePos.x;
-    aimerY = mousePos.y;
+    aimerX = mousePos.x + camPanX;
+    aimerY = mousePos.y + camPanY;
+
     if (isInAimMode) {
         return;
     }
 
     //If character1 is active set to character 1, else set to character 2
     let activeChar = character1.isActive ? character1 : character2,
-    xDelta = activeChar.x - aimerX;
+        xDelta = activeChar.x - aimerX;
     if (Math.abs(xDelta) > DISTANCE_PER_ACTION) {
-        outOfRangeY = findGround(mousePos.x, mousePos.y);
+        outOfRangeY = findGround(mousePos.x + camPanX, mousePos.y + camPanY);
          //Set aimerX to max distance in the correct direction
         aimerX = xDelta > 0 ? activeChar.x - DISTANCE_PER_ACTION : activeChar.x + DISTANCE_PER_ACTION;
     }
 
-    aimerY = findGround(aimerX, aimerY);
+    aimerY = findGround(aimerX, activeChar.y);
 }
 
 function drawAimer() {
     if (isInAimMode) {
         canvasContext.drawImage(targetAimerPic, aimerX - targetAimerPic.width / 2, aimerY - targetAimerPic.height / 2);
     } else {
-        if (aimerX != mousePos.x) {
-            colorRect(mousePos.x - moveAimerPic.width / 4, outOfRangeY - targetAimerPic.height, moveAimerPic.width/2, moveAimerPic.height, 'red')
-            canvasContext.drawImage(moveAimerPic, mousePos.x - moveAimerPic.width / 2, outOfRangeY - targetAimerPic.height);
+        if (aimerX != mousePos.x + camPanX) {
+            let relX = mousePos.x + camPanX;
+            colorRect(relX - moveAimerPic.width / 4, outOfRangeY - targetAimerPic.height, moveAimerPic.width/2, moveAimerPic.height, 'red')
+            canvasContext.drawImage(moveAimerPic, relX - moveAimerPic.width / 2, outOfRangeY - targetAimerPic.height);
         }
 
         canvasContext.drawImage(moveAimerPic, aimerX - moveAimerPic.width / 2, aimerY - targetAimerPic.height);
@@ -52,7 +54,7 @@ function findGround(x, y) {
                 break;
             }
         }
-            //Otherwise mouse is already in an empty tile
+    //Otherwise mouse is already in an empty tile
     } else {
         //Find nearest solid tile beneath the cursor.
         for (let i = startRow; i < BRICK_ROWS; i++) {

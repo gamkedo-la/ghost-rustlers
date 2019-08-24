@@ -45,13 +45,10 @@ function initKeys() {
 
 function calculateMousePos(evt) {
   var rect = canvas.getBoundingClientRect(),
-    root = document.documentElement;
+      root = document.documentElement;
   //	account	for	the	margins,	canvas	position	on	page,	scroll	amount,	etc.
   var mouseX = evt.clientX - rect.left - root.scrollLeft;
   var mouseY = evt.clientY - rect.top - root.scrollTop;
-
-  mouseX += camPanX;
-  mouseY += camPanY;
   
   return {
     x: mouseX,
