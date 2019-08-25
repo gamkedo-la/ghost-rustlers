@@ -60,11 +60,6 @@ function drawCharacterInfo() {
     canvasContext.fillText("Character 2", 500, 20);
     canvasContext.fillText("Actions Remaining: " + character2.actionsRemaining, 500, 40);
 
-    //for(i= 0; i<ghostRemaining; i++){
-        //drawGhosts(canvasContext, canvas.width * 0.75+(i*.02), 10, 25, 60);
-    //}
-    
-
     /*
     if (character2.isActive) {
         //convasContext.begin();
@@ -100,22 +95,39 @@ function drawHealthBar(char) {
         pipPositionX += pipSize + pipGap;
     }
     canvasContext.restore();
+
+        drawGhostsLeft(canvasContext, canvas.width/2 + 20, 60, 40, 50);
+
+        drawActionsRemaining();
+
 }
 
-function drawGhosts(context, x, y, width, height){
+function drawActionsRemaining(x,y,r,sAngle,eAngle,counterclockwise){
+    canvasContext.beginPath();
+        canvasContext.arc(240,55,30,0*Math.PI,character1.actionsRemaining*Math.PI);
+        canvasContext.fillStyle = "red";
+        canvasContext.fill();
+    canvasContext.beginPath();
+        canvasContext.arc(600,55,30,0*Math.PI,character2.actionsRemaining*Math.PI);
+        canvasContext.fillStyle = "green";
+        canvasContext.fill();
+}
+
+function drawGhostsLeft(context, x, y, width, height){
     canvasContext.save();
             context.beginPath();
             context.moveTo(x, y);
             // top left edge
-            context.lineTo(x - width / 4, y + height / 4);
+            context.lineTo(x - width / 4, y + height / 2);
             // bottom left edge
             context.lineTo(x, y + height);
             // bottom right edge
-            context.lineTo(x + width / 4, y + height / 4);
+            context.lineTo(x + width / 4, y + height / 2);
             // closing the path automatically creates
             // the top right edge
             context.closePath();
             context.fillStyle = "white";
             context.fill();
     canvasContext.restore();
-        }
+}
+
