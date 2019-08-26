@@ -1,5 +1,5 @@
 //Bone class
-const SELECTOR_RADIUS = 3;
+const SELECTOR_RADIUS = 5;
 
 function boneClass(){
 	this.startPosition = {
@@ -16,9 +16,11 @@ function boneClass(){
 	}
 	this.limbLength;
 	this.childOfOtherBone = false; //For example if the upperarm moves then so does the lower arm. 
+	this.parentBone;
 	this.limbAngle = 0;
 	this.combinedLimbAngle = 0;
 	this.parentBoneLimbAngle = 0;
+	
 	this.limbImage; //Image of Actual game object to be animated
 	//this.boneImageOverlay;	//Overlay image of a "bone" that designer can manipulate to move limb. Invisible during game.
 	this.boneSelectorLocation = {
@@ -44,12 +46,13 @@ function boneClass(){
 		}
 		else{
 			this.combinedLimbAngle =  this.parentBoneLimbAngle +  this.limbAngle;	
+			//this.combinedLimbAngle =  this.parentBone.limbAngle +  this.limbAngle;	
 			this.endPosition.x = (this.limbLength * Math.cos(this.combinedLimbAngle) + this.startPosition.x);
 			this.endPosition.y = (this.limbLength * Math.sin(this.combinedLimbAngle) + this.startPosition.y);				
 			this.imagePosition.x = this.startPosition.x + ((this.endPosition.x - this.startPosition.x)/2);
 			this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);
 			
-			//this.parentBone = new boneClass();//Parent Bone Class (Upper arm if this is lower arm for example)			
+						
 					
 			drawImageCenteredAtLocationWithRotation(this.limbImage, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
 			//drawImageCenteredAtLocationWithRotation(this.boneImageOverlay, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);

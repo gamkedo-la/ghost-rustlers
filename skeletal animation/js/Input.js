@@ -24,14 +24,19 @@ function calculateMousePos(evt){
 function onMouseDown(evt){
 	console.log("mouse Pressed");
 	//find which bone was clicked
-	for(i=0; i < 4; i++){
-		if(hitTest(bones[i].boneSelectorLocation, mousePos.x, mousePos.y)){
+	for(i=0; i < bones.length; i++){
+		if(hitTest(bones[i].endPosition, mousePos.x, mousePos.y)){
+			console.log("hit test worked");
+			
 		dragging = true;
 		bones[i].boneSelectorColor = 'red';
-			if(i > highestIndex){
+		draggingIndex = i;
+		console.log("dragging index is " + draggingIndex);
+			/*if(i > highestIndex){
 				highestIndex = i;
 				draggingIndex = i;
-			}
+				
+			}*/
 		}
 	}
 			

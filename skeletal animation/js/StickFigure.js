@@ -107,61 +107,72 @@ var bones = new Array(torso, rightUpperArm, rightForeArm, head,
 
 function boneChildren(){
 	leftForeArm.childOfOtherBone = true;
+	rightForeArm.childOfOtherBone = true;
+	head.childOfOtherBone = true;
+	leftLowerLeg.childOfOtherBone = true;
+	rightLowerLeg.childOfOtherBone = true;
+	leftUpperArm.childOfOtherBone = true;
+	rightUpperArm.childOfOtherBone = true;
+	
 	//leftForeArm.parentBone = leftUpperArm;
 	
 }
 
 function initializeBonePositions(){
-	torso.startPosition.x = 200;
-	torso.startPosition.y = 200;
-	torso.limbAngle = -Math.PI/2;
-	torso.limbLength = 50;
+	torso.startPosition.x = 200;	
+	torso.startPosition.y = 350;
+	torso.limbLength = 50;	
 	
 	head.startPosition.x = torso.endPosition.x;
-	head.startPosition.y = torso.endPosition.y - 5;
-	head.limbAngle = -Math.PI/2
+	head.startPosition.y = torso.endPosition.y - 5;	
 	head.limbLength = 10;
 	
 	rightUpperArm.startPosition.x = torso.startPosition.x;
 	rightUpperArm.startPosition.y = torso.startPosition.y -35;
-	rightUpperArm.limbLength = 50;
-	rightUpperArm.limbAngle = 0;
+	rightUpperArm.limbLength = 50;	
+	rightUpperArm.parentBoneLimbAngle = torso.limbAngle;
 	
 	rightForeArm.startPosition.x = rightUpperArm.endPosition.x;
 	rightForeArm.startPosition.y = rightUpperArm.endPosition.y;
 	rightForeArm.limbLength = 50;
+	rightForeArm.parentBoneLimbAngle = rightUpperArm.limbAngle;
 	
 	leftUpperArm.startPosition.x = torso.startPosition.x;
 	leftUpperArm.startPosition.y = torso.startPosition.y -35;
-	leftUpperArm.limbLength = 50;
-	leftUpperArm.limbAngle = Math.PI*0.9;
-	
+	leftUpperArm.limbLength = 50;	
+	leftUpperArm.parentBoneLimbAngle = torso.limbAngle;
 	
 	leftForeArm.startPosition.x = leftUpperArm.endPosition.x;
 	leftForeArm.startPosition.y = leftUpperArm.endPosition.y;
-	leftForeArm.limbLength = 50;
-	leftForeArm.limbAngle = Math.PI*0.1;
-	leftForeArm.parentBoneLimbAngle = leftUpperArm.limbAngle;
+	leftForeArm.limbLength = 50;	
+	leftForeArm.parentBoneLimbAngle = leftUpperArm.limbAngle;	
 	
 	leftUpperLeg.startPosition.x = torso.startPosition.x;
 	leftUpperLeg.startPosition.y = torso.startPosition.y;
-	leftUpperLeg.limbLength = 50;
-	leftUpperLeg.limbAngle = Math.PI * 0.7;
+	leftUpperLeg.limbLength = 50;	
 	
 	leftLowerLeg.startPosition.x = leftUpperLeg.endPosition.x;
 	leftLowerLeg.startPosition.y = leftUpperLeg.endPosition.y;
 	leftLowerLeg.limbLength = 50;
-	leftLowerLeg.limbAngle = Math.PI/2;
+	leftLowerLeg.parentBoneLimbAngle = leftUpperLeg.limbAngle;
 	
 	rightUpperLeg.startPosition.x = torso.startPosition.x;
 	rightUpperLeg.startPosition.y = torso.startPosition.y;
-	rightUpperLeg.limbLength = 50;
-	rightUpperLeg.limbAngle = Math.PI * 0.3;
+	rightUpperLeg.limbLength = 50;	
 	
 	rightLowerLeg.startPosition.x = rightUpperLeg.endPosition.x;
 	rightLowerLeg.startPosition.y = rightUpperLeg.endPosition.y;
 	rightLowerLeg.limbLength = 50;
-	rightLowerLeg.limbAngle = Math.PI/2;
+	rightLowerLeg.parentBoneLimbAngle = rightUpperLeg.limbAngle;
+}
+
+function initializeBoneAngles(){
+	torso.limbAngle = -Math.PI/2;
+	head.limbAngle = -Math.PI/2
+	rightUpperArm.limbAngle = 0;
+	leftUpperArm.limbAngle = Math.PI*0.9;
+	leftUpperLeg.limbAngle = Math.PI * 0.7;
+	rightUpperLeg.limbAngle = Math.PI * 0.3;
 }
 
 function boneImages(){
@@ -189,63 +200,9 @@ function drawBones(){
 }
 	
 
-/*function drawStickManRelativeToBottomOfTorso(){
-	//I used this to work out the kinks.  Delete once bone class is working. 
-	
-	armsConnectionToTorso.x = bottomOfTorso.x;
-	armsConnectionToTorso.y = bottomOfTorso.y - TORSO_LENGTH*.75;
-	
-	rightElbow.x = (ARM_SEGMENT_LENGTH * Math.cos(shoulderAngle) + armsConnectionToTorso.x);
-	rightElbow.y = (ARM_SEGMENT_LENGTH * Math.sin(shoulderAngle) + armsConnectionToTorso.y);	
-		
-	rightUpperArm.x = armsConnectionToTorso.x + ((rightElbow.x - armsConnectionToTorso.x)/2);
-	rightUpperArm.y = armsConnectionToTorso.y + ((rightElbow.y - armsConnectionToTorso.y)/2);
-	
-	combinedArmAngle = shoulderAngle + elbowAngle;
-	rightHand.x = ARM_SEGMENT_LENGTH * Math.cos(combinedArmAngle) + rightElbow.x;
-	rightHand.y = ARM_SEGMENT_LENGTH * Math.sin(combinedArmAngle) + rightElbow.y;
-	
-	lowerArm.x = rightElbow.x +((rightHand.x - rightElbow.x)/2);
-	lowerArm.y = rightElbow.y +((rightHand.y - rightElbow.y)/2);
 
-	topOfTorso.x = bottomOfTorso.x;
-	topOfTorso.y = bottomOfTorso.y - TORSO_LENGTH;
-	
-	centerOfHead.x = bottomOfTorso.x;
-	centerOfHead.y = bottomOfTorso.y - TORSO_LENGTH;
-	
-	
-	
-	
-	drawImageCenteredAtLocationWithRotation(stickTorso, topOfTorso.x, (topOfTorso.y + TORSO_LENGTH/2), 0);
-	drawImageCenteredAtLocationWithRotation(stickhead, centerOfHead.x, centerOfHead.y, 0);
-	drawImageCenteredAtLocationWithRotation(stickrightUpperArm, rightUpperArm.x, rightUpperArm.y, shoulderAngle);
-	drawImageCenteredAtLocationWithRotation(stickrightUpperArm, lowerArm.x, lowerArm.y, combinedArmAngle);
-	
-	colorCircle(rightElbow.x, rightElbow.y, 5, 'green');
-	colorCircle(rightHand.x, rightHand.y, 5, 'green');	
-}*/
 
-function moveElbow(){
-	var targetShoulderAngle = 0;
-	
-	targetShoulderAngle = Math.atan2(mousePos.y - armsConnectionToTorso.y, mousePos.x - armsConnectionToTorso.x);
-	
-	shoulderAngle = targetShoulderAngle;
-}
 
-function moveHand(){
-	var targetElbowAngle = 0;
-	
-	targetElbowAngle = targetShoulderAngle = Math.atan2(mousePos.y - rightElbow.y, mousePos.x - rightElbow.x);
-	
-	elbowAngle = targetShoulderAngle;
-}
-
-function drawStickFigureUsingBones(){
-	
-	
-}
 
 
 

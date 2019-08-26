@@ -46,10 +46,12 @@ window.onload = function() {
 		stickForeArmLoaded = true;
 	}
 	stickForeArm.src = "images/stickForeArm.png";
-	
+		
 	initMouse();
 	initRenderLoop();
 	initInput();
+	
+	initializeBoneAngles();
 }
 
 function moveEverything() {
@@ -70,6 +72,7 @@ function drawEverything() {
 	canvasContext.save();
 	
 	drawMousePos();
+	//initializeBonePositions();
 	drawBones();
 	//drawStickManRelativeToBottomOfTorso();
 	
