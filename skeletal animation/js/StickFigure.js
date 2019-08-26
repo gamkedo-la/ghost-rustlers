@@ -119,6 +119,8 @@ function boneChildren(){
 }
 
 function initializeBonePositions(){
+	//TODO  Change equation for upper arms and upper leg positions relative to torso.  Currently if the torso changes angle the arms detach. 
+	//Follow the relative postion of the torso endposition and angle 
 	torso.startPosition.x = 200;	
 	torso.startPosition.y = 350;
 	torso.limbLength = 50;	
@@ -126,9 +128,10 @@ function initializeBonePositions(){
 	head.startPosition.x = torso.endPosition.x;
 	head.startPosition.y = torso.endPosition.y - 5;	
 	head.limbLength = 10;
+	head.parentBoneLimbAngle = torso.limbAngle;
 	
-	rightUpperArm.startPosition.x = torso.startPosition.x;
-	rightUpperArm.startPosition.y = torso.startPosition.y -35;
+	rightUpperArm.startPosition.x = torso.endPosition.x;
+	rightUpperArm.startPosition.y = torso.endPosition.y;
 	rightUpperArm.limbLength = 50;	
 	rightUpperArm.parentBoneLimbAngle = torso.limbAngle;
 	
@@ -137,8 +140,8 @@ function initializeBonePositions(){
 	rightForeArm.limbLength = 50;
 	rightForeArm.parentBoneLimbAngle = rightUpperArm.limbAngle;
 	
-	leftUpperArm.startPosition.x = torso.startPosition.x;
-	leftUpperArm.startPosition.y = torso.startPosition.y -35;
+	leftUpperArm.startPosition.x = torso.endPosition.x;
+	leftUpperArm.startPosition.y = torso.endPosition.y;
 	leftUpperArm.limbLength = 50;	
 	leftUpperArm.parentBoneLimbAngle = torso.limbAngle;
 	
