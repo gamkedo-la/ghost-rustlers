@@ -103,7 +103,13 @@ var bones = new Array(torso, rightUpperArm, rightForeArm, head,
 						leftUpperLeg, leftLowerLeg, rightUpperLeg, rightLowerLeg);
 
 
-//Experimenting with stick man relative distances
+//TODO: Create multidimensional array.  The main array with hold arrays of positions.  This will allow us to loop through 
+//positions to create animation. 
+
+//TODO: Expand and relocate to where this should execute.
+var animation = new Array(
+new Array(torso.endPosition, head.endPosition),
+);
 
 function boneChildren(){
 	leftForeArm.childOfOtherBone = true;
@@ -133,6 +139,7 @@ function initializeBonePositions(){
 	rightUpperArm.startPosition.x = torso.endPosition.x;
 	rightUpperArm.startPosition.y = torso.endPosition.y;
 	rightUpperArm.limbLength = 50;	
+	rightUpperArm.positionAlongParentBone = 1;
 	rightUpperArm.parentBoneLimbAngle = torso.limbAngle;
 	
 	rightForeArm.startPosition.x = rightUpperArm.endPosition.x;
@@ -143,6 +150,7 @@ function initializeBonePositions(){
 	leftUpperArm.startPosition.x = torso.endPosition.x;
 	leftUpperArm.startPosition.y = torso.endPosition.y;
 	leftUpperArm.limbLength = 50;	
+	leftUpperArm.positionAlongParentBone = 1;
 	leftUpperArm.parentBoneLimbAngle = torso.limbAngle;
 	
 	leftForeArm.startPosition.x = leftUpperArm.endPosition.x;
@@ -198,6 +206,7 @@ function drawBones(){
 	for(i = 0; i < bones.length; i++){
 		bones[i].drawBone();
 	}
+	//if button pressed add positions to array;
 	//console.log(leftForeArm.parentBoneLimbAngle);	
 	//console.log(leftForeArm.combinedLimbAngle);
 }
