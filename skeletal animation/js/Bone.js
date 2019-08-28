@@ -77,5 +77,10 @@ function boneClass(){
 		targetLimbAngle = Math.atan2(mousePos.y - this.startPosition.y, mousePos.x - this.startPosition.x);		
 		this.limbAngle = targetLimbAngle;		
 	}
+	
+	this.setBoneAngle = function(savedLimbAngle){
+		console.log(savedLimbAngle);
+		this.limbAngle = savedLimbAngle;
+	}
 		
 }

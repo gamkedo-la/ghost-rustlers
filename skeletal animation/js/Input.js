@@ -45,7 +45,7 @@ function initKeys(){
 function keyPressed(evt){
 	if(evt.keyCode == KEY_S){
 		console.log("S Pressed");
-		StorePositions(leftForeArm.limbAngle);
+		StorePositions(leftForeArm.limbAngle, leftUpperArm.limbAngle);
 	}
 	
 	if(evt.keyCode == KEY_UP_ARROW){

@@ -211,9 +211,10 @@ function drawBones(){
 	//console.log(leftForeArm.combinedLimbAngle);
 }
 
-function StorePositions(leftForeArmLimbAngle){
-	positions[positionsIndex] = new Array(leftForeArmLimbAngle);
-	console.log(positions[positionsIndex]);
+function StorePositions(leftForeArmLimbAngle, leftUpperArmLimbAngle){
+	positions[positionsIndex] = new Array(leftForeArmLimbAngle, leftUpperArmLimbAngle);
+	
+	console.log(positions);
 	
 	positionsIndex +=1;
 		
@@ -222,7 +223,7 @@ function StorePositions(leftForeArmLimbAngle){
 
 function SetStickFigureToStoredPositions(){
 	
-			leftForeArm.limbAngle = positions[animationIndex, 0];	
+			leftForeArm.setBoneAngle(positions[animationIndex] [0]);	
 }
 	
 
