@@ -83,7 +83,9 @@ function moveCamera() {
 function moveEverything() {
   character1.characterMove();
   character2.characterMove();
-  enemy1.characterMove();
+  if(enemy1.health > 0){
+	enemy1.characterMove();
+  }
   moveCamera();
   moveAimer();
 }
@@ -98,7 +100,9 @@ function drawEverything() {
   drawGroundBlocks();
   character1.drawCharacter();
   character2.drawCharacter();
-  enemy1.drawCharacter();
+  if(enemy1.health > 0){
+	  enemy1.drawCharacter();
+  }
   drawAimer();
 
   canvasContext.restore(); // undoes the .translate() used for cam scroll

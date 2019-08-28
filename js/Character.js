@@ -14,6 +14,8 @@ var aimToX = 0;
 var aimToY = 0;
 var isInAimMode = false;
 var ricochetCount = 0;
+var projectileAlive = true;
+var damageAvailable = true;;
 
 function characterClass(character_team, character_color) {
 
@@ -133,7 +135,9 @@ function characterClass(character_team, character_color) {
   }
 
   this.drawProjectile = function () {
-    drawBulletOnLine(aimFromX, aimFromY, aimToX, aimToY, this.bulletT);
+	if(projectileAlive){
+		drawBulletOnLine(aimFromX, aimFromY, aimToX, aimToY, this.bulletT);
+	}
   }
 
   this.characterMove = function () {
@@ -283,10 +287,11 @@ function characterClass(character_team, character_color) {
 
     }
   }
-
+  
   this.fireWeapon = function () {
     this.hasFired = true;
     this.bulletT = 0.0;
+	damageAvailable = true;
   }
 
   this.handleClick = function () {
@@ -357,7 +362,25 @@ function drawBulletOnLine(startX, startY, endX, endY, percent) {
     character1.bulletT = MAX_BULLET_T;
     character2.bulletT = MAX_BULLET_T;
   } else {
+	
     colorCircle(positionNowX, positionNowY, 5, 'white');
+	checkForCollisionAgainstEnemy(positionNowX, positionNowY);
   }
-
 }
+
+//this function will adjust in the feature when enemy lists and bullet classes are created
+function checkForCollisionAgainstEnemy(positionNowX, positionNowY){
+	if(  positionNowX > enemy1.x && //check left side
+	     positionNowX < enemy1.x + enemy1.width && // check right side
+	     positionNowY > enemy1.y && // check top side
+		 positionNowY < enemy1.y + enemy1.height){ // check bottom side
+			if(damageAvailable){
+				enemy1.health--;
+				damageAvailable = false;
+				console.log("Hit! Enemy1's Health: " + enemy1.health);
+			}
+	  }
+  }
+  
+
+	
