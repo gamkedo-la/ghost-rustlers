@@ -2,6 +2,10 @@ enemyClass.prototype = new characterClass('ENEMY_TEAM', 'white');
 function enemyClass(enemyTeam, enemyColor) {
 	this.x = 79;
 	this.y = 75;
+	this.height = 136;
+	this.width = 64;
+	this.health = 8;
+	
 	this.drawCharacter = function () {
 		if (enemyBodyRightPicLoaded && enemyBodyLeftPicLoaded) {
 			if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
