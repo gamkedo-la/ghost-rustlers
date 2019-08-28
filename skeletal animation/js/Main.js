@@ -49,9 +49,10 @@ window.onload = function() {
 		
 	initMouse();
 	initRenderLoop();
-	initInput();
+	initInput();	
 	
 	initializeBoneAngles();
+	
 }
 
 function moveEverything() {

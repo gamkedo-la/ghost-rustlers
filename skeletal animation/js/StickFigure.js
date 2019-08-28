@@ -107,9 +107,9 @@ var bones = new Array(torso, rightUpperArm, rightForeArm, head,
 //positions to create animation. 
 
 //TODO: Expand and relocate to where this should execute.
-var animation = new Array(
-new Array(torso.endPosition, head.endPosition),
-);
+var positions = new Array();
+var positionsIndex = 0;
+var animationIndex = 0;
 
 function boneChildren(){
 	leftForeArm.childOfOtherBone = true;
@@ -209,6 +209,20 @@ function drawBones(){
 	//if button pressed add positions to array;
 	//console.log(leftForeArm.parentBoneLimbAngle);	
 	//console.log(leftForeArm.combinedLimbAngle);
+}
+
+function StorePositions(leftForeArmLimbAngle){
+	positions[positionsIndex] = new Array(leftForeArmLimbAngle);
+	console.log(positions[positionsIndex]);
+	
+	positionsIndex +=1;
+		
+	console.log("positionsIndex is " + positionsIndex);
+}
+
+function SetStickFigureToStoredPositions(){
+	
+			leftForeArm.limbAngle = positions[animationIndex, 0];	
 }
 	
 

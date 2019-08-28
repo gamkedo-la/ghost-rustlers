@@ -1,3 +1,29 @@
+const KEY_LEFT_ARROW = 37;
+const KEY_UP_ARROW = 38;
+const KEY_RIGHT_ARROW = 39;
+const KEY_DOWN_ARROW = 40;
+const KEY_SPACE = 32;
+const KEY_1 = 49;
+const KEY_2 = 50;
+const KEY_3 = 51;
+const KEY_4 = 52;
+const KEY_E = 69;
+const KEY_F = 70
+const KEY_P = 80;
+const KEY_S = 83;
+const KEY_TILDE = 192;
+var holdLeft = false;
+var holdRight = false;
+var holdUp = false;
+var holdDown = false;
+var hold_Space_Key = false;
+var hold_E_Key = false;
+var hold_1_Key = false;
+var hold_2_Key = false;
+var hold_3_Key = false;
+var hold_4_Key = false;
+
+
 var dragging = false;
 
 var highestIndex;
@@ -8,6 +34,32 @@ var draggingIndex;
 function initInput(){
 		//document.addEventListener('mouseup', mouseReleased, false);
 		canvas.addEventListener('mousedown', onMouseDown, false);	
+		initKeys();
+}
+
+function initKeys(){
+	document.addEventListener("keydown", keyPressed);
+	//document.addEventListener("keyup", keyReleased);
+}
+
+function keyPressed(evt){
+	if(evt.keyCode == KEY_S){
+		console.log("S Pressed");
+		StorePositions(leftForeArm.limbAngle);
+	}
+	
+	if(evt.keyCode == KEY_UP_ARROW){
+		SetStickFigureToStoredPositions();
+		
+		animationIndex +=1;
+		console.log(animationIndex);
+	}
+	if(evt.keyCode == KEY_DOWN_ARROW){
+		SetStickFigureToStoredPositions();
+		animationIndex -=1;
+		console.log(animationIndex);
+	}
+	evt.preventDefault(); // without this, arrow keys scroll the browser!
 }
 
 function calculateMousePos(evt){
