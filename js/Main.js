@@ -46,6 +46,7 @@ window.onload = function () {
 
   character1.activateCharacter();
   character2.deactivateCharacter();
+  hauntedHoedownSound.loopSong("hauntedHoedown");
 }
 
 function moveCamera() {
