@@ -53,28 +53,30 @@ function keyPressed(evt){
 	}
 	
 	if(evt.keyCode == KEY_UP_ARROW){
-		
-		if(animationIndex <= positionsIndex){
-		SetStickFigureToStoredPositions();
-		}		
 		if(animationIndex < positionsIndex){	
 				
 		animationIndex +=1;
 		}else {
 			animationIndex = 0;
 		}
-		console.log(animationIndex);
-	}
-	if(evt.keyCode == KEY_DOWN_ARROW){
 		
 		if(animationIndex <= positionsIndex){
 		SetStickFigureToStoredPositions();
-		}
+		}		
+		
+		console.log("animation Index is " + animationIndex);
+	}
+	if(evt.keyCode == KEY_DOWN_ARROW){
 		if(animationIndex > 0){
 		animationIndex -=1;
 		}else{
 			animationIndex = positionsIndex;
 		}
+		
+		if(animationIndex <= positionsIndex){
+		SetStickFigureToStoredPositions();
+		}
+		
 		console.log(animationIndex);
 	}
 	evt.preventDefault(); // without this, arrow keys scroll the browser!
