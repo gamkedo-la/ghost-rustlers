@@ -45,18 +45,36 @@ function initKeys(){
 function keyPressed(evt){
 	if(evt.keyCode == KEY_S){
 		console.log("S Pressed");
-		StorePositions(leftForeArm.limbAngle, leftUpperArm.limbAngle);
+		StorePositions();
+	}
+	
+	if(evt.keyCode == KEY_F){
+		console.log("animation Index is " + animationIndex);
 	}
 	
 	if(evt.keyCode == KEY_UP_ARROW){
-		SetStickFigureToStoredPositions();
 		
+		if(animationIndex <= positionsIndex){
+		SetStickFigureToStoredPositions();
+		}		
+		if(animationIndex < positionsIndex){	
+				
 		animationIndex +=1;
+		}else {
+			animationIndex = 0;
+		}
 		console.log(animationIndex);
 	}
 	if(evt.keyCode == KEY_DOWN_ARROW){
+		
+		if(animationIndex <= positionsIndex){
 		SetStickFigureToStoredPositions();
+		}
+		if(animationIndex > 0){
 		animationIndex -=1;
+		}else{
+			animationIndex = positionsIndex;
+		}
 		console.log(animationIndex);
 	}
 	evt.preventDefault(); // without this, arrow keys scroll the browser!
