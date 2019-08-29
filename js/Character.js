@@ -219,27 +219,47 @@ function characterClass(character_team, character_color) {
   }
 
   //Testing - WIP
-  //var allWallEdges = new List([]);
-  var wallLine1 = {
+  var wallEdges = [];
+  var trajectoryPaths = [];
+
+  wallEdges.push({
     x1: 700,
+    y1: 150,
+    x2: 700,
+    y2: 500,
+    angle: 0
+  })
+  
+  wallEdges.push({
+    x1: 650,
     y1: 100,
     x2: 700,
-    y2: 500
-  }
+    y2: 150,
+    angle: 0
+  })
 
-  var trajectoryLine1 = {
+  wallEdges.push({
+    x1: 200,
+    y1: 100,
+    x2: 650,
+    y2: 100,
+    angle: 0
+  })
+
+  trajectoryPaths.push({
+    x1: 0,
+    y1: 0,
+    x2: 1,
+    y2: 1,
+    angle: 0
+  })
+
+  trajectoryPaths.push({
     x1: 0,
     y1: 0,
     x2: 1,
     y2: 1
-  }
-
-  var trajectoryLine2 = {
-    x1: 0,
-    y1: 0,
-    x2: 1,
-    y2: 1
-  }
+  })
 
   this.drawProjectileTrajectory = function () {
     if (this.hasFired) {
@@ -255,35 +275,51 @@ function characterClass(character_team, character_color) {
       aimFromY = Math.floor(this.rightHand.y);
       aimColor = 'red';
 
-      trajectoryLine1.x1 = aimFromX;
-      trajectoryLine1.y1 = aimFromY;
-      trajectoryLine1.x2 = aimToX;
-      trajectoryLine1.y2 = aimToY;
+      trajectoryPaths[0].x1 = aimFromX;
+      trajectoryPaths[0].y1 = aimFromY;
+      trajectoryPaths[0].x2 = aimToX;
+      trajectoryPaths[0].y2 = aimToY;
+      trajectoryPaths[0].angle = angleFromLine(trajectoryPaths[0]);
 
-      var intersectionData = getLineIntersection(trajectoryLine1, wallLine1);
+      var intersectionData = getLineIntersection(trajectoryPaths[0], wallEdges[0]);
       var ricochetAngle;
 
       if (intersectionData.linesIntersect) {
-        trajectoryLine1.x2 = intersectionData.x;
-        trajectoryLine1.y2 = intersectionData.y;
+        trajectoryPaths[0].x2 = intersectionData.x;
+        trajectoryPaths[0].y2 = intersectionData.y;
 
-        trajectoryLine2.x1 = intersectionData.x;
-        trajectoryLine2.y1 = intersectionData.y;
+        trajectoryPaths[1].x1 = intersectionData.x;
+        trajectoryPaths[1].y1 = intersectionData.y;
 
-        //TODO: Fix ricochet angle
-        ricochetAngle = Math.PI;
-        console.log(ricochetAngle);
+        wallEdges[0].angle = angleFromLine(wallEdges[0]);
+        wallEdges[1].angle = angleFromLine(wallEdges[1]);
+        wallEdges[2].angle = angleFromLine(wallEdges[2]);
 
-        trajectoryLine2.x2 = 1000 * Math.cos(ricochetAngle) + trajectoryLine2.x1;
-        trajectoryLine2.y2 = 1000 * Math.sin(ricochetAngle) + trajectoryLine2.y1;
+        //rotate angles to 0 rads before doing calculations.
+        rotatedWallAngle = wallEdges[0].angle - wallEdges[0].angle; //Should be 0 rads
+        rotatedTrajectoryAngle = trajectoryPaths[0].angle - wallEdges[0].angle; //Should be 0 rads
+
+        //find the exit angle
+        rotatedExitAngle = (2 * Math.PI) - rotatedTrajectoryAngle;
+
+        //rotate the exit angle back to it's actual angle.
+        ricochetAngle = rotatedExitAngle + wallEdges[0].angle;
+
+        trajectoryPaths[1].x2 = 1000 * Math.cos(ricochetAngle) + trajectoryPaths[1].x1;
+        trajectoryPaths[1].y2 = 1000 * Math.sin(ricochetAngle) + trajectoryPaths[1].y1;
 
       }
 
-      colorLine(trajectoryLine1.x1, trajectoryLine1.y1, trajectoryLine1.x2, trajectoryLine1.y2, aimColor);
-      colorLine(trajectoryLine2.x1, trajectoryLine2.y1, trajectoryLine2.x2, trajectoryLine2.y2, aimColor);
-      colorLine(wallLine1.x1, wallLine1.y1, wallLine1.x2, wallLine1.y2); //for testing collisions and ricochets
+      //draw each trajectory path.
+      for (i = 0; i < trajectoryPaths.length; i++){
+        colorLine(trajectoryPaths[i].x1, trajectoryPaths[i].y1, trajectoryPaths[i].x2, trajectoryPaths[i].y2, aimColor);
+      }
 
-      var intersectionData = getLineIntersection(trajectoryLine1, wallLine1);
+      colorLine(wallEdges[0].x1, wallEdges[0].y1, wallEdges[0].x2, wallEdges[0].y2); //for testing collisions and ricochets
+      colorLine(wallEdges[1].x1, wallEdges[1].y1, wallEdges[1].x2, wallEdges[1].y2); //for testing collisions and ricochets
+      colorLine(wallEdges[2].x1, wallEdges[2].y1, wallEdges[2].x2, wallEdges[2].y2); //for testing collisions and ricochets
+
+      var intersectionData = getLineIntersection(trajectoryPaths[0], wallEdges[0]);
 
     }
   }

@@ -75,3 +75,21 @@ function getLineIntersection(l1, l2) {
         }
     }
 }
+
+//function angleFromLine(cx, cy, ex, ey) {
+function angleFromLine(l1) { // get angle of a given line relative to a line with an angle of 0.
+    var dy = l1.y2 - l1.y1;
+    var dx = l1.x2 - l1.x1;
+    var theta = Math.atan2(dy, dx); // range (-PI, PI)
+    return theta;
+}
+
+function radiansFromDegrees(degrees) {
+    radians = ((degrees * Math.PI) / 180);
+    return radians;
+}
+
+function degreesFromRadians(radians) {
+    degrees = ((radians * 180) / Math.PI)
+    return degrees;
+}
