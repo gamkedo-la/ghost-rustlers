@@ -8,9 +8,9 @@ function drawUI() {
         canvasContext.fillText("Character Position: (" + Math.floor(character1.x) + ", " + Math.floor(character1.y) + ")", 50, 100);
         canvasContext.fillText("Distance: (" + character1.distShoulderToHand + ")", 50, 110);
         canvasContext.fillText("Tile: " + levelTileIndexAtPixelCoord(mousePos.x, mousePos.y), 50, 120);
-        canvasContext.fillText("Character1 Team: " + character1.team, 50, 130);
-        canvasContext.fillText("Character2 Team: " + character2.team, 50, 140);
-        canvasContext.fillText("Turn: " + turnCount, 50, 150);
+        canvasContext.fillText("Character1 has fired: " + character1.hasFired, 50, 130);
+        canvasContext.fillText("Character2 has fired: " + character2.hasFired, 50, 140);
+        canvasContext.fillText("ricochetCount: " + ricochetCount, 50, 150);
         canvasContext.fillText("C1 Actions: " + character1.actionsRemaining, 50, 160);
         canvasContext.fillText("C2 Actions: " + character2.actionsRemaining, 50, 170);
     }

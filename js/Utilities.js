@@ -93,3 +93,18 @@ function degreesFromRadians(radians) {
     degrees = ((radians * 180) / Math.PI)
     return degrees;
 }
+
+function angleOfReflection(incomingLine, surfaceLine) {
+
+    //rotate angles to 0 rads before doing calculations.
+    var rotatedTrajectoryAngle = angleFromLine(incomingLine) - angleFromLine(surfaceLine);
+
+    //find the rotated exit angle
+    var rotatedExitAngle = (2 * Math.PI) - rotatedTrajectoryAngle;
+
+    //rotate the exit angle back to it's actual angle.
+    var ricochetAngle = rotatedExitAngle + angleFromLine(surfaceLine);
+
+    //console.log(ricochetAngle);
+    return ricochetAngle;
+}

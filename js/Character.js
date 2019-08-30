@@ -6,8 +6,8 @@ const RUN_SPEED = 4.0;
 const GRAVITY = 0.6;
 const ACTIONS_PER_TURN = 2;
 const ARM_SEGMENT_LENGTH = 50;
-const MAX_BULLET_T = 3.0;
-const MAX_RICOCHETS = 1;
+const MAX_BULLET_T = 1.0;
+const MAX_RICOCHETS = 2;
 var aimFromX = 0;
 var aimFromY = 0;
 var aimToX = 0;
@@ -117,27 +117,38 @@ function characterClass(character_team, character_color) {
 
     drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? characterLowerArmPic_used : (this.isActive ? characterLowerArmPic : characterLowerArmPic_inActive)), this.lowerArm.x, this.lowerArm.y, this.handAngle)
 
-    if (this.bulletT < MAX_BULLET_T) {
-      this.hasFired = true;
-    } else {
-      this.hasFired = false;
-    }
+    //if (this.bulletT < MAX_BULLET_T) {
+    //this.hasFired = true;
+    //} else {
+    //this.hasFired = false;
+    //}
 
     if (isInAimMode && this.isActive || this.hasFired) {
       this.drawProjectileTrajectory();
     }
 
     if (this.hasFired) {
-      this.drawProjectile();
+
+      if (ricochetCount <= MAX_RICOCHETS) {
+        this.drawProjectile(trajectoryPaths[ricochetCount].x1, trajectoryPaths[ricochetCount].y1, trajectoryPaths[ricochetCount].x2, trajectoryPaths[ricochetCount].y2);
+      } else {
+        this.hasFired = false;
+        this.bulletT = MAX_BULLET_T;
+      }
+
     }
 
-    canvasContext.globalCompositeOperation  = "source-over";
+    canvasContext.globalCompositeOperation = "source-over";
   }
 
-  this.drawProjectile = function () {
-	if(projectileAlive){
-		drawBulletOnLine(aimFromX, aimFromY, aimToX, aimToY, this.bulletT);
-	}
+  this.drawProjectile = function (fromX, fromY, toX, toY) {
+    if (projectileAlive) {
+      drawBulletOnLine(fromX, fromY, toX, toY, this.bulletT);
+      if (this.bulletT >= MAX_BULLET_T) {
+        this.bulletT = 0;
+        ricochetCount++;
+      }
+    }
   }
 
   this.characterMove = function () {
@@ -199,7 +210,7 @@ function characterClass(character_team, character_color) {
 
   }
 
-  this.animateArmAiming = function() {
+  this.animateArmAiming = function () {
     var targetShoulderAngle = 0;
     var targetElbowAngle = 0;
     var jointSmoothingRate = 0.65;
@@ -229,7 +240,7 @@ function characterClass(character_team, character_color) {
     y2: 500,
     angle: 0
   })
-  
+
   wallEdges.push({
     x1: 650,
     y1: 100,
@@ -246,25 +257,10 @@ function characterClass(character_team, character_color) {
     angle: 0
   })
 
-  trajectoryPaths.push({
-    x1: 0,
-    y1: 0,
-    x2: 1,
-    y2: 1,
-    angle: 0
-  })
-
-  trajectoryPaths.push({
-    x1: 0,
-    y1: 0,
-    x2: 1,
-    y2: 1
-  })
-
   this.drawProjectileTrajectory = function () {
     if (this.hasFired) {
       var lineLength = DistanceBetweenTwoPixelCoords(aimFromX, aimFromY, aimToX, aimToY);
-      this.bulletT += 3 / lineLength;
+      this.bulletT += MAX_BULLET_T / lineLength;
     } else {
       aimToX = aimerX;
       aimToY = aimerY;
@@ -275,59 +271,78 @@ function characterClass(character_team, character_color) {
       aimFromY = Math.floor(this.rightHand.y);
       aimColor = 'red';
 
-      trajectoryPaths[0].x1 = aimFromX;
-      trajectoryPaths[0].y1 = aimFromY;
-      trajectoryPaths[0].x2 = aimToX;
-      trajectoryPaths[0].y2 = aimToY;
-      trajectoryPaths[0].angle = angleFromLine(trajectoryPaths[0]);
+      wallEdges[0].angle = angleFromLine(wallEdges[0]);
+      wallEdges[1].angle = angleFromLine(wallEdges[1]);
+      wallEdges[2].angle = angleFromLine(wallEdges[2]);
 
-      var intersectionData = getLineIntersection(trajectoryPaths[0], wallEdges[0]);
+      var intersectionData;
       var ricochetAngle;
 
-      if (intersectionData.linesIntersect) {
-        trajectoryPaths[0].x2 = intersectionData.x;
-        trajectoryPaths[0].y2 = intersectionData.y;
+      //calculate each ricochet point and trajectory line 
+      for (i = 0; i <= MAX_RICOCHETS; i++) {
 
-        trajectoryPaths[1].x1 = intersectionData.x;
-        trajectoryPaths[1].y1 = intersectionData.y;
+        var prevIndex = i - 1;
+        var intersectingEdge;
 
-        wallEdges[0].angle = angleFromLine(wallEdges[0]);
-        wallEdges[1].angle = angleFromLine(wallEdges[1]);
-        wallEdges[2].angle = angleFromLine(wallEdges[2]);
+        if (trajectoryPaths[i] === undefined) {
+          trajectoryPaths.push({
+            x1: 0,
+            y1: 0,
+            x2: 1,
+            y2: 1,
+            angle: 0
+          });
+        }
 
-        //rotate angles to 0 rads before doing calculations.
-        rotatedWallAngle = wallEdges[0].angle - wallEdges[0].angle; //Should be 0 rads
-        rotatedTrajectoryAngle = trajectoryPaths[0].angle - wallEdges[0].angle; //Should be 0 rads
+        if (i === 0) {
+          trajectoryPaths[i].x1 = aimFromX;
+          trajectoryPaths[i].y1 = aimFromY;
+          trajectoryPaths[i].x2 = aimToX;
+          trajectoryPaths[i].y2 = aimToY;
+        } else {
+          trajectoryPaths[i].x1 = trajectoryPaths[prevIndex].x2;
+          trajectoryPaths[i].y1 = trajectoryPaths[prevIndex].y2;
+          trajectoryPaths[i].x2 = 1000 * Math.cos(ricochetAngle) + trajectoryPaths[i].x1;
+          trajectoryPaths[i].y2 = 1000 * Math.sin(ricochetAngle) + trajectoryPaths[i].y1;
+        }
 
-        //find the exit angle
-        rotatedExitAngle = (2 * Math.PI) - rotatedTrajectoryAngle;
+        trajectoryPaths[i].angle = angleFromLine(trajectoryPaths[i]);
 
-        //rotate the exit angle back to it's actual angle.
-        ricochetAngle = rotatedExitAngle + wallEdges[0].angle;
+        intersectingEdge = undefined;
 
-        trajectoryPaths[1].x2 = 1000 * Math.cos(ricochetAngle) + trajectoryPaths[1].x1;
-        trajectoryPaths[1].y2 = 1000 * Math.sin(ricochetAngle) + trajectoryPaths[1].y1;
+        //find a wall edge that intersects the trajectory line.
+        //TODO: find only the closest wall edge if more than one intersect the trajectory line.
+        wallEdges.forEach(function (wallEdge) {
+          intersectionData = getLineIntersection(trajectoryPaths[i], wallEdge);
+          if (intersectionData.linesIntersect) {
+            intersectingEdge = wallEdge;
+            if (intersectingEdge != undefined) {
+              trajectoryPaths[i].x2 = intersectionData.x;
+              trajectoryPaths[i].y2 = intersectionData.y;
+              ricochetAngle = angleOfReflection(trajectoryPaths[i], intersectingEdge);
+            }
+          }
+        })
 
       }
-
-      //draw each trajectory path.
-      for (i = 0; i < trajectoryPaths.length; i++){
-        colorLine(trajectoryPaths[i].x1, trajectoryPaths[i].y1, trajectoryPaths[i].x2, trajectoryPaths[i].y2, aimColor);
-      }
-
-      colorLine(wallEdges[0].x1, wallEdges[0].y1, wallEdges[0].x2, wallEdges[0].y2); //for testing collisions and ricochets
-      colorLine(wallEdges[1].x1, wallEdges[1].y1, wallEdges[1].x2, wallEdges[1].y2); //for testing collisions and ricochets
-      colorLine(wallEdges[2].x1, wallEdges[2].y1, wallEdges[2].x2, wallEdges[2].y2); //for testing collisions and ricochets
-
-      var intersectionData = getLineIntersection(trajectoryPaths[0], wallEdges[0]);
-
     }
+
+    //draw each trajectory path.
+    for (i = 0; i < trajectoryPaths.length; i++) {
+      colorLine(trajectoryPaths[i].x1, trajectoryPaths[i].y1, trajectoryPaths[i].x2, trajectoryPaths[i].y2, aimColor);
+    }
+
+    colorLine(wallEdges[0].x1, wallEdges[0].y1, wallEdges[0].x2, wallEdges[0].y2); //for testing collisions and ricochets
+    colorLine(wallEdges[1].x1, wallEdges[1].y1, wallEdges[1].x2, wallEdges[1].y2); //for testing collisions and ricochets
+    colorLine(wallEdges[2].x1, wallEdges[2].y1, wallEdges[2].x2, wallEdges[2].y2); //for testing collisions and ricochets
+
   }
-  
+
   this.fireWeapon = function () {
     this.hasFired = true;
     this.bulletT = 0.0;
-	damageAvailable = true;
+    ricochetCount = 0;
+    damageAvailable = true;
   }
 
   this.handleClick = function () {
@@ -374,21 +389,22 @@ function characterClass(character_team, character_color) {
   }
 
   this.activateCharacter = function () {
-	  camPanX = this.x - canvas.width / 2;
-	  camPanY = this.y - canvas.height / 2;
+    camPanX = this.x - canvas.width / 2;
+    camPanY = this.y - canvas.height / 2;
     this.isActive = true;
   }
 
   this.deactivateCharacter = function () {
     this.isActive = false;
   }
+
 }
 
 function drawBulletOnLine(startX, startY, endX, endY, percent) {
   var oppositePerc = 1.0 - percent;
   var positionNowX = startX * oppositePerc + endX * percent;
   var positionNowY = startY * oppositePerc + endY * percent;
-  var ricochetCount = 0;
+  //var ricochetCount = 0;
 
   if (isWallTileAtPixelCoord(positionNowX, positionNowY) == 1) {
     //ricochetCount++;
@@ -398,25 +414,22 @@ function drawBulletOnLine(startX, startY, endX, endY, percent) {
     character1.bulletT = MAX_BULLET_T;
     character2.bulletT = MAX_BULLET_T;
   } else {
-	
+
     colorCircle(positionNowX, positionNowY, 5, 'white');
-	checkForCollisionAgainstEnemy(positionNowX, positionNowY);
+    checkForCollisionAgainstEnemy(positionNowX, positionNowY);
   }
 }
 
 //this function will adjust in the feature when enemy lists and bullet classes are created
-function checkForCollisionAgainstEnemy(positionNowX, positionNowY){
-	if(  positionNowX > enemy1.x && //check left side
-	     positionNowX < enemy1.x + enemy1.width && // check right side
-	     positionNowY > enemy1.y && // check top side
-		 positionNowY < enemy1.y + enemy1.height){ // check bottom side
-			if(damageAvailable){
-				enemy1.health--;
-				damageAvailable = false;
-				console.log("Hit! Enemy1's Health: " + enemy1.health);
-			}
-	  }
+function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
+  if (positionNowX > enemy1.x && //check left side
+    positionNowX < enemy1.x + enemy1.width && // check right side
+    positionNowY > enemy1.y && // check top side
+    positionNowY < enemy1.y + enemy1.height) { // check bottom side
+    if (damageAvailable) {
+      enemy1.health--;
+      damageAvailable = false;
+      console.log("Hit! Enemy1's Health: " + enemy1.health);
+    }
   }
-  
-
-	
+}
