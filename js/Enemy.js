@@ -1,11 +1,12 @@
 enemyClass.prototype = new characterClass('ENEMY_TEAM', 'white');
+
 function enemyClass(enemyTeam, enemyColor) {
 	this.x = 79;
 	this.y = 75;
 	this.height = 136;
 	this.width = 64;
 	this.health = 8;
-	
+
 	this.drawCharacter = function () {
 		if (enemyBodyRightPicLoaded && enemyBodyLeftPicLoaded) {
 			if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
@@ -26,7 +27,9 @@ function enemyClass(enemyTeam, enemyColor) {
 		this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
 		this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
 
-		drawImageCenteredAtLocationWithRotation(enemyUpperArmPic, this.upperArm.x, this.upperArm.y, this.shoulderAngle)
+		if (enemyUpperArmPicLoaded) {
+			drawImageCenteredAtLocationWithRotation(enemyUpperArmPic, this.upperArm.x, this.upperArm.y, this.shoulderAngle)
+		}
 
 		//draws lower arm
 		this.handAngle = this.shoulderAngle + this.elbowAngle;
@@ -35,8 +38,10 @@ function enemyClass(enemyTeam, enemyColor) {
 
 		this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
 		this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
-
-		drawImageCenteredAtLocationWithRotation(enemyLowerArmPic, this.lowerArm.x, this.lowerArm.y, this.handAngle)
+		
+		if (enemyLowerArmPicLoaded) {
+			drawImageCenteredAtLocationWithRotation(enemyLowerArmPic, this.lowerArm.x, this.lowerArm.y, this.handAngle)
+		}
 
 		if (this.bulletT < MAX_BULLET_T) {
 			this.hasFired = true;
