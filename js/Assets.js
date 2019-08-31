@@ -29,6 +29,7 @@ var backgroundPicLoaded = false;
 var sunGlarePic = document.createElement("img");
 var sunGlarePicLoaded = false;
 
+var buttonPic = document.createElement("img");
 
 
 
@@ -119,6 +120,7 @@ function initArt() {
     sunGlarePicLoaded = true;
   }
   sunGlarePic.src = "images/sun-glare.png";
+  buttonPic.src = "images/button.png";
   
 
 
