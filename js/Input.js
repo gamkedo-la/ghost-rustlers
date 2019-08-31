@@ -118,7 +118,11 @@ function keyReleased(evt) {
 }
 
 function mouseReleased(evt) {
-
-  character1.handleClick();
-  character2.handleClick();
+  if(gameState == STATE_GAME){
+	character1.handleClick();
+	character2.handleClick();
+  }
+  else if(gameState == STATE_TITLE_SCREEN) {
+    titleScreenMouseClick(mousePos.x, mousePos.y);
+  }
 }

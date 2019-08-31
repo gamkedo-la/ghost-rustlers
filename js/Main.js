@@ -1,4 +1,13 @@
 var canvas, canvasContext;
+
+//Game States
+const STATE_GAME = 0;
+const STATE_TITLE_SCREEN = 1;
+const STATE_PAUSED = 2;
+const STATE_DEBUGMODE = 3;
+var gameState = STATE_TITLE_SCREEN;
+
+
 var isPaused = false;
 var debugMode = false;
 var allCharacters = [];
@@ -46,7 +55,11 @@ window.onload = function () {
 
   character1.activateCharacter();
   character2.deactivateCharacter();
-  hauntedHoedownSound.loopSong("hauntedHoedown");
+}
+
+function updateState(newState) {
+	console.log (newState);
+	gameState = newState;
 }
 
 function moveCamera() {
@@ -82,34 +95,40 @@ function moveCamera() {
 }
 
 function moveEverything() {
-  character1.characterMove();
-  character2.characterMove();
-  if(enemy1.health > 0){
-	enemy1.characterMove();
-  }
-  moveCamera();
-  moveAimer();
+	if(gameState == STATE_TITLE_SCREEN){
+		return;
+    } else {
+		character1.characterMove();
+		character2.characterMove();
+		if(enemy1.health > 0){
+			enemy1.characterMove();
+		}
+		moveCamera();
+		moveAimer();
+	}
 }
 
 function drawEverything() {
+	if(gameState == STATE_TITLE_SCREEN){
+		drawTitleScreen();
+	} else if (gameState == STATE_GAME){
+		drawBackground();
 
-  drawBackground();
+		canvasContext.save();
+		canvasContext.translate(-camPanX, -camPanY);
 
-  canvasContext.save();
-  canvasContext.translate(-camPanX, -camPanY);
+		drawGroundBlocks();
+		character1.drawCharacter();
+		character2.drawCharacter();
+			if(enemy1.health > 0){
+				enemy1.drawCharacter();
+			}
+		drawAimer();
 
-  drawGroundBlocks();
-  character1.drawCharacter();
-  character2.drawCharacter();
-  if(enemy1.health > 0){
-	  enemy1.drawCharacter();
-  }
-  drawAimer();
-
-  canvasContext.restore(); // undoes the .translate() used for cam scroll
-
-  drawUI();
-
+		canvasContext.restore(); // undoes the .translate() used for cam scroll
+		
+		drawUI();
+	}
 }
 
 function endPlayerTurn() {
