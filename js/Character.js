@@ -15,7 +15,8 @@ var aimToY = 0;
 var isInAimMode = false;
 var ricochetCount = 0;
 var projectileAlive = true;
-var damageAvailable = true;;
+var damageAvailable = true;
+var trajectoryPaths = [];
 
 function characterClass(character_team, character_color) {
 
@@ -233,34 +234,6 @@ function characterClass(character_team, character_color) {
     this.elbowAngle = targetElbowAngle * (1.0 - jointSmoothingRate) + this.elbowAngle * jointSmoothingRate;
   }
 
-  //Testing - WIP
-  var wallEdges = [];
-  var trajectoryPaths = [];
-
-  wallEdges.push({
-    x1: 700,
-    y1: 150,
-    x2: 700,
-    y2: 500,
-    angle: 0
-  })
-
-  wallEdges.push({
-    x1: 650,
-    y1: 100,
-    x2: 700,
-    y2: 150,
-    angle: 0
-  })
-
-  wallEdges.push({
-    x1: 200,
-    y1: 100,
-    x2: 650,
-    y2: 100,
-    angle: 0
-  })
-
   this.drawProjectileTrajectory = function () {
     if (this.hasFired) {
       var lineLength = DistanceBetweenTwoPixelCoords(aimFromX, aimFromY, aimToX, aimToY);
@@ -274,10 +247,6 @@ function characterClass(character_team, character_color) {
       aimFromX = Math.floor(this.rightHand.x);
       aimFromY = Math.floor(this.rightHand.y);
       aimColor = 'red';
-
-      wallEdges[0].angle = angleFromLine(wallEdges[0]);
-      wallEdges[1].angle = angleFromLine(wallEdges[1]);
-      wallEdges[2].angle = angleFromLine(wallEdges[2]);
 
       var intersectionData;
       var ricochetAngle;
@@ -335,10 +304,6 @@ function characterClass(character_team, character_color) {
     for (i = 0; i < trajectoryPaths.length; i++) {
       colorLine(trajectoryPaths[i].x1, trajectoryPaths[i].y1, trajectoryPaths[i].x2, trajectoryPaths[i].y2, aimColor);
     }
-
-    colorLine(wallEdges[0].x1, wallEdges[0].y1, wallEdges[0].x2, wallEdges[0].y2); //for testing collisions and ricochets
-    colorLine(wallEdges[1].x1, wallEdges[1].y1, wallEdges[1].x2, wallEdges[1].y2); //for testing collisions and ricochets
-    colorLine(wallEdges[2].x1, wallEdges[2].y1, wallEdges[2].x2, wallEdges[2].y2); //for testing collisions and ricochets
 
   }
 
