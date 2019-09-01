@@ -15,6 +15,7 @@ var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
 var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
 var turnCount = 1;
+var playersTurn = true;
 
 //Camera Pan Variables
 var camPanX = 0.0;
@@ -98,11 +99,18 @@ function moveEverything() {
 	if(gameState == STATE_TITLE_SCREEN){
 		return;
     } else {
-		character1.characterMove();
-		character2.characterMove();
-		if(enemy1.health > 0){
-			enemy1.characterMove();
+		if(playersTurn){
+			character1.characterMove();
+			character2.characterMove();
+		} else {
+			if(enemy1.health > 0){
+			enemy1.enemyMove();
+			}
 		}
+		if (!enemy1.isOnGround){ //prevent enemy from stopping in mid air, although, it is a ghost.
+			enemy1.enemyMove();
+		}
+
 		moveCamera();
 		moveAimer();
 	}
@@ -133,17 +141,16 @@ function drawEverything() {
 
 function endPlayerTurn() {
   turnCount++
-
+  playersTurn = false;
   character1.characterReset();
   character2.characterReset();
-
+	
   enemyTurn();
 }
 
 function enemyTurn() {
 
   //Enemy Actions
-
   endEnemyTurn()
 }
 
