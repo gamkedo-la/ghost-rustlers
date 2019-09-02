@@ -140,7 +140,7 @@ function drawEverything() {
 }
 
 function endPlayerTurn() {
-  turnCount++
+  turnCount++;
   playersTurn = false;
   character1.characterReset();
   character2.characterReset();
@@ -151,10 +151,13 @@ function endPlayerTurn() {
 function enemyTurn() {
 
   //Enemy Actions
-  endEnemyTurn()
+
 }
 
 function endEnemyTurn() {
+  playersTurn = true;
+  enemy1.movementDetermined = false;
+  enemy1.hasFired = false;
   character1.activateCharacter();
 }
 
