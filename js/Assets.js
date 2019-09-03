@@ -27,16 +27,6 @@ var moveAimerPicLoaded = false;
 var buttonPic = document.createElement("img");
 
 
-// Parallax layers used by Background.js
-function onloadPic() { this.loaded = true; }
-var backgroundPic = document.createElement("img");
-backgroundPic.onload = onloadPic;
-var sunGlarePic = document.createElement("img");
-sunGlarePic.onload = onloadPic;
-
-
-
-
 //var inActiveColor = "#88880088";
 //var usedColor = "#000000AA";
 
@@ -116,13 +106,5 @@ function initArt() {
 
   buttonPic.src = "images/button.png";
   
-  backgroundPic.src = "images/background.png";
-  sunGlarePic.src = "images/sun-glare.png";
-  
-
-
-  
-
-
 }
 

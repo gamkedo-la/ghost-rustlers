@@ -23,6 +23,8 @@ var camPanY = 0.0;
 const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X = 150;
 const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y = 100;
 
+var background = new BackgroundClass();
+
 function initRenderLoop() {
   var framesPerSecond = 60;
   setInterval(function () {
@@ -50,8 +52,6 @@ window.onload = function () {
   initArt();
   initInput();
   initRenderLoop();
-
-  background = new BackgroundClass();
 
   character1.characterSpawn();
   character2.characterSpawn();
