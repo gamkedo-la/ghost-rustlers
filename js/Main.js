@@ -122,7 +122,8 @@ function drawEverything() {
 	if(gameState == STATE_TITLE_SCREEN){
 		drawTitleScreen();
 	} else if (gameState == STATE_GAME){
-		background.draw();
+        
+        background.draw(-camPanX/4,-camPanY/8);
 
 		canvasContext.save();
 		canvasContext.translate(-camPanX, -camPanY);

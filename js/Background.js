@@ -9,6 +9,10 @@ function BackgroundClass() {
     const layerXscale = 0.666;
     const layerYscale = 0.888;
 
+    // shift parallax layers to never show missing parts
+    const xOffset = 0; 
+    const yOffset = 100;
+
     function onloadPic() { this.loaded = true; }
 
     var backgroundPic = new Image();
@@ -35,19 +39,22 @@ function BackgroundClass() {
         // base gradient, scaled to fit the viewport (no parallax)
         if (backgroundPic.loaded) canvasContext.drawImage(backgroundPic,0,0,canvas.width,canvas.height);
         
+        // scrolling clouds
+        if (cloudsPic.loaded) canvasContext.drawImage(cloudsPic,Math.sin(performance.now()/15000)*500-500,0);
+
         // parallax layers aplenty
         for (var num=0; num<layerCount; num++) {
             if (parallaxPic[num].loaded) 
                 canvasContext.drawImage(
                     parallaxPic[num],
-                    x*num*layerXscale,
-                    y*num*layerYscale,
-                    parallaxPic[num].width, //canvas.width,
-                    canvas.height);            
+                    x*num*layerXscale + xOffset,
+                    y*num*layerYscale + yOffset);
+                    //,parallaxPic[num].width, //canvas.width,
+                    //canvas.height);            
         }
 
         // spinning sun rays in a hardcoded position (no parallax)
-        if (sunGlarePic.loaded) drawImageCenteredAtLocationWithRotation(sunGlarePic,canvas.width*0.75,canvas.height*0.5,performance.now()/6000);
+        if (sunGlarePic.loaded) drawImageCenteredAtLocationWithRotation(sunGlarePic,canvas.width*0.75,canvas.height*0.5,performance.now()/5000);
     }
 
 }
