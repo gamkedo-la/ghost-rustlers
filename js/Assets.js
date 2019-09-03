@@ -24,12 +24,16 @@ var targetAimerPicLoaded = false;
 var moveAimerPic = document.createElement("img");
 var moveAimerPicLoaded = false;
 
-var backgroundPic = document.createElement("img");
-var backgroundPicLoaded = false;
-var sunGlarePic = document.createElement("img");
-var sunGlarePicLoaded = false;
-
 var buttonPic = document.createElement("img");
+
+
+// Parallax layers used by Background.js
+function onloadPic() { this.loaded = true; }
+var backgroundPic = document.createElement("img");
+backgroundPic.onload = onloadPic;
+var sunGlarePic = document.createElement("img");
+sunGlarePic.onload = onloadPic;
+
 
 
 
@@ -110,17 +114,13 @@ function initArt() {
 	}
   moveAimerPic.src = "images/moveAimer.png";
 
-
-  // TODO: load as multilple parallax layers?
-  backgroundPic.onload = function () {
-    backgroundPicLoaded = true;
-  }
-  backgroundPic.src = "images/background.png";
-  sunGlarePic.onload = function () {
-    sunGlarePicLoaded = true;
-  }
-  sunGlarePic.src = "images/sun-glare.png";
   buttonPic.src = "images/button.png";
+  
+  backgroundPic.src = "images/background.png";
+  sunGlarePic.src = "images/sun-glare.png";
+  
+
+
   
 
 

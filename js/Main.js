@@ -51,6 +51,8 @@ window.onload = function () {
   initInput();
   initRenderLoop();
 
+  background = new BackgroundClass();
+
   character1.characterSpawn();
   character2.characterSpawn();
 
@@ -120,7 +122,7 @@ function drawEverything() {
 	if(gameState == STATE_TITLE_SCREEN){
 		drawTitleScreen();
 	} else if (gameState == STATE_GAME){
-		drawBackground();
+		background.draw();
 
 		canvasContext.save();
 		canvasContext.translate(-camPanX, -camPanY);

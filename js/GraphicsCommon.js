@@ -33,15 +33,6 @@ function drawImageCenteredAtLocationWithRotation(graphic, atX, atY, withAngle) {
     canvasContext.restore(); //	undo	the	translation	movement	and	rotation	since	save()
 }
 
-function drawBackground() {
-    if (!backgroundPicLoaded) {
-        colorRect(0, 0, canvas.width, canvas.height, 'SkyBlue');
-    } else {
-        canvasContext.drawImage(backgroundPic,0,0,canvas.width,canvas.height);
-        drawImageCenteredAtLocationWithRotation(sunGlarePic,canvas.width*0.75,canvas.height*0.5,performance.now()/6000);
-    }
-}
-
 var _tintImageCanvas = document.createElement('canvas');
 var _tintImageCTX = _tintImageCanvas.getContext('2d');
 
