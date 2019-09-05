@@ -44,10 +44,15 @@ function drawUI() {
 }
 
 function drawCharacterInfo() {        
-    canvasContext.fillStyle = 'red';
-    canvasContext.font = "20px Verdana";
+    canvasContext.fillStyle = 'white';
+    canvasContext.font = "14px Verdana";
     //canvasContext.fillText("Character 1", 150, 20);
-    canvasContext.fillText("Character 1" , 255, 90);
+    canvasContext.fillText("Character A:" , 255, 90);
+    canvasContext.fillText("Character B:", 450, 90);
+    canvasContext.fillText(character2.actionsRemaining, 550, 90);
+    canvasContext.fillText(character1.actionsRemaining, 350, 90);
+    canvasContext.font = "20px Verdana";
+    canvasContext.fillText("Ghosts", 50, 90);
     /*
      if (character1.isActive) {
         canvasContext.strokeStyle = "red";
@@ -56,9 +61,7 @@ function drawCharacterInfo() {
     }
     */
     
-    canvasContext.fillStyle = 'green';
     //canvasContext.fillText("Character 2", 500, 20);
-    canvasContext.fillText("Character 2", 450, 90);
 
     /*
     if (character2.isActive) {
@@ -68,7 +71,8 @@ function drawCharacterInfo() {
         canvasContext.stroke();
     }
     */
-   drawGhostsLeft(canvasContext, canvas.width/2 + 20, 60, 40, 50);
+   drawGhostsLeft(canvasContext, canvas.width/17, 17, 20, 30);
+   drawGhostsLeft(canvasContext, canvas.width/16, 17*2, 20, 30);
    drawActionsRemaining();
    drawHealthBar(character1);
    drawHealthBar(character2);
@@ -101,15 +105,13 @@ function drawHealthBar(char) {
 
 function drawActionsRemaining(x,y,r,sAngle,eAngle,counterclockwise){
     canvasContext.beginPath();
-        canvasContext.arc(240,55,30,0*Math.PI,character1.actionsRemaining*Math.PI);
-        canvasContext.fillStyle = "#7F8C8D";
+        canvasContext.arc(330,45,25,0*Math.PI,character1.actionsRemaining*Math.PI);
+        canvasContext.fillStyle = "#D32D41";
         canvasContext.fill();
-        canvasContext.fillText(character2.actionsRemaining, 580, 90);
     canvasContext.beginPath();
-        canvasContext.arc(600,55,30,0*Math.PI,character2.actionsRemaining*Math.PI);
-        canvasContext.fillStyle = "#7F87CD";
+        canvasContext.arc(500,45,25,0*Math.PI,character2.actionsRemaining*Math.PI);
+        canvasContext.fillStyle = "#7F8C5D";
         canvasContext.fill();
-        canvasContext.fillText(character1.actionsRemaining, 220, 90);
 }
 
 function drawGhostsLeft(context, x, y, width, height){
@@ -125,7 +127,7 @@ function drawGhostsLeft(context, x, y, width, height){
             // closing the path automatically creates
             // the top right edge
             context.closePath();
-            context.fillStyle = "#D32D41";
+            context.fillStyle = "#7F87FB";
             context.fill();
     canvasContext.restore();
 }
