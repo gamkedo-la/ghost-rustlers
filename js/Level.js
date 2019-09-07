@@ -40,6 +40,7 @@ var levelTileGrid = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 ];
 
+const EMPTY_TILE = 0;
 const WALL_TILE = 1;
 const LADDER_TILE = 2;
 const LADDER_PLATFORM_TILE = 3;

@@ -71,11 +71,11 @@ function findGround(x, y) {
         checkIndex = levelTileIndexAtColRowCoord(checkCol, startRow);
 
     //If the cursor is already inside of a wall
-    if (levelTileGrid[checkIndex] > 0) {
+    if (isSolidTile(levelTileGrid[checkIndex])) {
         //Find nearest empty tile above the cursor
         for (let i = startRow; i >= 0; i--) {
             checkIndex = levelTileIndexAtColRowCoord(checkCol, i);
-            if (levelTileGrid[checkIndex] < 1) {
+            if (isPassableTile(levelTileGrid[checkIndex])) {
                 groundY = (i + 1) * BRICK_H;
                 break;
             }

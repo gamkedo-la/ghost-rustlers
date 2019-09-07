@@ -3,15 +3,19 @@ var currentPath = [];
 
 function initNavGraph() {
 	playerNavGraph = generateNavGraph(levelTileGrid, playerLegalMove);
-	
-	let current, neighbor;
-	for (let i = 0; i < playerNavGraph.length; i++) {
-		current = playerNavGraph[i];
-		for (let e = 0; e < playerNavGraph.length; e++) {
+	playerNavGraph = defineNeighbors(playerNavGraph, levelTileGrid);
+}
+
+function defineNeighbors(graph, levelGrid) {
+	let current, neighbor,
+		nGraph = graph.slice(0);
+	for (let i = 0; i < nGraph.length; i++) {
+		current = nGraph[i];
+		for (let e = 0; e < nGraph.length; e++) {
 			if (e === i) {
 				continue;
 			}
-			neighbor = playerNavGraph[e];
+			neighbor = nGraph[e];
 
 			//Connect adjacent nodes (within one tile)
 			if (Math.abs(current.x - neighbor.x) <= 1 && Math.abs(current.y - neighbor.y) <= 1) {
@@ -19,7 +23,7 @@ function initNavGraph() {
 			//Account for falling
 			} else if (Math.abs(current.x - neighbor.x) === 1 && neighbor.y > current.y) {
 				for (let y = current.y; y <= neighbor.y; y++) {
-					if (levelTileGrid[y * BRICK_COLS + neighbor.x] == 1) {
+					if (levelGrid[y * BRICK_COLS + neighbor.x] == 1) {
 						break;
 					} else if (y === neighbor.y) {
 						current.neighbors.push(e)
@@ -28,6 +32,8 @@ function initNavGraph() {
 			}
 		}
 	}
+
+	return nGraph;
 }
 
 function graphSearch(start, end, graph) {
@@ -134,11 +140,23 @@ function drawNavGraph(graph, color) {
 }
 
 function playerLegalMove(index, graph) {
-	if (graph[index] == 0 && graph[index + BRICK_COLS] == 1) {
+	if (isPassableTile(graph[index]) && isSolidTile(graph[index + BRICK_COLS])) {
 		return true;
 	} else {
 		return false;
 	}
+}
+
+function isPassableTile(value) {
+	return 	value === EMPTY_TILE ||
+			value === LADDER_TILE ||
+			value === LADDER_BROKEN_TILE;
+}
+
+function isSolidTile(value) {
+	return 	value === WALL_TILE ||
+			value === LADDER_PLATFORM_TILE ||
+			value === PLATFORM_TILE
 }
 
 function indexToColRow(index, width, height) {
