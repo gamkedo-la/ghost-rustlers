@@ -34,6 +34,25 @@ function yCoordAtCenterOfRow(tileRow) {
     return ((tileRow * BRICK_H) + BRICK_H / 2)
 }
 
+function isSolidTileAtLevelTileCoord(levelTileCol, levelTileRow) {
+    var levelTileIndex = levelTileIndexAtColRowCoord(levelTileCol, levelTileRow);
+    return (levelTileGrid[levelTileIndex] === WALL_TILE ||
+            levelTileGrid[levelTileIndex] === LADDER_PLATFORM_TILE ||
+            levelTileGrid[levelTileIndex] === PLATFORM_TILE);
+}
+
+function isSolidTileAtPixelCoord(pixelX, pixelY) {
+
+    var levelTileCol = colAtXCoord(pixelX);
+    var levelTileRow = rowAtYCoord(pixelY);
+
+    if (levelTileCol < 0 || levelTileCol >= BRICK_COLS || levelTileRow < 0 || levelTileRow >= BRICK_ROWS) {
+        return false;
+    }
+
+    return isSolidTileAtLevelTileCoord(levelTileCol, levelTileRow);
+}
+
 function isWallTileAtLevelTileCoord(levelTileCol, levelTileRow) {
     var levelTileIndex = levelTileIndexAtColRowCoord(levelTileCol, levelTileRow);
     return (levelTileGrid[levelTileIndex] == WALL_TILE);

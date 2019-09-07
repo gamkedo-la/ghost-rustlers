@@ -23,7 +23,7 @@ function defineNeighbors(graph, levelGrid) {
 			//Account for falling
 			} else if (Math.abs(current.x - neighbor.x) === 1 && neighbor.y > current.y) {
 				for (let y = current.y; y <= neighbor.y; y++) {
-					if (levelGrid[y * BRICK_COLS + neighbor.x] == 1) {
+					if (isSolidTile(levelGrid[y * BRICK_COLS + neighbor.x])) {
 						break;
 					} else if (y === neighbor.y) {
 						current.neighbors.push(e)
