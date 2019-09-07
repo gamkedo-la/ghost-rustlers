@@ -40,7 +40,9 @@ function BackgroundClass() {
         if (backgroundPic.loaded) canvasContext.drawImage(backgroundPic,0,0,canvas.width,canvas.height);
         
         // scrolling clouds
-        if (cloudsPic.loaded) canvasContext.drawImage(cloudsPic,Math.sin(performance.now()/15000)*500-500,0);
+        if (cloudsPic.loaded) canvasContext.drawImage(cloudsPic,Math.cos(performance.now()/10000+1)*1000-1000,0,3000,canvas.height);
+        // another layer for fun
+        if (cloudsPic.loaded) canvasContext.drawImage(cloudsPic,Math.sin(performance.now()/6000+0.1)*1000-1000,0,3000,canvas.height*0.5);
 
         // parallax layers aplenty
         for (var num=0; num<layerCount; num++) {

@@ -36,7 +36,7 @@ function yCoordAtCenterOfRow(tileRow) {
 
 function isWallTileAtLevelTileCoord(levelTileCol, levelTileRow) {
     var levelTileIndex = levelTileIndexAtColRowCoord(levelTileCol, levelTileRow);
-    return (levelTileGrid[levelTileIndex] == 1);
+    return (levelTileGrid[levelTileIndex] == WALL_TILE);
 }
 
 function isWallTileAtPixelCoord(pixelX, pixelY) {

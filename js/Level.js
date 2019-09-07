@@ -31,14 +31,21 @@ var levelTileGrid = [
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 ];
+
+const WALL_TILE = 1;
+const LADDER_TILE = 2;
+const LADDER_PLATFORM_TILE = 3;
+const PLATFORM_TILE = 4;
+const LADDER_BROKEN_TILE = 5;
+
 
 function drawGroundBlocks() {
 
@@ -69,6 +76,19 @@ function drawGroundBlocks() {
             } else {
                 createVertRightFacingWallEdges(eachCol, eachRow);
             } // end of isWallTileAtLevelTileCoord()
+            //console.log(isLadderTileAtLevelTileCoord(eachRow, eachRow));
+            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_TILE){
+                canvasContext.drawImage(ladderPic, brickLeftEdgeX, brickTopEdgeY);
+            }
+            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_PLATFORM_TILE){
+                canvasContext.drawImage(ladderPlatformPic, brickLeftEdgeX, brickTopEdgeY);
+            }
+            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === PLATFORM_TILE){
+                canvasContext.drawImage(platformPic, brickLeftEdgeX, brickTopEdgeY);
+            }
+            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_BROKEN_TILE){
+                canvasContext.drawImage(ladderBrokenPic, brickLeftEdgeX, brickTopEdgeY);
+            }
 
         } // end of for eachRow
     } // end of for eachCol
