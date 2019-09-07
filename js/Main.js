@@ -51,6 +51,7 @@ window.onload = function () {
 
   initArt();
   initInput();
+  initNavGraph();
   initRenderLoop();
 
   character1.characterSpawn();
@@ -137,7 +138,6 @@ function drawEverything() {
 		drawAimer();
 
 		canvasContext.restore(); // undoes the .translate() used for cam scroll
-		
 		drawUI();
 	}
 }

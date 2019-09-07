@@ -30,6 +30,10 @@ function xCoordAtCenterOfCol(tileCol) {
     return ((tileCol * BRICK_W) + BRICK_W / 2)
 }
 
+function yCoordAtCenterOfRow(tileRow) {
+    return ((tileRow * BRICK_H) + BRICK_H / 2)
+}
+
 function isWallTileAtLevelTileCoord(levelTileCol, levelTileRow) {
     var levelTileIndex = levelTileIndexAtColRowCoord(levelTileCol, levelTileRow);
     return (levelTileGrid[levelTileIndex] == 1);

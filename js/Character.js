@@ -29,6 +29,7 @@ function characterClass(character_team, character_color) {
   this.color = character_color;
   this.speedX = 0;
   this.speedY = 0;
+  this.path = [];
   this.destinationCol;
   this.destinationRow;
   this.destinationXCoord;
@@ -171,12 +172,10 @@ function characterClass(character_team, character_color) {
       }
     }
 
-    this.destinationXCoord = xCoordAtCenterOfCol(this.destinationCol);
-
     if (this.x > this.destinationXCoord) {
       if ((this.x - RUN_SPEED) < this.destinationXCoord) {
-        this.x = this.destinationXCoord;
-        this.speedX = 0;
+          this.x = this.destinationXCoord;
+          this.speedX = 0;
       } else {
         this.speedX = -RUN_SPEED
       }
@@ -184,11 +183,15 @@ function characterClass(character_team, character_color) {
 
     if (this.x < this.destinationXCoord) {
       if ((this.x + RUN_SPEED) > this.destinationXCoord) {
-        this.x = this.destinationXCoord;
-        this.speedX = 0;
+          this.x = this.destinationXCoord;
+          this.speedX = 0;
       } else {
         this.speedX = RUN_SPEED;
       }
+    }
+
+    if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= BRICK_H/2) {
+      this.nextPathNode();
     }
 
     if (this.speedY < 0 && isWallTileAtPixelCoord(this.x, this.y - (CHARACTER_HEIGHT / 2)) == 1) {
@@ -213,6 +216,16 @@ function characterClass(character_team, character_color) {
 
     this.animateArmAiming();
 
+  }
+
+  this.nextPathNode = function() {
+    if (this.path.length > 0) {
+      this.destinationCol = this.path[0].x;
+      this.destinationRow = this.path[0].y;
+      this.destinationXCoord = xCoordAtCenterOfCol(this.destinationCol);
+      this.destinationYCoord = yCoordAtCenterOfRow(this.destinationRow);
+      this.path.shift();
+    }
   }
 
   this.animateArmAiming = function () {
@@ -319,8 +332,8 @@ function characterClass(character_team, character_color) {
       if (isInAimMode) {
         this.fireWeapon();
       } else {
-        this.destinationCol = colAtXCoord(aimerX);
-        this.destinationRow = rowAtYCoord(aimerY);
+        this.path = currentPath;
+        this.nextPathNode();
       }
       this.actionsRemaining--;
     }

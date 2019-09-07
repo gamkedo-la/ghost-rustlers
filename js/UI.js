@@ -23,7 +23,6 @@ function drawUI() {
     canvasContext.fillText("Press 1 & 2 to select Character.", 50, 70);
     canvasContext.fillText("Left Mouse Click to Move when not Aiming or Shoot when Aiming.", 50, 80);
     canvasContext.fillText("Press Arrow Keys to Pan Camera", 50, 90);
-    canvasContext.fillText(turnCount + "/" + levelTurns, 50, 290);
 	colorText(turnCount + "/" + levelTurns, 390, 40, "white", font = "30px Arial Black");
 	
 	
