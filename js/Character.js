@@ -4,6 +4,7 @@ const GROUND_FRICTION = 0.8;
 const AIR_RESISTANCE = 0.95;
 const RUN_SPEED = 4.0;
 const GRAVITY = 0.6;
+const JUMP_SPEED = 1.6;
 const ACTIONS_PER_TURN = 2;
 const ARM_SEGMENT_LENGTH = 50;
 const MAX_BULLET_T = 1.0;
@@ -189,9 +190,14 @@ function characterClass(character_team, character_color) {
         this.speedX = RUN_SPEED;
       }
     }
-
+    //Update destination on reaching current path node
     if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= BRICK_H/2) {
       this.nextPathNode();
+    }
+    //Jump up ledges
+    if (this.destinationYCoord < this.y) {
+      this.speedX /= 3;
+      this.speedY -= JUMP_SPEED;
     }
 
     if (this.speedY < 0 && isSolidTileAtPixelCoord(this.x, this.y - (CHARACTER_HEIGHT / 2))) {
