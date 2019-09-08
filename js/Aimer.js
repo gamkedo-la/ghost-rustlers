@@ -55,6 +55,10 @@ function drawAimer() {
         drawNavGraph(playerNavGraph, 'white');
         drawNavGraph(currentPath, 'green');
 
+        if (character1.path.length > 0 || character2.path.length > 0) {
+            return;
+        }
+
         if (outOfRangeX != mousePos.x + camPanX) {
             colorRect(outOfRangeX - moveAimerPic.width / 4, outOfRangeY - targetAimerPic.height, moveAimerPic.width/2, moveAimerPic.height, 'red')
             canvasContext.drawImage(moveAimerPic, outOfRangeX - moveAimerPic.width / 2, outOfRangeY - targetAimerPic.height);

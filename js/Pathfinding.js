@@ -48,7 +48,7 @@ function graphSearch(start, end, graph) {
 		let current = graph[frontier[0]],
 			currentNeighbors = current.neighbors;
 
-			if (false && current === goal) {
+			if (current === goal) {
 				cameFrom[frontier[0] = current];
 				break;
 			}
