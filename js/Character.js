@@ -41,6 +41,7 @@ function characterClass(character_team, character_color) {
   this.bulletT = MAX_BULLET_T;
   this.hasFired = false;
   this.isOnGround = false;
+  this.isClimbing = false;
   this.isActive = false;
 
   this.upperArm = {
@@ -163,7 +164,7 @@ function characterClass(character_team, character_color) {
     this.x += this.speedX; // move the character based on its current horizontal speed 
     this.y += this.speedY; // same as above, but for vertical
 
-    if (this.isOnGround) {
+    if (this.isOnGround || this.isClimbing) {
       this.speedX *= GROUND_FRICTION;
     } else {
       this.speedX *= AIR_RESISTANCE;
@@ -194,28 +195,53 @@ function characterClass(character_team, character_color) {
     if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= BRICK_H/2) {
       this.nextPathNode();
     }
-    //Jump up ledges
+
+    let xCol = colAtXCoord(this.x),
+        yRow = rowAtYCoord(this.y),
+        charIndex = BRICK_COLS * yRow + xCol;
+
+    if (levelTileGrid[charIndex] == LADDER_PLATFORM_TILE || levelTileGrid[charIndex] == LADDER_TILE) {
+      this.isClimbing = true;
+    } else if (levelTileGrid[charIndex + BRICK_COLS] == LADDER_PLATFORM_TILE || levelTileGrid[charIndex + BRICK_COLS] == LADDER_TILE) {
+      this.isClimbing = true;
+    } else {
+      this.isClimbing = false;
+    }
+
+    //Jump up ledges and climb ladders
     if (this.destinationYCoord < this.y) {
-      this.speedX /= 3;
-      this.speedY -= JUMP_SPEED;
-    }
-
-    if (this.speedY < 0 && isSolidTileAtPixelCoord(this.x, this.y - (CHARACTER_HEIGHT / 2))) {
-      this.y = (Math.floor(this.y / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
-      this.speedY = 0.0;
-    }
-
-    if (this.speedY > 0 && isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2))) {
-      this.y = (1 + Math.floor(this.y / BRICK_H)) * BRICK_H - (CHARACTER_HEIGHT / 2);
-      this.isOnGround = true;
+      if (this.isClimbing) {
+        this.speedY = -RUN_SPEED;
+      } else {
+        this.speedX /= 3;
+        this.speedY -= JUMP_SPEED;
+      }
+    } else if (this.isClimbing && this.destinationYCoord - BRICK_H/2 > this.y && Math.abs(this.x - this.destinationXCoord) <= BRICK_H/2) {
+      this.speedY = RUN_SPEED;
+    } else if (this.isClimbing) {
       this.speedY = 0;
-    } else if (isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2) + 2) == 0) {
-      this.isOnGround = false;
     }
 
+      //Solid tile above
+      if (!this.isClimbing && this.speedY < 0 && isSolidTileAtPixelCoord(this.x, this.y - (CHARACTER_HEIGHT / 2))) {
+        this.y = (Math.floor(this.y / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
+        this.speedY = 0.0;
+      }
+
+      //Solid tile below
+      if (!this.isClimbing && this.speedY > 0 && isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2))) {
+        this.y = (1 + Math.floor(this.y / BRICK_H)) * BRICK_H - (CHARACTER_HEIGHT / 2);
+        this.isOnGround = true;
+        this.speedY = 0;
+      } else if (!isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2) + 2)) {
+        this.isOnGround = false;
+      }
+
+    //Solid tile left
     if (this.speedX < 0 && isSolidTileAtPixelCoord(this.x - (CHARACTER_WIDTH / 2), this.y)) {
       this.x = (Math.floor(this.x / BRICK_W)) * BRICK_W + (CHARACTER_WIDTH / 2);
     }
+    //Solid tile right
     if (this.speedX > 0 && isSolidTileAtPixelCoord(this.x + (CHARACTER_WIDTH / 2), this.y)) {
       this.x = (1 + Math.floor(this.x / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
     }

@@ -142,6 +142,8 @@ function drawNavGraph(graph, color) {
 function playerLegalMove(index, graph) {
 	if (isPassableTile(graph[index]) && isSolidTile(graph[index + BRICK_COLS])) {
 		return true;
+	} else if (graph[index] === LADDER_TILE || graph[index] === LADDER_PLATFORM_TILE && graph[index + BRICK_COLS] === LADDER_TILE) {
+		return true;	
 	} else {
 		return false;
 	}
