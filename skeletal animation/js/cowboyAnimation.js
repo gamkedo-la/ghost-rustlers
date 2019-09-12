@@ -18,21 +18,21 @@ function loadCharacterImages(){
 	newCharacterhead.onload = function(){
 		newCharacterheadLoaded = true;
 	}
-	newCharacterhead.src = ""; //image file path here
+	newCharacterhead.src = "images/stickhead.png"; //image file path here
 	
 	newCharacterTorso.onload = function(){
 		newCharacterTorsoLoaded = true;
 	}
-	newCharacterTorso.src = ""; //image file path here
+	newCharacterTorso.src = "images/cowboyTorso.png"; //image file path here
 	
 	newCharacterUpperArm.onload = function(){
 		newCharacterUpperArmLoaded = true;
 	}
-	newCharacterUpperArm.src = ""; //image file path here	
+	newCharacterUpperArm.src = "images/cowboyUpperArm.png"; //image file path here	
 	
 	newCharacterForeArm.onload = function(){
 		newCharacterForeArmLoaded = true;
 	}
-	newCharacterForeArm.src = ""; //image file path here
+	newCharacterForeArm.src = "images/cowboyForeArm.png"; //image file path here
 }
 

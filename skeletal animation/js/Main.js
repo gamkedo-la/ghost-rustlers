@@ -20,33 +20,10 @@ function initRenderLoop() {
 window.onload = function() {
 
 	canvas = document.getElementById('gameCanvas');
-	canvasContext = canvas.getContext('2d');
+	canvasContext = canvas.getContext('2d');	
 	
-	/*stickManFullImage.onload = function(){
-		stickManFullImageLoaded = true;
-	}
-	stickManFullImage.src = "images/stickman1.png";*/
-	
-	stickhead.onload = function(){
-		stickheadLoaded = true;
-	}
-	stickhead.src = "images/stickhead.png";
-	
-	stickTorso.onload = function(){
-		stickTorsoLoaded = true;
-	}
-	stickTorso.src = "images/sticktorso.png";
-	
-	stickUpperArm.onload = function(){
-		stickUpperArmLoaded = true;
-	}
-	stickUpperArm.src = "images/stickUpperArm.png";	
-	
-	stickForeArm.onload = function(){
-		stickForeArmLoaded = true;
-	}
-	stickForeArm.src = "images/stickForeArm.png";
-		
+	//loadStickSprites();
+	loadCharacterImages()
 	initMouse();
 	initRenderLoop();
 	initInput();	
@@ -64,8 +41,6 @@ function drawMousePos(){
 	//console.log(mousePos.x + " " + mousePos.y);
 	canvasContext.strokeText(mousePos.x.toString() + "," + mousePos.y.toString(), mousePos.x, mousePos.y);
 }
-
-
 
 function drawEverything() {
 	drawBackground();	

@@ -1,89 +1,9 @@
-//Stick figure 
+//This script takes the character images and initiliazes their positions on screen. 
 
 const ARM_SEGMENT_LENGTH = 50;
 const LEG_SEGMENT_LENGTH = 35;
 const TORSO_LENGTH = 75;
-/*
-var bottomOfTorso = {
-  x: 0,
-  y: 0
-};
-var topOfTorso = {
-  x: 0,
-  y: 0
-};
-var armsConnectionToTorso = {
-  x: 0,
-  y: 0
-};
-var rightElbow = {
-  x: 0,
-  y: 0
-};
-var leftElbow = {
-  x: 0,
-  y: 0
-};
-var leftHand = {
-  x: 0,
-  y: 0
-};
-var rightHand = {
-  x: 0,
-  y: 0
-};
-var leftKnee = {
-  x: 0,
-  y: 0
-};
-var leftFoot = {
-  x: 0,
-  y: 0
-};
-var rightKnee = {
-  x: 0,
-  y: 0
-};
-var rightFoot = {
-  x: 0,
-  y: 0
-};
 
-var centerOfHead = {
-	x:0,
-	y:0
-}
-
-var rightUpperArm = {
-	x:0,
-	y:0
-}
-
-var lowerArm = {
-	x:0,
-	y:0
-}
-
-var shoulderAngle = 0;
-var elbowAngle = 0.7;
-var combinedArmAngle = 0;
-
-var lineWidth;
-*/
-
-
-//Image files
-var stickManFullImage = document.createElement("img");
-var stickManFullImageLoaded = false;
-
-var stickhead = document.createElement("img");
-var stickheadLoaded = false;
-var stickUpperArm = document.createElement("img");
-var stickUpperArmLoaded = false;
-var stickForeArm = document.createElement("img");
-var stickForeArmLoaded = false;
-var stickTorso = document.createElement("img");
-var stickTorsoLoaded = false;
 
 var torso = new boneClass();
 var rightUpperArm = new boneClass();
@@ -111,28 +31,7 @@ var positions = new Array();
 var positionsIndex = 0;
 var animationIndex = 0;
 
-function loadStickSprites(){
-	
-		stickhead.onload = function(){
-		stickheadLoaded = true;
-	}
-	stickhead.src = "images/stickhead.png";
-	
-	stickTorso.onload = function(){
-		stickTorsoLoaded = true;
-	}
-	stickTorso.src = "images/sticktorso.png";
-	
-	stickUpperArm.onload = function(){
-		stickUpperArmLoaded = true;
-	}
-	stickUpperArm.src = "images/stickUpperArm.png";	
-	
-	stickForeArm.onload = function(){
-		stickForeArmLoaded = true;
-	}
-	stickForeArm.src = "images/stickForeArm.png";
-}
+
 
 function boneChildren(){
 	leftForeArm.childOfOtherBone = true;
@@ -179,47 +78,24 @@ function initializeBonePositions(){
 	leftForeArm.startPosition.x = leftUpperArm.endPosition.x;
 	leftForeArm.startPosition.y = leftUpperArm.endPosition.y;
 	leftForeArm.limbLength = 50;	
-	leftForeArm.parentBoneLimbAngle = leftUpperArm.limbAngle;	
+	leftForeArm.parentBoneLimbAngle = leftUpperArm.limbAngle;		
 	
-	leftUpperLeg.startPosition.x = torso.startPosition.x;
-	leftUpperLeg.startPosition.y = torso.startPosition.y;
-	leftUpperLeg.limbLength = 50;	
-	
-	leftLowerLeg.startPosition.x = leftUpperLeg.endPosition.x;
-	leftLowerLeg.startPosition.y = leftUpperLeg.endPosition.y;
-	leftLowerLeg.limbLength = 50;
-	leftLowerLeg.parentBoneLimbAngle = leftUpperLeg.limbAngle;
-	
-	rightUpperLeg.startPosition.x = torso.startPosition.x;
-	rightUpperLeg.startPosition.y = torso.startPosition.y;
-	rightUpperLeg.limbLength = 50;	
-	
-	rightLowerLeg.startPosition.x = rightUpperLeg.endPosition.x;
-	rightLowerLeg.startPosition.y = rightUpperLeg.endPosition.y;
-	rightLowerLeg.limbLength = 50;
-	rightLowerLeg.parentBoneLimbAngle = rightUpperLeg.limbAngle;
 }
 
 function initializeBoneAngles(){
 	torso.limbAngle = -Math.PI/2;
 	head.limbAngle = -Math.PI/2
 	rightUpperArm.limbAngle = 0;
-	leftUpperArm.limbAngle = Math.PI*0.9;
-	leftUpperLeg.limbAngle = Math.PI * 0.7;
-	rightUpperLeg.limbAngle = Math.PI * 0.3;
+	leftUpperArm.limbAngle = Math.PI*0.9;	
 }
 
 function boneImages(){
-	torso.limbImage = stickUpperArm;
-	rightUpperArm.limbImage = stickUpperArm;
-	rightForeArm.limbImage = stickUpperArm;
-	leftUpperArm.limbImage = stickUpperArm;
-	leftForeArm.limbImage = stickUpperArm;	
-	head.limbImage = stickhead;
-	leftUpperLeg.limbImage = stickUpperArm;
-	leftLowerLeg.limbImage = stickUpperArm;
-	rightUpperLeg.limbImage = stickUpperArm;
-	rightLowerLeg.limbImage = stickUpperArm;
+	torso.limbImage = newCharacterTorso;
+	rightUpperArm.limbImage = newCharacterUpperArm;
+	rightForeArm.limbImage = newCharacterForeArm;
+	leftUpperArm.limbImage = newCharacterUpperArm;
+	leftForeArm.limbImage = newCharacterForeArm;	
+	head.limbImage = newCharacterhead;	
 }
 
 function drawBones(){
