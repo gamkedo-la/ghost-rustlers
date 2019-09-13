@@ -367,7 +367,9 @@ function characterClass(character_team, character_color) {
         this.path = currentPath;
         this.nextPathNode();
       }
-      this.actionsRemaining--;
+      if (!debugMode){
+        this.actionsRemaining--;
+      }
     }
   }
 
