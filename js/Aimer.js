@@ -63,7 +63,8 @@ function drawAimer() {
     if (isInAimMode) {
         canvasContext.drawImage(targetAimerPic, aimerX - targetAimerPic.width / 2, aimerY - targetAimerPic.height / 2);
     } else {
-        drawNavGraph(playerNavGraph, 'white');
+        let drawEdges = debugMode ? true : false;
+        drawNavGraph(playerNavGraph, 'white', drawEdges);
         drawNavGraph(currentPath, 'green');
 
         if (character1.path.length > 0 || character2.path.length > 0) {
@@ -71,11 +72,11 @@ function drawAimer() {
         }
 
         if (outOfRangeX != mousePos.x + camPanX) {
-            colorRect(outOfRangeX - moveAimerPic.width / 4, outOfRangeY - targetAimerPic.height, moveAimerPic.width/2, moveAimerPic.height, 'red')
-            canvasContext.drawImage(moveAimerPic, outOfRangeX - moveAimerPic.width / 2, outOfRangeY - targetAimerPic.height);
+            colorRect(outOfRangeX - moveAimerPic.width / 4, outOfRangeY - moveAimerPic.height, moveAimerPic.width/2, moveAimerPic.height, 'red')
+            canvasContext.drawImage(moveAimerPic, outOfRangeX - moveAimerPic.width / 2, outOfRangeY - moveAimerPic.height);
         }
 
-        canvasContext.drawImage(moveAimerPic, aimerX - moveAimerPic.width / 2, aimerY - targetAimerPic.height);
+        canvasContext.drawImage(moveAimerPic, aimerX - moveAimerPic.width / 2, aimerY - moveAimerPic.height);
     }  
 }
 

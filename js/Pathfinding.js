@@ -93,13 +93,13 @@ function getPathfor(character, toX, toY, graph) {
 }
 
 function getNearestNode(x, y, graph) {
-	let graphX = colAtXCoord(x), 
-		graphY = rowAtYCoord(y),
+	let nearX = colAtXCoord(x), 
+		nearY = rowAtYCoord(y),
 		leastDist = Infinity,
 		leastIndex = 0;
 
 	for (let node = 0; node < graph.length; node++) {
-		let dist = Math.abs(graph[node].x - graphX) + Math.abs(graph[node].y - graphY);
+		let dist = Math.abs(graph[node].x - nearX) + Math.abs(graph[node].y - nearY);
 
 		if (dist < leastDist) {
 			leastDist = dist;
@@ -125,24 +125,34 @@ function generateNavGraph(sourceGraph, conditions) {
 	return navGraph;
 }
 
-function drawNavGraph(graph, color) {
+function drawNavGraph(graph, color, edges) {
 	for (let i of graph) {
 		if (i == undefined || i == null) {
 			continue;
 		}
 		colorCircle(BRICK_W/2 + i.x * BRICK_W, BRICK_H/2 + i.y * BRICK_H, 4, color);
-		for (let n of i.neighbors) {
-			if (graph[n] == undefined || graph[n] == null) {
-				continue;
-			}
+		
+		if (edges) {
+			drawNodeEdges(i, graph, color);
 		}
+	}
+}
+
+function drawNodeEdges(node, graph, color) {
+	for (let n of node.neighbors) {
+		if (graph[n] == undefined || graph[n] == null) {
+			continue;
+		}
+		let endX = graph[n].x,
+			endY = graph[n].y;
+		colorLine(BRICK_W/2 + node.x * BRICK_W, BRICK_H/2 + node.y * BRICK_H, BRICK_W/2 + endX * BRICK_W, BRICK_H/2 + endY * BRICK_H, color);
 	}
 }
 
 function playerLegalMove(index, graph) {
 	if (isPassableTile(graph[index]) && isSolidTile(graph[index + BRICK_COLS])) {
 		return true;
-	} else if (graph[index] === LADDER_TILE || graph[index] === LADDER_PLATFORM_TILE && graph[index + BRICK_COLS] === LADDER_TILE) {
+	} else if (isClimbableTile(graph[index])) {
 		return true;	
 	} else {
 		return false;
@@ -158,7 +168,13 @@ function isPassableTile(value) {
 function isSolidTile(value) {
 	return 	value === WALL_TILE ||
 			value === LADDER_PLATFORM_TILE ||
-			value === PLATFORM_TILE
+			value === PLATFORM_TILE;
+}
+
+function isClimbableTile(value) {
+	return 	value === LADDER_TILE ||
+			value === LADDER_PLATFORM_TILE ||
+			value === LADDER_BROKEN_TILE;
 }
 
 function indexToColRow(index, width, height) {
