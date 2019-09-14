@@ -98,6 +98,9 @@ function enemyClass(enemyTeam, enemyColor) {
                     coords = playerNavGraph[getNearestNode(AI_Distination * BRICK_W, this.y, playerNavGraph)];
                 
                 this.path = getPathfor(this, coords.x * BRICK_W, coords.y * BRICK_H, playerNavGraph);
+                if (this.path.length > 6) {
+                    this.path.length = 6;
+                }
                 this.nextPathNode();
             }
 

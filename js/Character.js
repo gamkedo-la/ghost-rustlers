@@ -247,7 +247,6 @@ function characterClass(character_team, character_color) {
     }
 
     this.animateArmAiming();
-
   }
 
   this.nextPathNode = function() {
@@ -255,8 +254,23 @@ function characterClass(character_team, character_color) {
       this.destinationCol = this.path[0].x;
       this.destinationRow = this.path[0].y;
       this.destinationXCoord = xCoordAtCenterOfCol(this.destinationCol);
-      this.destinationYCoord = yCoordAtCenterOfRow(this.destinationRow);
+      this.destinationYCoord = yCoordAtCenterOfRow(this.destinationRow);      
       this.path.shift();
+      this.moveAutoPan();
+    }
+  }
+
+  this.moveAutoPan = function() {
+    let panDeltaX = this.destinationXCoord - canvas.width/2 - camPanX,
+        panDeltaY = this.destinationYCoord - canvas.height/2 - camPanY;
+
+    if (Math.abs(panDeltaX) > DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X) {
+        panDeltaX += panDeltaX > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X;
+        beginAutoPanTo(camPanX + panDeltaX, null)
+    }
+    if (Math.abs(panDeltaY) > DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y) {
+        panDeltaY += panDeltaY > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y;
+        beginAutoPanTo(null, camPanY + panDeltaY);
     }
   }
 
@@ -405,8 +419,13 @@ function characterClass(character_team, character_color) {
   }
 
   this.activateCharacter = function () {
-    camPanX = this.x - canvas.width / 2;
-    camPanY = this.y - canvas.height / 2;
+    // camPanX = this.x - canvas.width / 2;
+    // camPanY = this.y - canvas.height / 2;
+
+    let panX = this.x - canvas.width / 2,
+        panY = this.y - canvas.height / 2;
+
+    beginAutoPanTo(panX, panY);
     this.isActive = true;
   }
 

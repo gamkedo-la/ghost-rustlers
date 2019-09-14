@@ -17,12 +17,6 @@ var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
 var turnCount = 1;
 var playersTurn = true;
 
-//Camera Pan Variables
-var camPanX = 0.0;
-var camPanY = 0.0;
-const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X = 150;
-const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y = 100;
-
 var background = new BackgroundClass();
 
 function initRenderLoop() {
@@ -64,38 +58,6 @@ window.onload = function () {
 function updateState(newState) {
 	console.log (newState);
 	gameState = newState;
-}
-
-function moveCamera() {
-
-  if (holdRight || mousePos.x >= canvas.width - BRICK_W) {
-    camPanX += RUN_SPEED;
-  }
-  if (holdLeft || mousePos.x <= BRICK_W) {
-    camPanX -= RUN_SPEED;
-  }
-  if (holdUp || mousePos.y <= BRICK_H) {
-    camPanY -= RUN_SPEED;
-  }
-  if (holdDown || mousePos.y >= canvas.height - BRICK_H) {
-    camPanY += RUN_SPEED;
-  }
-
-  //keeps camera in bounds
-  if (camPanX < 0) {
-    camPanX = 0;
-  }
-  if (camPanY < 0) {
-    camPanY = 0;
-  }
-  var maxPanRight = BRICK_COLS * BRICK_W - canvas.width;
-  var maxPanTop = BRICK_ROWS * BRICK_H - canvas.height;
-  if (camPanX > maxPanRight) {
-    camPanX = maxPanRight;
-  }
-  if (camPanY > maxPanTop) {
-    camPanY = maxPanTop;
-  }
 }
 
 function moveEverything() {
