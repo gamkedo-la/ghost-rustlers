@@ -1,5 +1,5 @@
 const WOBBLE_AIMER = true;
-const DISTANCE_PER_ACTION = 200;
+const DISTANCE_PER_ACTION = 5;
 
 var aimerX = 0,
     aimerY = 0,
@@ -24,38 +24,35 @@ function moveAimer() {
         return;
     }
 
-    outOfRangeX = aimerX;
-    outOfRangeY = aimerY;
-
     //If character1 is active set to character 1, else set to character 2
-    let activeChar = character1.isActive ? character1 : character2,
-        xDelta = activeChar.x - aimerX;
+    let activeChar = character1.isActive ? character1 : character2;
 
-    if (Math.abs(xDelta) > DISTANCE_PER_ACTION) {
-        outOfRangeX = mousePos.x + camPanX;
-        outOfRangeY = findGround(outOfRangeX, mousePos.y + camPanY);
+    outOfRangeX = mousePos.x + camPanX;
+    outOfRangeY = findGround(outOfRangeX, mousePos.y + camPanY);
 
-        let index = getNearestNode(outOfRangeX, outOfRangeY, playerNavGraph),
-            coords = playerNavGraph[index];
-
-        outOfRangeX = BRICK_W/2 + coords.x * BRICK_W; 
-        outOfRangeY = BRICK_H/2 + coords.y * BRICK_H;
-
-         //Set aimerX to max distance in the correct direction
-        aimerX = xDelta > 0 ? activeChar.x - DISTANCE_PER_ACTION : activeChar.x + DISTANCE_PER_ACTION;
-    }
-
-    aimerY = findGround(aimerX, aimerY);
-    
-    let index = getNearestNode(aimerX, aimerY, playerNavGraph),
+    let index = getNearestNode(outOfRangeX, outOfRangeY, playerNavGraph),
         coords = playerNavGraph[index];
 
-    aimerX = BRICK_W/2 + coords.x * BRICK_W, 
-    aimerY = BRICK_H/2 + coords.y * BRICK_H;
+    outOfRangeX = BRICK_W/2 + coords.x * BRICK_W; 
+    outOfRangeY = BRICK_H/2 + coords.y * BRICK_H;
 
-
+    let newPath = [];
     if (activeChar.path.length === 0) {
-        currentPath = getPathfor(activeChar, aimerX, aimerY, playerNavGraph);
+        newPath = getPathfor(activeChar, outOfRangeX, outOfRangeY, playerNavGraph);
+    }
+
+    if (newPath.length > DISTANCE_PER_ACTION) {
+        newPath.length = DISTANCE_PER_ACTION;
+
+        aimerX = BRICK_W/2 + newPath[DISTANCE_PER_ACTION - 1].x * BRICK_W, 
+        aimerY = BRICK_H/2 + newPath[DISTANCE_PER_ACTION - 1].y * BRICK_H;
+    } else {
+        aimerX = outOfRangeX;
+        aimerY = outOfRangeY;
+    }
+
+    if (newPath.length > 0) {
+        currentPath = newPath;
     }
 }
 
@@ -71,7 +68,7 @@ function drawAimer() {
             return;
         }
 
-        if (outOfRangeX != mousePos.x + camPanX) {
+        if (outOfRangeX != aimerX) {
             colorRect(outOfRangeX - moveAimerPic.width / 4, outOfRangeY - moveAimerPic.height, moveAimerPic.width/2, moveAimerPic.height, 'red')
             canvasContext.drawImage(moveAimerPic, outOfRangeX - moveAimerPic.width / 2, outOfRangeY - moveAimerPic.height);
         }
