@@ -27,8 +27,8 @@ function moveAimer() {
     //If character1 is active set to character 1, else set to character 2
     let activeChar = character1.isActive ? character1 : character2;
 
-    outOfRangeX = mousePos.x + camPanX;
-    outOfRangeY = findGround(outOfRangeX, mousePos.y + camPanY);
+    outOfRangeX = aimerX;
+    outOfRangeY = findGround(outOfRangeX, aimerY);
 
     let index = getNearestNode(outOfRangeX, outOfRangeY, playerNavGraph),
         coords = playerNavGraph[index];
@@ -98,7 +98,10 @@ function findGround(x, y) {
         //Find nearest solid tile beneath the cursor.
         for (let i = startRow; i < BRICK_ROWS; i++) {
             checkIndex = levelTileIndexAtColRowCoord(checkCol, i);
-            if (levelTileGrid[checkIndex] > 0) {
+            if (isSolidTile(levelTileGrid[checkIndex])) {
+                groundY = (i - 1) * BRICK_H;
+                break;
+            } else if (isClimbableTile(levelTileGrid[checkIndex])) {
                 groundY = i * BRICK_H;
                 break;
             }
