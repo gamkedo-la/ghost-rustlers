@@ -105,14 +105,9 @@ function moveEverything() {
 		if(playersTurn){
 			character1.characterMove();
 			character2.characterMove();
-		} else {
-			if(enemy1.health > 0){
-			enemy1.enemyMove();
-			}
-		}
-		if (!enemy1.isOnGround){ //prevent enemy from stopping in mid air, although, it is a ghost.
-			enemy1.enemyMove();
-		}
+    } 
+  
+		enemy1.enemyMove();
 
 		moveCamera();
 		moveAimer();
@@ -132,9 +127,7 @@ function drawEverything() {
 		drawGroundBlocks();
 		character1.drawCharacter();
 		character2.drawCharacter();
-			if(enemy1.health > 0){
-				enemy1.drawCharacter();
-			}
+    enemy1.drawCharacter();
 		drawAimer();
 
 		canvasContext.restore(); // undoes the .translate() used for cam scroll
@@ -158,10 +151,11 @@ function enemyTurn() {
 }
 
 function endEnemyTurn() {
-  playersTurn = true;
+  console.log('end enemy turn');
   enemy1.movementDetermined = false;
   enemy1.hasFired = false;
   character1.activateCharacter();
+  playersTurn = true;
 }
 
 function resetGame() {

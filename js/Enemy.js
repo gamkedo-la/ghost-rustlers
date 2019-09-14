@@ -12,6 +12,10 @@ function enemyClass(enemyTeam, enemyColor) {
 
 
     this.drawCharacter = function() {
+        if (this.health <= 0) {
+            return;
+        }
+        
         if (enemyBodyRightPicLoaded && enemyBodyLeftPicLoaded) {
             if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
                 canvasContext.drawImage(enemyBodyLeftPic, this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
@@ -47,9 +51,7 @@ function enemyClass(enemyTeam, enemyColor) {
             drawImageCenteredAtLocationWithRotation(enemyLowerArmPic, this.lowerArm.x, this.lowerArm.y, this.handAngle)
         }
 
-        if (this.bulletT < MAX_BULLET_T) {
-            this.hasFired = true;
-        } else {
+        if (this.bulletT >= MAX_BULLET_T) {
             this.hasFired = false;
         }
 
@@ -75,87 +77,45 @@ function enemyClass(enemyTeam, enemyColor) {
     //canvasContext.globalCompositeOperation  = "source-over";
 
     this.enemyMove = function() {
-
-        this.x += this.speedX; // move the enemy based on its current horizontal speed 
-        this.y += this.speedY; // same as above, but for vertical
-
-        if (this.isOnGround) {
-            this.speedX *= GROUND_FRICTION;
-        } else {
-            this.speedX *= AIR_RESISTANCE;
-            this.speedY += GRAVITY;
-            if (this.speedY > CHARACTER_HEIGHT) { // cheap test to ensure can't fall through floor
-                this.speedY = CHARACTER_HEIGHT;
-            }
+        if (this.health <= 0) {
+            return;
         }
 
-        this.AI_Distination;
-
-        this.AI_Movement();
-        this.destinationXCoord = xCoordAtCenterOfCol(this.AI_Distination);
-
-        if (this.x > this.destinationXCoord) {
-            if ((this.x - RUN_SPEED) < this.destinationXCoord) {
-                this.x = this.destinationXCoord;
-                this.speedX = 0;
-            } else {
-                this.speedX = -RUN_SPEED
-            }
+        if (!playersTurn) {
+            this.AI_Movement();
         }
+        this.characterMove();
+    }
 
-        if (this.x < this.destinationXCoord) {
-            if ((this.x + RUN_SPEED) > this.destinationXCoord) {
-                this.x = this.destinationXCoord;
-                this.speedX = 0;
-            } else {
-                this.speedX = RUN_SPEED;
-            }
-        }
-
-        if (this.speedY < 0 && isWallTileAtPixelCoord(this.x, this.y - (CHARACTER_HEIGHT / 2)) == 1) {
-            this.y = (Math.floor(this.y / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
-            this.speedY = 0.0;
-        }
-
-        if (this.speedY > 0 && isWallTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2)) == 1) {
-            this.y = (1 + Math.floor(this.y / BRICK_H)) * BRICK_H - (CHARACTER_HEIGHT / 2);
-            this.isOnGround = true;
-            this.speedY = 0;
-        } else if (isWallTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2) + 2) == 0) {
-            this.isOnGround = false;
-        }
-
-        if (this.speedX < 0 && isWallTileAtPixelCoord(this.x - (CHARACTER_WIDTH / 2), this.y) == 1) {
-            this.x = (Math.floor(this.x / BRICK_W)) * BRICK_W + (CHARACTER_WIDTH / 2);
-        }
-        if (this.speedX > 0 && isWallTileAtPixelCoord(this.x + (CHARACTER_WIDTH / 2), this.y) == 1) {
-            this.x = (1 + Math.floor(this.x / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
-        }
-
-        this.animateArmAiming();
+    this.handleClick = function() {
 
     }
 
     this.AI_Movement = function() {
-		if(!this.movementDetermined){
-			this.AI_Distination = Math.floor(Math.random() * 15);
+		if(!this.movementDetermined) {
+            while(this.path.length <= 0) {
+                let AI_Distination = Math.floor(Math.random() * BRICK_COLS),
+                    coords = playerNavGraph[getNearestNode(AI_Distination * BRICK_W, this.y, playerNavGraph)];
+                
+                this.path = getPathfor(this, coords.x * BRICK_W, coords.y * BRICK_H, playerNavGraph);
+                this.nextPathNode();
+            }
+
 			this.movementDetermined = true;
-		}
-        if (this.x == this.destinationXCoord && !this.hasFired) { 
+        }
+        
+        if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20 && !this.hasFired) { 
             var shotAtWhichPlayer = Math.floor(Math.random() * 2);
             if (shotAtWhichPlayer == 1) {
                 this.handleClick(); //shot 
                 this.fireWeapon();
 				console.log("Shot at Character 1");
-				endEnemyTurn();
             } else {
                 this.handleClick(); //shot 
                 this.fireWeapon();
 				console.log("Shot at Character 2");
-				endEnemyTurn();
             }
-
+            endEnemyTurn();
         }
-
     }
 }
