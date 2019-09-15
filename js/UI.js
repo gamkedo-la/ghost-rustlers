@@ -1,4 +1,5 @@
 var gameOver = false;
+let ghosts = 12;
 
 function drawUI() {
     if (debugMode) {
@@ -43,15 +44,16 @@ function drawUI() {
 }
 
 function drawCharacterInfo() {        
-    canvasContext.fillStyle = 'white';
+    canvasContext.fillStyle = '#7F87FB';
     canvasContext.font = "14px Verdana";
     //canvasContext.fillText("Character 1", 150, 20);
-    canvasContext.fillText("Character A:" , 255, 90);
-    canvasContext.fillText("Character B:", 450, 90);
-    canvasContext.fillText(character2.actionsRemaining, 550, 90);
-    canvasContext.fillText(character1.actionsRemaining, 350, 90);
+    canvasContext.fillText("Character A:" , 240, 90);
+    canvasContext.fillText("Character B:", 470, 90);
+    canvasContext.fillText(character2.actionsRemaining, 570, 90);
+    canvasContext.fillText(character1.actionsRemaining, 340, 90);
+    canvasContext.fillStyle = 'white';
     canvasContext.font = "20px Verdana";
-    canvasContext.fillText("Ghosts", 50, 90);
+    canvasContext.fillText("Ghosts", 380, 90);
     /*
      if (character1.isActive) {
         canvasContext.strokeStyle = "red";
@@ -69,11 +71,12 @@ function drawCharacterInfo() {
         canvasContext.rect(495, 0, 225, 50);
         canvasContext.stroke();
     }
-    */
-   drawGhostsLeft(canvasContext, canvas.width/17, 17, 20, 30);
-   drawGhostsLeft(canvasContext, canvas.width/16, 17*2, 20, 30);
-   canvasContext.drawImage(circleImg,300, 15, 60, 60);
-   canvasContext.drawImage(circleImg,470, 15, 60, 60);
+    *///GhostBar
+   for (var i = 1; i < ghosts; i++) {
+    drawGhost(canvasContext, canvas.width/2+20, 55, 8*i, 10);
+}
+   canvasContext.drawImage(circleImg,280, 15, 60, 60);
+   canvasContext.drawImage(circleImg,480, 15, 60, 60);
    drawActionsRemaining();
    drawHealthBar(character1);
    drawHealthBar(character2);
@@ -106,32 +109,34 @@ function drawHealthBar(char) {
 
 function drawActionsRemaining(x,y,r,sAngle,eAngle,counterclockwise){
     canvasContext.beginPath();
-        canvasContext.arc(330,45,25,0*Math.PI,character1.actionsRemaining*Math.PI);
+        canvasContext.arc(310,45,25,0*Math.PI,character1.actionsRemaining*Math.PI);
         canvasContext.fillStyle = "#D32D41";
         canvasContext.fill();
     canvasContext.beginPath();
-        canvasContext.arc(500,45,25,0*Math.PI,character2.actionsRemaining*Math.PI);
+        canvasContext.arc(510,45,25,0*Math.PI,character2.actionsRemaining*Math.PI);
         canvasContext.fillStyle = "#7F8C5D";
         canvasContext.fill();
 }
 
-function drawGhostsLeft(context, x, y, width, height){
+
+function drawGhost(context, x, y, width, height){
     canvasContext.save();
             context.beginPath();
             context.moveTo(x, y);
             // top left edge
-            context.lineTo(x - width / 2, y + height / 2);
+            context.lineTo(x - width , y + height/2 );
             // bottom left edge
             context.lineTo(x, y + height);
             // bottom right edge
-            context.lineTo(x + width / 2, y + height / 2);
+            context.lineTo(x + width, y + height/2);
             // closing the path automatically creates
             // the top right edge
             context.closePath();
-            context.fillStyle = "#7F87FB";
+            context.fillStyle = "white";
             context.fill();
             canvasContext.strokeStyle = "pink";
             canvasContext.stroke();
     canvasContext.restore();
 }
+
 
