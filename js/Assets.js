@@ -32,7 +32,7 @@ var moveAimerPic = document.createElement("img");
 var moveAimerPicLoaded = false;
 
 var buttonPic = document.createElement("img");
-
+var circleImg = document.createElement("img");
 
 //var inActiveColor = "#88880088";
 //var usedColor = "#000000AA";
@@ -133,4 +133,5 @@ function initArt() {
 
   buttonPic.src = "images/button.png";
 
+  circleImg.src = "images/circle.png";
 }

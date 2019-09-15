@@ -72,6 +72,8 @@ function drawCharacterInfo() {
     */
    drawGhostsLeft(canvasContext, canvas.width/17, 17, 20, 30);
    drawGhostsLeft(canvasContext, canvas.width/16, 17*2, 20, 30);
+   canvasContext.drawImage(circleImg,300, 15, 60, 60);
+   canvasContext.drawImage(circleImg,470, 15, 60, 60);
    drawActionsRemaining();
    drawHealthBar(character1);
    drawHealthBar(character2);
