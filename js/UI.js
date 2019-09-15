@@ -86,7 +86,7 @@ function drawHealthBar(char) {
     var pipSize = 10,
         pipGap = Math.round(pipSize/5);
         pipPositionX = char.x - ((pipSize * char.health) + (char.health + pipGap)) / 2 ;
-        pipPositionY = char.y - (CHARACTER_HEIGHT / 2) - pipSize * 2;
+        pipPositionY = char.y - (CHARACTER_HEIGHT) - pipSize * 2;
     
     canvasContext.save();
     canvasContext.translate(-camPanX, -camPanY);
