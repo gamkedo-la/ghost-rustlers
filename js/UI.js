@@ -130,6 +130,8 @@ function drawGhostsLeft(context, x, y, width, height){
             context.closePath();
             context.fillStyle = "#7F87FB";
             context.fill();
+            canvasContext.strokeStyle = "pink";
+            canvasContext.stroke();
     canvasContext.restore();
 }
 
