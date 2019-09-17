@@ -2,6 +2,8 @@
 
 function BackgroundClass() {
 
+    const ANIMATED_TUMBLEWEEDS = true; 
+
     // how many parallax terrain layers not including bg,sun,clouds
     const layerCount = 4;
     
@@ -15,13 +17,16 @@ function BackgroundClass() {
 
     function onloadPic() { this.loaded = true; }
 
+    // files used only inside this class
     var backgroundPic = new Image();
     var sunGlarePic = new Image();
     var cloudsPic = new Image();
-    backgroundPic.onload = sunGlarePic.onload = cloudsPic.onload = onloadPic;
+    var tumbleweedPic = new Image();
+    backgroundPic.onload = sunGlarePic.onload = cloudsPic.onload = tumbleweedPic.onload = onloadPic;
     backgroundPic.src = "images/background.png";
     sunGlarePic.src = "images/sun-glare.png";
     cloudsPic.src = "images/background-clouds.png";
+    tumbleweedPic.src = "images/tumbleweed.png";
 
     var parallaxPic = [];
     for (var num=0; num<layerCount; num++) {
@@ -57,6 +62,15 @@ function BackgroundClass() {
 
         // spinning sun rays in a hardcoded position (no parallax)
         if (sunGlarePic.loaded) drawImageCenteredAtLocationWithRotation(sunGlarePic,canvas.width*0.75,canvas.height*0.5,performance.now()/5000);
+
+        // bouncing in the wind
+        if (ANIMATED_TUMBLEWEEDS && tumbleweedPic.loaded) {
+            // move range spans 2x the width of the screen so it isn't always visible
+            var weedx = canvas.width*2*Math.sin(performance.now()/15000) - canvas.width/2; 
+            var weedy = canvas.height-32-(Math.sin(performance.now()/500)*16+16);
+            var weedr = weedx * 0.05;
+            drawImageCenteredAtLocationWithRotation(tumbleweedPic,weedx,weedy,weedr);
+        }
     }
 
 }
