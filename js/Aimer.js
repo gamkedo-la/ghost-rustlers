@@ -7,22 +7,12 @@ var aimerX = 0,
     outOfRangeX = 0;
 
 function moveAimer() {
-    aimerX = mousePos.x + camPanX;
-    aimerY = mousePos.y + camPanY;
-
-    // wobbly aimer is actually a trick
-    if (WOBBLE_AIMER && isInAimMode) {
-        const WOBBLE_SPEEDX = 0.0033333;
-        const WOBBLE_SPEEDY = 0.0021331;
-        const WOBBLE_SIZEX = 8;
-        const WOBBLE_SIZEY = 8;
-        aimerX += Math.sin(performance.now()*WOBBLE_SPEEDX)*WOBBLE_SIZEX;
-        aimerY += Math.sin(performance.now()*WOBBLE_SPEEDY)*WOBBLE_SIZEY;
-    }
-
     if (isInAimMode) {
         return;
     }
+
+    aimerX = mousePos.x + camPanX;
+    aimerY = mousePos.y + camPanY;
 
     //If character1 is active set to character 1, else set to character 2
     let activeChar = character1.isActive ? character1 : character2;
@@ -53,6 +43,25 @@ function moveAimer() {
 
     if (newPath.length > 0) {
         currentPath = newPath;
+    }
+}
+
+function wobbleAimer() {
+    if (!isInAimMode) {
+        return;
+    }
+    
+    aimerX = mousePos.x + camPanX;
+    aimerY = mousePos.y + camPanY;
+
+    // wobbly aimer is actually a trick
+    if (WOBBLE_AIMER) {
+        const WOBBLE_SPEEDX = 0.0033333;
+        const WOBBLE_SPEEDY = 0.0021331;
+        const WOBBLE_SIZEX = 8;
+        const WOBBLE_SIZEY = 8;
+        aimerX += Math.sin(performance.now()*WOBBLE_SPEEDX)*WOBBLE_SIZEX;
+        aimerY += Math.sin(performance.now()*WOBBLE_SPEEDY)*WOBBLE_SIZEY;
     }
 }
 

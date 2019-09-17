@@ -71,8 +71,8 @@ function moveEverything() {
   
 		enemy1.enemyMove();
 
-		moveCamera();
-		moveAimer();
+    moveCamera();
+		wobbleAimer();
 	}
 }
 
