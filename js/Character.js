@@ -97,6 +97,8 @@ function characterClass(character_team, character_color) {
         canvasContext.drawImage((this.actionsRemaining <= 0 ? characterBodyRightPic_used : (this.isActive ? characterBodyRightPic : characterBodyRightPic_inActive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
       }
     }
+    //Draw stylish cowboy hat
+    drawImageCenteredAtLocationWithRotation(cowboyHatPic, this.x, this.y - CHARACTER_HEIGHT/3, 1.9 * Math.PI);
 
     //sets location of shoulder joints
     this.rightShoulderJoint.x = this.x;

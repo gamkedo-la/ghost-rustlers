@@ -49,6 +49,8 @@ function calculateMousePos(evt) {
   //	account	for	the	margins,	canvas	position	on	page,	scroll	amount,	etc.
   var mouseX = evt.clientX - rect.left - root.scrollLeft;
   var mouseY = evt.clientY - rect.top - root.scrollTop;
+
+  moveAimer();
   
   return {
     x: mouseX,

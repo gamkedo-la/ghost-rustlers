@@ -30,6 +30,7 @@ var targetAimerPic = document.createElement("img");
 var targetAimerPicLoaded = false;
 var moveAimerPic = document.createElement("img");
 var moveAimerPicLoaded = false;
+var cowboyHatPic = document.createElement("img");
 
 var buttonPic = document.createElement("img");
 var circleImg = document.createElement("img");
@@ -134,4 +135,6 @@ function initArt() {
   buttonPic.src = "images/button.png";
 
   circleImg.src = "images/circle.png";
+
+  cowboyHatPic.src = "images/cowboyHat.png"
 }
