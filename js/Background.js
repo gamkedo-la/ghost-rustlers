@@ -3,6 +3,7 @@
 function BackgroundClass() {
 
     const ANIMATED_TUMBLEWEEDS = true; 
+    const TUMBLEWEED_Y_OFFSET = (BRICK_ROWS-2)*BRICK_H;
 
     // how many parallax terrain layers not including bg,sun,clouds
     const layerCount = 4;
@@ -67,7 +68,7 @@ function BackgroundClass() {
         if (ANIMATED_TUMBLEWEEDS && tumbleweedPic.loaded) {
             // move range spans 2x the width of the screen so it isn't always visible
             var weedx = canvas.width*2*Math.sin(performance.now()/15000) - canvas.width/2; 
-            var weedy = canvas.height-32-(Math.sin(performance.now()/500)*16+16);
+            var weedy = TUMBLEWEED_Y_OFFSET+(Math.sin(performance.now()/500)*16)-camPanY;
             var weedr = weedx * 0.05;
             drawImageCenteredAtLocationWithRotation(tumbleweedPic,weedx,weedy,weedr);
         }
