@@ -31,10 +31,9 @@ function characterClass(character_team, character_color) {
   this.speedX = 0;
   this.speedY = 0;
   this.path = [];
-  this.destinationCol;
-  this.destinationRow;
   this.destinationXCoord;
   this.destinationYCoord;
+  this.shoulderOffset = -CHARACTER_HEIGHT / 4;
   this.shoulderAngle = 0;
   this.elbowAngle = 0;
   this.handAngle = 0;
@@ -77,8 +76,6 @@ function characterClass(character_team, character_color) {
     y: 0
   };
 
-  this.distShoulderToHand;
-
   this.drawCharacter = function () {
 
     //Here's another method that might look better than the tinted sprite approach.
@@ -100,29 +97,9 @@ function characterClass(character_team, character_color) {
     //Draw stylish cowboy hat
     drawImageCenteredAtLocationWithRotation(cowboyHatPic, this.x, this.y - CHARACTER_HEIGHT/3, 1.9 * Math.PI);
 
-    //sets location of shoulder joints
-    this.rightShoulderJoint.x = this.x;
-    this.rightShoulderJoint.y = this.y - (CHARACTER_HEIGHT / 4);
-
-    //draws upper arm
-    this.rightElbow.x = ARM_SEGMENT_LENGTH * Math.cos(this.shoulderAngle) + this.rightShoulderJoint.x;
-    this.rightElbow.y = ARM_SEGMENT_LENGTH * Math.sin(this.shoulderAngle) + this.rightShoulderJoint.y;
-
-    this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
-    this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
-
     if (characterUpperArmPicLoaded) {
       drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? characterUpperArmPic_used : (this.isActive ? characterUpperArmPic : characterUpperArmPic_inActive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle)
     }
-
-    //draws lower arm
-    this.handAngle = this.shoulderAngle + this.elbowAngle;
-    this.rightHand.x = ARM_SEGMENT_LENGTH * Math.cos(this.handAngle) + this.rightElbow.x;
-    this.rightHand.y = ARM_SEGMENT_LENGTH * Math.sin(this.handAngle) + this.rightElbow.y;
-
-    this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
-    this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
-
     if (characterLowerArmPicLoaded) {
       drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? characterLowerArmPic_used : (this.isActive ? characterLowerArmPic : characterLowerArmPic_inActive)), this.lowerArm.x, this.lowerArm.y, this.handAngle)
     }
@@ -145,7 +122,6 @@ function characterClass(character_team, character_color) {
         this.hasFired = false;
         this.bulletT = MAX_BULLET_T;
       }
-
     }
 
     canvasContext.globalCompositeOperation = "source-over";
@@ -247,16 +223,36 @@ function characterClass(character_team, character_color) {
     if (this.speedX > 0 && isSolidTileAtPixelCoord(this.x + (CHARACTER_WIDTH / 2), this.y)) {
       this.x = (1 + Math.floor(this.x / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
     }
-
+    
+    this.moveArms();
     this.animateArmAiming();
+  }
+
+  this.moveArms = function() {
+    //sets location of shoulder joints
+    this.rightShoulderJoint.x = this.x;
+    this.rightShoulderJoint.y = this.y + this.shoulderOffset;
+
+    //Positions upper arm
+    this.rightElbow.x = ARM_SEGMENT_LENGTH * Math.cos(this.shoulderAngle) + this.rightShoulderJoint.x;
+    this.rightElbow.y = ARM_SEGMENT_LENGTH * Math.sin(this.shoulderAngle) + this.rightShoulderJoint.y;
+
+    this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
+    this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
+
+    //Positions lower arm
+    this.handAngle = this.shoulderAngle + this.elbowAngle;
+    this.rightHand.x = ARM_SEGMENT_LENGTH * Math.cos(this.handAngle) + this.rightElbow.x;
+    this.rightHand.y = ARM_SEGMENT_LENGTH * Math.sin(this.handAngle) + this.rightElbow.y;
+    
+    this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
+    this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
   }
 
   this.nextPathNode = function() {
     if (this.path.length > 0) {
-      this.destinationCol = this.path[0].x;
-      this.destinationRow = this.path[0].y;
-      this.destinationXCoord = xCoordAtCenterOfCol(this.destinationCol);
-      this.destinationYCoord = yCoordAtCenterOfRow(this.destinationRow);      
+      this.destinationXCoord = xCoordAtCenterOfCol(this.path[0].x);
+      this.destinationYCoord = yCoordAtCenterOfRow(this.path[0].y);      
       this.path.shift();
       this.moveAutoPan();
     }

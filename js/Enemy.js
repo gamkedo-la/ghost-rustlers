@@ -11,6 +11,7 @@ function enemyClass(enemyTeam, enemyColor) {
     this.movementDetermined = false;
     this.wanderDir = 1;
     this.target = null;
+    this.shoulderOffset = 10;
 
 
     this.drawCharacter = function() {
@@ -26,28 +27,9 @@ function enemyClass(enemyTeam, enemyColor) {
             }
         }
 
-        //sets location of shoulder joints
-        this.rightShoulderJoint.x = this.x;
-        this.rightShoulderJoint.y = this.y - (CHARACTER_HEIGHT / 4) + 30;
-
-        //draws upper arm
-        this.rightElbow.x = ARM_SEGMENT_LENGTH * Math.cos(this.shoulderAngle) + this.rightShoulderJoint.x;
-        this.rightElbow.y = ARM_SEGMENT_LENGTH * Math.sin(this.shoulderAngle) + this.rightShoulderJoint.y;
-
-        this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
-        this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
-
         if (enemyUpperArmPicLoaded) {
             drawImageCenteredAtLocationWithRotation(enemyUpperArmPic, this.upperArm.x, this.upperArm.y, this.shoulderAngle)
         }
-
-        //draws lower arm
-        this.handAngle = this.shoulderAngle + this.elbowAngle;
-        this.rightHand.x = ARM_SEGMENT_LENGTH * Math.cos(this.handAngle) + this.rightElbow.x;
-        this.rightHand.y = ARM_SEGMENT_LENGTH * Math.sin(this.handAngle) + this.rightElbow.y;
-
-        this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
-        this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
 
         if (enemyLowerArmPicLoaded) {
             drawImageCenteredAtLocationWithRotation(enemyLowerArmPic, this.lowerArm.x, this.lowerArm.y, this.handAngle)
