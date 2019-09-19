@@ -1,14 +1,16 @@
 enemyClass.prototype = new characterClass('ENEMY_TEAM', 'white');
 
 function enemyClass(enemyTeam, enemyColor) {
-    this.x = 79;
+    this.x = 100;
     this.y = 75;
     this.height = 136;
     this.width = 64;
     this.health = 8;
     this.isOnGround;
 	this.hasFired = false;
-	this.movementDetermined = false;
+    this.movementDetermined = false;
+    this.wanderDir = 1;
+    this.target = null;
 
 
     this.drawCharacter = function() {
@@ -17,7 +19,7 @@ function enemyClass(enemyTeam, enemyColor) {
         }
         
         if (enemyBodyRightPicLoaded && enemyBodyLeftPicLoaded) {
-            if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
+            if (this.wanderDir < 0) {
                 canvasContext.drawImage(enemyBodyLeftPic, this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
             } else {
                 canvasContext.drawImage(enemyBodyRightPic, this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
@@ -91,32 +93,55 @@ function enemyClass(enemyTeam, enemyColor) {
 
     }
 
+    this.checkLineOfSight = function() {
+        let currentRow = rowAtYCoord(this.y),
+            p1Row = rowAtYCoord(character1.y),
+            p2Row = rowAtYCoord(character2.y);
+
+        if (this.wanderDir > 0) {
+            if (currentRow === p1Row && character1.x > this.x) {
+                this.target = character1;
+            } else if (currentRow === p2Row && character2.x > this.x) {
+                this.target = character2;
+            } else {
+                this.target = null;
+            }
+        } else if (this.wanderDir < 0) {
+            if (currentRow === p1Row && character1.x < this.x) {
+                this.target = character1;
+            } else if (currentRow === p2Row && character2.x < this.x) {
+                this.target = character2;
+            } else {
+                this.target = null;
+            }
+        }
+    }
+
     this.AI_Movement = function() {
 		if(!this.movementDetermined) {
-            while(this.path.length <= 0) {
-                let AI_Distination = Math.floor(Math.random() * BRICK_COLS),
-                    coords = playerNavGraph[getNearestNode(AI_Distination * BRICK_W, this.y, playerNavGraph)];
-                
-                this.path = getPathfor(this, coords.x * BRICK_W, coords.y * BRICK_H, playerNavGraph);
-                if (this.path.length > 6) {
-                    this.path.length = 6;
+            this.checkLineOfSight();
+            if (this.target === null) {
+                let AI_Destination = this.x + BRICK_W * DISTANCE_PER_ACTION * this.wanderDir;
+                this.path = getPathfor(this, AI_Destination, this.y, playerNavGraph);
+            } else {
+                this.path = getPathfor(this, this.target.x, this.target.y, playerNavGraph);
+                this.wanderDir = this.target.x > this.x ? 1 : -1;
+                if (this.path.length > DISTANCE_PER_ACTION) {
+                    this.path.length = DISTANCE_PER_ACTION;
                 }
-                this.nextPathNode();
             }
 
+            this.nextPathNode();
 			this.movementDetermined = true;
         }
         
-        if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20 && !this.hasFired) { 
-            var shotAtWhichPlayer = Math.floor(Math.random() * 2);
-            if (shotAtWhichPlayer == 1) {
+        if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20 && !this.hasFired) {
+            if (this.target != null) {
                 this.handleClick(); //shot 
                 this.fireWeapon();
-				console.log("Shot at Character 1");
+                console.log("Shot at "+this.target.team+" "+this.target.color);
             } else {
-                this.handleClick(); //shot 
-                this.fireWeapon();
-				console.log("Shot at Character 2");
+                this.wanderDir *= -1;
             }
             endEnemyTurn();
         }
