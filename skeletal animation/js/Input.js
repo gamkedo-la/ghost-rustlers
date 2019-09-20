@@ -95,20 +95,38 @@ function calculateMousePos(evt){
 
 function onMouseDown(evt){
 	console.log("mouse Pressed");
+	
 	//find which bone was clicked
 	for(i=0; i < bones.length; i++){
-		if(hitTest(bones[i].endPosition, mousePos.x, mousePos.y)){
+		console.log((bones.indexOf(bones[i])) +": " + (bones[i].selected));
+		if((hitTest(bones[i].endPosition, mousePos.x, mousePos.y)) && (bones[i].selected == false)){			
+			bones[i].selected = true;
+			return;
+		}
+		
+		//Setting Bone Initial Position
+		if((bones[i].selected == true) && (bones[i].boneStartPositionSet == false)){
+			canvas.removeEventListener('mousedown', onMouseDown, false);
+			window.addEventListener('mouseup', mouseUpListener, false);
+			bones[i].setBoneStartPosition();
+			return;			
+		}
+		//Setting Bone End Position
+		if((bones[i].selected == true) && (bones[i].boneStartPositionSet == true) && (bones[i].boneEndPositionSet == false)){			
+			canvas.removeEventListener('mousedown', onMouseDown, false);
+			window.addEventListener('mouseup', mouseUpListener, false);
+			bones[i].setBoneEndPosition();
+			return;
+		}
+		//Moving Bone for Animations
+		if((hitTest(bones[i].endPosition, mousePos.x, mousePos.y)) && (bones[i].boneEndPositionSet == true)){
 			console.log("hit test worked");
 			
 		dragging = true;
 		bones[i].boneSelectorColor = 'red';
 		draggingIndex = i;
 		console.log("dragging index is " + draggingIndex);
-			/*if(i > highestIndex){
-				highestIndex = i;
-				draggingIndex = i;
-				
-			}*/
+			
 		}
 	}
 			

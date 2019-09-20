@@ -29,6 +29,7 @@ window.onload = function() {
 	initInput();	
 	
 	initializeBoneAngles();
+	initializeBonePositions();
 	
 }
 
@@ -50,6 +51,7 @@ function drawEverything() {
 	drawMousePos();
 	//initializeBonePositions();
 	drawBones();
+	drawBoneMenu();
 	//drawStickManRelativeToBottomOfTorso();
 	
 	//moveElbow();
