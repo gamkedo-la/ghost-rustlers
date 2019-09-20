@@ -31,6 +31,8 @@ var targetAimerPicLoaded = false;
 var moveAimerPic = document.createElement("img");
 var moveAimerPicLoaded = false;
 var cowboyHatPic = document.createElement("img");
+var boulderPic = document.createElement("img");
+var boulderPicLoaded = false;
 
 var buttonPic = document.createElement("img");
 var circleImg = document.createElement("img");
@@ -131,6 +133,11 @@ function initArt() {
     moveAimerPicLoaded = true;
   }
   moveAimerPic.src = "images/moveAimer.png";
+
+  boulderPic.onload = function () {
+    boulderPicLoaded = true;
+  }
+  boulderPic.src = "images/boulder.png";
 
   buttonPic.src = "images/button.png";
 

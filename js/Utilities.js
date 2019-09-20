@@ -37,8 +37,8 @@ function yCoordAtCenterOfRow(tileRow) {
 function isSolidTileAtLevelTileCoord(levelTileCol, levelTileRow) {
     var levelTileIndex = levelTileIndexAtColRowCoord(levelTileCol, levelTileRow);
     return (levelTileGrid[levelTileIndex] === WALL_TILE ||
-            levelTileGrid[levelTileIndex] === LADDER_PLATFORM_TILE ||
-            levelTileGrid[levelTileIndex] === PLATFORM_TILE);
+        levelTileGrid[levelTileIndex] === LADDER_PLATFORM_TILE ||
+        levelTileGrid[levelTileIndex] === PLATFORM_TILE);
 }
 
 function isSolidTileAtPixelCoord(pixelX, pixelY) {

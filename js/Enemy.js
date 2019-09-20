@@ -44,7 +44,7 @@ function enemyClass(enemyTeam, enemyColor) {
         }
 
         if (this.hasFired) {
-            this.drawProjectile();
+            drawProjectile();
         }
 
         this.drawProjectileTrajectory = function() {

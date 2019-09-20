@@ -3,6 +3,9 @@ const BRICK_H = 40;
 const BRICK_GAP = 2;
 const BRICK_COLS = 30;
 const BRICK_ROWS = 20;
+const GROUND_FRICTION = 0.8;
+const AIR_RESISTANCE = 0.95;
+const GRAVITY = 0.6;
 var levelTurns = 6; //place holder.
 var wallEdges = [];
 var wallStartX;

@@ -7,13 +7,13 @@ const STATE_PAUSED = 2;
 const STATE_DEBUGMODE = 3;
 var gameState = STATE_TITLE_SCREEN;
 
-
 var isPaused = false;
 var debugMode = false;
 var allCharacters = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
 var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
+var boulder1 = new destructableObjectClass(500, 500);
 var turnCount = 1;
 var playersTurn = true;
 
@@ -48,8 +48,8 @@ window.onload = function () {
   initNavGraph();
   initRenderLoop();
 
-  character1.characterSpawn();
-  character2.characterSpawn();
+  character1.characterSpawn(canvas.width / 2, canvas.height / 2);
+  character2.characterSpawn(canvas.width / 2 + 100, canvas.height / 2);
 
   character1.activateCharacter();
   character2.deactivateCharacter();
@@ -90,6 +90,7 @@ function drawEverything() {
 		character1.drawCharacter();
 		character2.drawCharacter();
     enemy1.drawCharacter();
+    //boulder1.drawObject();
 		drawAimer();
 
 		canvasContext.restore(); // undoes the .translate() used for cam scroll
