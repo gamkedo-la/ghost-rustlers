@@ -11,7 +11,7 @@ function enemyClass(enemyTeam, enemyColor) {
     this.wanderDir = 1;
     this.target = null;
     this.shoulderOffset = 10;
-
+/*
     this.drawCharacter = function() {
         if (this.health <= 0) {
             return;
@@ -55,7 +55,7 @@ function enemyClass(enemyTeam, enemyColor) {
             }
         }
     }
-
+*/
     //canvasContext.globalCompositeOperation  = "source-over";
 
     this.enemyMove = function() {
@@ -69,9 +69,11 @@ function enemyClass(enemyTeam, enemyColor) {
         this.characterMove();
     }
 
+/*
     this.handleClick = function() {
 
     }
+*/
 
     this.checkLineOfSight = function() {
         let currentRow = rowAtYCoord(this.y),

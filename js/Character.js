@@ -27,6 +27,8 @@ function characterClass(character_team, character_color) {
   this.isClimbing = false;
   this.isActive = false;
 
+  
+
   this.upperArm = {
     x: 0,
     y: 0
@@ -65,27 +67,56 @@ function characterClass(character_team, character_color) {
     //Here's another method that might look better than the tinted sprite approach.
     //To test this, uncomment this and the last line, and set the inActiveColor and usedColor to #00000000 in the Assets.js.
 
+    if (this.team === 'PLAYER_TEAM') {
+      this.upperArmPic = characterUpperArmPic;
+      this.upperArmPicUsed = characterUpperArmPic_used;
+      this.upperArmPicInactive = characterUpperArmPic_inActive;
+      this.lowerArmPic = characterLowerArmPic;
+      this.lowerArmPicUsed = characterLowerArmPic_used;
+      this.lowerArmPicInactive = characterLowerArmPic_inActive;
+      this.bodyRightPic = characterBodyRightPic;
+      this.bodyRightPicUsed = characterBodyRightPic_used;
+      this.bodyRightPicInactive = characterBodyRightPic_inActive;
+      this.bodyLeftPic = characterBodyLeftPic;
+      this.bodyLeftPicUsed = characterBodyLeftPic_used;
+      this.bodyLeftPicInactive = characterBodyLeftPic_inActive;
+    } else if (this.team === 'ENEMY_TEAM') {
+      this.upperArmPic = enemyUpperArmPic;
+      this.upperArmPicUsed = enemyUpperArmPic;
+      this.upperArmPicInactive = enemyUpperArmPic;
+      this.lowerArmPic = enemyLowerArmPic;
+      this.lowerArmPicUsed = enemyLowerArmPic;
+      this.lowerArmPicInactive = enemyLowerArmPic;
+      this.bodyRightPic = enemyBodyRightPic;
+      this.bodyRightPicUsed = enemyBodyRightPic;
+      this.bodyRightPicInactive = enemyBodyRightPic;
+      this.bodyLeftPic = enemyBodyLeftPic;
+      this.bodyLeftPicUsed = enemyBodyLeftPic;
+      this.bodyLeftPicInactive = enemyBodyLeftPic;
+    }
+
+
     if (this.actionsRemaining <= 0) {
       canvasContext.globalCompositeOperation = "darken";
     } else if (!this.isActive) {
       canvasContext.globalCompositeOperation = "overlay";
     }
 
-    if (characterBodyRightPicLoaded && characterBodyLeftPicLoaded) {
+    if (this.bodyRightPicUsed != undefined && this.bodyRightPic != undefined && this.bodyRightPicInactive != undefined) {
       if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
-        canvasContext.drawImage((this.actionsRemaining <= 0 ? characterBodyLeftPic_used : (this.isActive ? characterBodyLeftPic : characterBodyLeftPic_inActive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
+        canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyLeftPicUsed : (this.isActive ? this.bodyLeftPic : this.bodyLeftPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
       } else {
-        canvasContext.drawImage((this.actionsRemaining <= 0 ? characterBodyRightPic_used : (this.isActive ? characterBodyRightPic : characterBodyRightPic_inActive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
+        canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyRightPicUsed : (this.isActive ? this.bodyRightPic : this.bodyRightPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
       }
     }
     //Draw stylish cowboy hat
-    drawImageCenteredAtLocationWithRotation(cowboyHatPic, this.x, this.y - CHARACTER_HEIGHT/3, 1.9 * Math.PI);
+    drawImageCenteredAtLocationWithRotation(cowboyHatPic, this.x, this.y - CHARACTER_HEIGHT / 3, 1.9 * Math.PI);
 
-    if (characterUpperArmPicLoaded) {
-      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? characterUpperArmPic_used : (this.isActive ? characterUpperArmPic : characterUpperArmPic_inActive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle)
+    if (this.upperArmPicUsed != undefined && this.upperArmPic != undefined && this.upperArmPicInactive != undefined) {
+      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle)
     }
-    if (characterLowerArmPicLoaded) {
-      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? characterLowerArmPic_used : (this.isActive ? characterLowerArmPic : characterLowerArmPic_inActive)), this.lowerArm.x, this.lowerArm.y, this.handAngle)
+    if (this.lowerArmPicUsed != undefined && this.lowerArmPic != undefined && this.lowerArmPicInactive != undefined) {
+      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle)
     }
 
     if (isInAimMode && this.isActive || this.hasFired) {
@@ -122,8 +153,8 @@ function characterClass(character_team, character_color) {
 
     if (this.x > this.destinationXCoord) {
       if ((this.x - RUN_SPEED) < this.destinationXCoord) {
-          this.x = this.destinationXCoord;
-          this.speedX = 0;
+        this.x = this.destinationXCoord;
+        this.speedX = 0;
       } else {
         this.speedX = -RUN_SPEED
       }
@@ -131,20 +162,20 @@ function characterClass(character_team, character_color) {
 
     if (this.x < this.destinationXCoord) {
       if ((this.x + RUN_SPEED) > this.destinationXCoord) {
-          this.x = this.destinationXCoord;
-          this.speedX = 0;
+        this.x = this.destinationXCoord;
+        this.speedX = 0;
       } else {
         this.speedX = RUN_SPEED;
       }
     }
     //Update destination on reaching current path node
-    if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= BRICK_H/2) {
+    if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= BRICK_H / 2) {
       this.nextPathNode();
     }
 
     let xCol = colAtXCoord(this.x),
-        yRow = rowAtYCoord(this.y),
-        charIndex = BRICK_COLS * yRow + xCol;
+      yRow = rowAtYCoord(this.y),
+      charIndex = BRICK_COLS * yRow + xCol;
 
     if (levelTileGrid[charIndex] == LADDER_PLATFORM_TILE || levelTileGrid[charIndex] == LADDER_TILE) {
       this.isClimbing = true;
@@ -162,26 +193,26 @@ function characterClass(character_team, character_color) {
         this.speedX /= 3;
         this.speedY -= JUMP_SPEED;
       }
-    } else if (this.isClimbing && this.destinationYCoord - BRICK_H/2 > this.y && Math.abs(this.x - this.destinationXCoord) <= BRICK_H/2) {
+    } else if (this.isClimbing && this.destinationYCoord - BRICK_H / 2 > this.y && Math.abs(this.x - this.destinationXCoord) <= BRICK_H / 2) {
       this.speedY = RUN_SPEED;
     } else if (this.isClimbing) {
       this.speedY = 0;
     }
 
-      //Solid tile above
-      if (!this.isClimbing && this.speedY < 0 && isSolidTileAtPixelCoord(this.x, this.y - (CHARACTER_HEIGHT / 2))) {
-        this.y = (Math.floor(this.y / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
-        this.speedY = 0.0;
-      }
+    //Solid tile above
+    if (!this.isClimbing && this.speedY < 0 && isSolidTileAtPixelCoord(this.x, this.y - (CHARACTER_HEIGHT / 2))) {
+      this.y = (Math.floor(this.y / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
+      this.speedY = 0.0;
+    }
 
-      //Solid tile below
-      if (!this.isClimbing && this.speedY > 0 && isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2))) {
-        this.y = (1 + Math.floor(this.y / BRICK_H)) * BRICK_H - (CHARACTER_HEIGHT / 2);
-        this.isOnGround = true;
-        this.speedY = 0;
-      } else if (!isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2) + 2)) {
-        this.isOnGround = false;
-      }
+    //Solid tile below
+    if (!this.isClimbing && this.speedY > 0 && isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2))) {
+      this.y = (1 + Math.floor(this.y / BRICK_H)) * BRICK_H - (CHARACTER_HEIGHT / 2);
+      this.isOnGround = true;
+      this.speedY = 0;
+    } else if (!isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2) + 2)) {
+      this.isOnGround = false;
+    }
 
     //Solid tile left
     if (this.speedX < 0 && isSolidTileAtPixelCoord(this.x - (CHARACTER_WIDTH / 2), this.y)) {
@@ -191,12 +222,12 @@ function characterClass(character_team, character_color) {
     if (this.speedX > 0 && isSolidTileAtPixelCoord(this.x + (CHARACTER_WIDTH / 2), this.y)) {
       this.x = (1 + Math.floor(this.x / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
     }
-    
+
     this.moveArms();
     this.animateArmAiming();
   }
 
-  this.moveArms = function() {
+  this.moveArms = function () {
     //sets location of shoulder joints
     this.rightShoulderJoint.x = this.x;
     this.rightShoulderJoint.y = this.y + this.shoulderOffset;
@@ -212,31 +243,31 @@ function characterClass(character_team, character_color) {
     this.handAngle = this.shoulderAngle + this.elbowAngle;
     this.rightHand.x = ARM_SEGMENT_LENGTH * Math.cos(this.handAngle) + this.rightElbow.x;
     this.rightHand.y = ARM_SEGMENT_LENGTH * Math.sin(this.handAngle) + this.rightElbow.y;
-    
+
     this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
     this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
   }
 
-  this.nextPathNode = function() {
+  this.nextPathNode = function () {
     if (this.path.length > 0) {
       this.destinationXCoord = xCoordAtCenterOfCol(this.path[0].x);
-      this.destinationYCoord = yCoordAtCenterOfRow(this.path[0].y);      
+      this.destinationYCoord = yCoordAtCenterOfRow(this.path[0].y);
       this.path.shift();
       this.moveAutoPan();
     }
   }
 
-  this.moveAutoPan = function() {
-    let panDeltaX = this.destinationXCoord - canvas.width/2 - camPanX,
-        panDeltaY = this.destinationYCoord - canvas.height/2 - camPanY;
+  this.moveAutoPan = function () {
+    let panDeltaX = this.destinationXCoord - canvas.width / 2 - camPanX,
+      panDeltaY = this.destinationYCoord - canvas.height / 2 - camPanY;
 
     if (Math.abs(panDeltaX) > DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X) {
-        panDeltaX += panDeltaX > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X;
-        beginAutoPanTo(camPanX + panDeltaX, null)
+      panDeltaX += panDeltaX > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X;
+      beginAutoPanTo(camPanX + panDeltaX, null)
     }
     if (Math.abs(panDeltaY) > DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y) {
-        panDeltaY += panDeltaY > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y;
-        beginAutoPanTo(null, camPanY + panDeltaY);
+      panDeltaY += panDeltaY > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y;
+      beginAutoPanTo(null, camPanY + panDeltaY);
     }
   }
 
@@ -274,7 +305,7 @@ function characterClass(character_team, character_color) {
         this.path = currentPath;
         this.nextPathNode();
       }
-      if (!debugMode){
+      if (!debugMode) {
         this.actionsRemaining--;
       }
     }
@@ -284,9 +315,9 @@ function characterClass(character_team, character_color) {
     // center character on screen
     this.x = x;
     this.y = y;
-    if (this.team === 'PLAYER_TEAM'){
+    if (this.team === 'PLAYER_TEAM') {
       allCharacters.push(this);
-    } else if (this.team === 'ENEMY_TEAM'){
+    } else if (this.team === 'ENEMY_TEAM') {
       allEnemies.push(this);
     }
 
@@ -320,7 +351,7 @@ function characterClass(character_team, character_color) {
     // camPanY = this.y - canvas.height / 2;
 
     let panX = this.x - canvas.width / 2,
-        panY = this.y - canvas.height / 2;
+      panY = this.y - canvas.height / 2;
 
     beginAutoPanTo(panX, panY);
     this.isActive = true;
