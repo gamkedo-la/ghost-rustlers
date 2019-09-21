@@ -3,7 +3,7 @@ function destructableObjectClass(spawnX, spawnY) {
     this.y = spawnY;
     this.objectHeight = 80;
     this.objectWidth = 40;
-    this.health = 8;
+    this.health = 1;
     this.maxHealth = 8;
 
     this.drawObject = function () {

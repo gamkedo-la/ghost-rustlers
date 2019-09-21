@@ -10,6 +10,7 @@ var gameState = STATE_TITLE_SCREEN;
 var isPaused = false;
 var debugMode = false;
 var allCharacters = [];
+var allEnemies = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
 var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
@@ -50,6 +51,7 @@ window.onload = function () {
 
   character1.characterSpawn(canvas.width / 2, canvas.height / 2);
   character2.characterSpawn(canvas.width / 2 + 100, canvas.height / 2);
+  enemy1.characterSpawn(500, 500);
 
   character1.activateCharacter();
   character2.deactivateCharacter();

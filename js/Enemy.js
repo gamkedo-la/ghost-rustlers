@@ -5,14 +5,12 @@ function enemyClass(enemyTeam, enemyColor) {
     this.y = 75;
     this.height = 136;
     this.width = 64;
-    this.health = 8;
     this.isOnGround;
 	this.hasFired = false;
     this.movementDetermined = false;
     this.wanderDir = 1;
     this.target = null;
     this.shoulderOffset = 10;
-
 
     this.drawCharacter = function() {
         if (this.health <= 0) {
@@ -112,6 +110,8 @@ function enemyClass(enemyTeam, enemyColor) {
                     this.path.length = DISTANCE_PER_ACTION;
                 }
             }
+
+            console.log(this.target);
 
             this.nextPathNode();
 			this.movementDetermined = true;

@@ -284,7 +284,11 @@ function characterClass(character_team, character_color) {
     // center character on screen
     this.x = x;
     this.y = y;
-    allCharacters.push(this);
+    if (this.team === 'PLAYER_TEAM'){
+      allCharacters.push(this);
+    } else if (this.team === 'ENEMY_TEAM'){
+      allEnemies.push(this);
+    }
 
     //this.leftShoulderJoint = {x: x, y: y}
     //this.rightShoulderJoint = {x: x, y: y}
