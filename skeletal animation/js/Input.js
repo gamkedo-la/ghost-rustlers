@@ -99,6 +99,7 @@ function onMouseDown(evt){
 	//find which bone was clicked
 	for(i=0; i < bones.length; i++){
 		console.log((bones.indexOf(bones[i])) +": " + (bones[i].selected));
+		console.log((bones.indexOf(bones[i])) +": " + (bones[i].limbLength));
 		if((hitTest(bones[i].endPosition, mousePos.x, mousePos.y)) && (bones[i].selected == false)){			
 			bones[i].selected = true;
 			return;
@@ -139,7 +140,7 @@ function onMouseDown(evt){
 
 
 function mouseMoveListener(evt){	
-	bones[draggingIndex].moveBone();	
+	bones[draggingIndex].changeBoneAngle();	
 }
 
 function mouseUpListener(evt){

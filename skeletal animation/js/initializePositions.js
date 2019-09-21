@@ -81,8 +81,8 @@ function drawBones(){
 	//initializeBonePositions();
 	boneImages();
 	for(i = 0; i < bones.length; i++){
-		if(bones[i].limbLength = null){
-			bones[i].limbLength = 50;
+		if(bones[i].limbLength == null){
+			bones[i].limbLength = 0;
 		}
 		bones[i].drawBone();
 	}

@@ -56,7 +56,11 @@ function boneClass(){
 			if(this.boneSet == false){
 				this.endPosition.x = (this.limbLength * Math.cos(this.limbAngle) + this.startPosition.x);
 				this.endPosition.y = (this.limbLength * Math.sin(this.limbAngle) + this.startPosition.y);		
-			}			
+			}else{
+				this.endPosition.x = (this.limbLength * Math.cos(this.limbAngle) + this.startPosition.x);
+				this.endPosition.y = (this.limbLength * Math.sin(this.limbAngle) + this.startPosition.y);	
+			}
+				
 					
 			this.imagePosition.x = this.startPosition.x + ((this.endPosition.x - this.startPosition.x)/2);
 			this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);	
@@ -133,6 +137,10 @@ function boneClass(){
 		this.boneEndPositionSet = true;
 		this.boneSet = true;
 		this.selected = false;
+		
+		//Set Limb Length to the distance between start and end positions
+		this.limbLength = (Math.sqrt((Math.pow(this.startPosition.x - this.endPosition.x,2)) + (Math.pow(this.startPosition.y - this.endPosition.y,2))))
+		this.limbAngle =  Math.atan2(this.endPosition.y - this.startPosition.y, this.endPosition.x - this.startPosition.x);	
 	}
 	
 	this.changeBoneAngle = function(){
