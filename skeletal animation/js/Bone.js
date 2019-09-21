@@ -52,15 +52,9 @@ function boneClass(){
 		
 		//drawImageCenteredAtLocationWithRotation(this.limbImage, this.imagePosition.x, this.imagePosition.y, this.limbAngle);
 			
-		if(this.childOfOtherBone == false){
-			if(this.boneSet == false){
-				this.endPosition.x = (this.limbLength * Math.cos(this.limbAngle) + this.startPosition.x);
-				this.endPosition.y = (this.limbLength * Math.sin(this.limbAngle) + this.startPosition.y);		
-			}else{
-				this.endPosition.x = (this.limbLength * Math.cos(this.limbAngle) + this.startPosition.x);
-				this.endPosition.y = (this.limbLength * Math.sin(this.limbAngle) + this.startPosition.y);	
-			}
-				
+		if(this.childOfOtherBone == false){			
+			this.endPosition.x = (this.limbLength * Math.cos(this.limbAngle) + this.startPosition.x);
+			this.endPosition.y = (this.limbLength * Math.sin(this.limbAngle) + this.startPosition.y);					
 					
 			this.imagePosition.x = this.startPosition.x + ((this.endPosition.x - this.startPosition.x)/2);
 			this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);	

@@ -18,7 +18,7 @@ function loadCharacterImages(){
 	newCharacterhead.onload = function(){
 		newCharacterheadLoaded = true;
 	}
-	newCharacterhead.src = "images/stickhead.png"; //image file path here
+	newCharacterhead.src = "images/cowboyHat.png"; //image file path here
 	
 	newCharacterTorso.onload = function(){
 		newCharacterTorsoLoaded = true;

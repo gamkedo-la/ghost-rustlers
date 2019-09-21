@@ -24,7 +24,8 @@ var hold_3_Key = false;
 var hold_4_Key = false;
 
 
-var dragging = false;
+var changingAngle = false;
+var movingBone = false;
 
 var highestIndex;
 var draggingIndex;
@@ -121,17 +122,27 @@ function onMouseDown(evt){
 		}
 		//Moving Bone for Animations
 		if((hitTest(bones[i].endPosition, mousePos.x, mousePos.y)) && (bones[i].boneEndPositionSet == true)){
-			console.log("hit test worked");
+			console.log("Changing bone angle");
 			
-		dragging = true;
+		changingAngle = true;
 		bones[i].boneSelectorColor = 'red';
 		draggingIndex = i;
 		console.log("dragging index is " + draggingIndex);
 			
 		}
+		//Moving bone location
+		if((hitTest(bones[i].startPosition, mousePos.x, mousePos.y)) && (bones[i].boneEndPositionSet == true)){
+			console.log("moving bone");
+			
+		movingBone = true;
+		bones[i].boneSelectorColor = 'red';
+		draggingIndex = i;
+		console.log("dragging index is " + draggingIndex);
+			
+		}		
 	}
 			
-	if(dragging){
+	if(changingAngle || movingBone){
 		window.addEventListener('mousemove', mouseMoveListener, false);
 	}
 		canvas.removeEventListener('mousedown', onMouseDown, false);
@@ -139,16 +150,22 @@ function onMouseDown(evt){
 }		
 
 
-function mouseMoveListener(evt){	
-	bones[draggingIndex].changeBoneAngle();	
+function mouseMoveListener(evt){
+	if(changingAngle){
+		bones[draggingIndex].changeBoneAngle();
+	}
+	if(movingBone){
+		bones[draggingIndex].moveBone();
+	}		
 }
 
 function mouseUpListener(evt){
 	console.log("mouse released");
 		canvas.addEventListener('mousedown', onMouseDown, false);
 		window.removeEventListener('mouseup', mouseUpListener, false);
-		if(dragging){
-			dragging = false;
+		if(changingAngle || movingBone){
+			changingAngle = false;
+			movingBone = false;
 			bones[draggingIndex].boneSelectorColor = 'green';
 			window.removeEventListener('mousemove', mouseMoveListener, false);
 		}
