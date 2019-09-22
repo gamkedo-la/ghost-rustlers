@@ -103,8 +103,12 @@ function boneClass(){
 		}	
 		if(this.boneStartPositionSet == true){
 			//colorCircle(this.startPosition.x, this.startPosition.y, SELECTOR_RADIUS, "blue");
-			if(this.selected == true){				
-				drawImageCenteredAtLocationWithRotation(boneMoveSelectorSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
+			if(this.selected == true){
+				if(this.boneSet == false){
+					drawImageCenteredAtLocationWithRotation(boneMoveSelectorSelected, this.boneStartSelector.x, this.boneStartSelector.y, this.limbAngle);
+				}else{	
+					drawImageCenteredAtLocationWithRotation(boneMoveSelectorSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
+				}
 			}else{				
 				drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
 			}			
@@ -132,6 +136,7 @@ function boneClass(){
 		if((this.selected == true) && (this.boneSet == false)){			
 			this.boneStartSelector.x = mousePos.x;
 			this.boneStartSelector.y = mousePos.y;
+			
 			//this.startPosition.x = this.boneStartSelector.x;
 			//this.startPosition.y = this.boneStartSelector.y;
 			//this.startPosition.x = mousePos.x;

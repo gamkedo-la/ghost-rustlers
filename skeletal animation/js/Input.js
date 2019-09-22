@@ -154,6 +154,9 @@ function onMouseDown(evt){
 
 
 function mouseMoveListener(evt){
+	if(changingAngle && movingBone){
+		movingBone = false;
+	}
 	if(changingAngle){
 		bones[draggingIndex].changeBoneAngle();
 	}
