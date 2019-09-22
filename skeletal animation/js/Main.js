@@ -24,6 +24,7 @@ window.onload = function() {
 	
 	//loadStickSprites();
 	loadCharacterImages()
+	loadAnimatorIcons();
 	initMouse();
 	initRenderLoop();
 	initInput();	

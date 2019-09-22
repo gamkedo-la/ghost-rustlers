@@ -1,3 +1,31 @@
+var boneMoveSelectorSelected = document.createElement("img");
+var boneMoveSelectorNotSelected = document.createElement("img");
+var boneChangeAngleSelectorSelected = document.createElement("img");
+var boneChangeAngleSelectorNotSelected = document.createElement("img");
+
+
+function loadAnimatorIcons(){
+	boneMoveSelectorSelected.onload = function(){
+		boneMoveSelectorSelectedLoaded = true;
+	}
+	boneMoveSelectorSelected.src = "images/BoneMoveSelector_selected.png"; //image file path here
+	
+	boneMoveSelectorNotSelected.onload = function(){
+		boneMoveSelectorNotSelectedLoaded = true;
+	}
+	boneMoveSelectorNotSelected.src = "images/BoneMoveSelector.png";
+	
+	boneChangeAngleSelectorSelected.onload = function(){
+		boneChangeAngleSelectorSelectedLoaded = true;
+	}
+	boneChangeAngleSelectorSelected.src = "images/BoneRotateSelector_selected.png";
+	
+	boneChangeAngleSelectorNotSelected.onload = function(){
+		boneChangeAngleSelectorNotSelectedLoaded = true;
+	}
+	boneChangeAngleSelectorNotSelected.src = "images/BoneRotateSelector.png";
+}
+
 function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor){
 	canvasContext.fillStyle = fillColor;
 	canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);

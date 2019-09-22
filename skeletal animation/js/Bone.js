@@ -45,6 +45,7 @@ function boneClass(){
 	}
 	this.boneSelectorColor = 'green';
 	
+	
 	//draw image at correct orientation
 	//"start" convenstion is innermost part of the limb (shoulder begins the upper arm, elbow begins the forearm etc.). 
 	this.drawBone = function(){			
@@ -87,11 +88,21 @@ function boneClass(){
 		colorCircle(this.endPosition.x, this.endPosition.y, SELECTOR_RADIUS, this.boneSelectorColor);
 		
 		if(this.boneStartPositionSet == true){
-			colorCircle(this.startPosition.x, this.startPosition.y, SELECTOR_RADIUS, "blue");
+			//colorCircle(this.startPosition.x, this.startPosition.y, SELECTOR_RADIUS, "blue");
+			if(this.selected == true){				
+				drawImageCenteredAtLocationWithRotation(boneMoveSelectorSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
+			}else{				
+				drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
+			}			
 		}
 		
 		if(this.boneEndPositionSet == true){
-			colorCircle(this.endPosition.x, this.endPosition.y, SELECTOR_RADIUS, "red");
+			//colorCircle(this.endPosition.x, this.endPosition.y, SELECTOR_RADIUS, "red");
+			if(this.selected == true){				
+				drawImageCenteredAtLocationWithRotation(boneChangeAngleSelectorSelected, this.endPosition.x, this.endPosition.y, this.limbAngle);
+			}else{				
+				drawImageCenteredAtLocationWithRotation(boneChangeAngleSelectorNotSelected, this.endPosition.x, this.endPosition.y, this.limbAngle);
+			}	
 		}		
 	}
 	
