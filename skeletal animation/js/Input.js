@@ -120,7 +120,7 @@ function onMouseDown(evt){
 			bones[i].setBoneEndPosition();
 			return;
 		}
-		//Moving Bone for Animations
+		//Moving Bone for Animations(See MouseMoveListener for function)
 		if((hitTest(bones[i].endPosition, mousePos.x, mousePos.y)) && (bones[i].boneEndPositionSet == true)){
 			console.log("Changing bone angle");
 			
@@ -130,7 +130,7 @@ function onMouseDown(evt){
 		console.log("dragging index is " + draggingIndex);
 			
 		}
-		//Moving bone location
+		//Moving bone location (See MouseMoveListener for function)
 		if((hitTest(bones[i].startPosition, mousePos.x, mousePos.y)) && (bones[i].boneEndPositionSet == true)){
 			console.log("moving bone");
 			
@@ -138,7 +138,10 @@ function onMouseDown(evt){
 		bones[i].selected = true;
 		draggingIndex = i;
 		console.log("dragging index is " + draggingIndex);
-			
+		}
+		//Reset Bones	
+		if(hitTest(bones[i].resetButtonPosition, mousePos.x, mousePos.y)){
+			bones[i].ResetBone();
 		}		
 	}
 			

@@ -35,6 +35,15 @@ function boneChildren(){
 function initializeBonePositions(){
 	//TODO  Change equation for upper arms and upper leg positions relative to torso.  Currently if the torso changes angle the arms detach. 
 	//Follow the relative postion of the torso endposition and angle 
+	
+	for(i = 0; i < bones.length; i++){
+		
+		bones[i].initialPosition.x = 100*(i+1);
+		bones[i].initialPosition.y = 100;
+		bones[i].startPosition.x = bones[i].initialPosition.x;
+		bones[i].startPosition.y = bones[i].initialPosition.y;
+	}
+	/*
 	torso.startPosition.x = 100;	
 	torso.startPosition.y = 100;
 	
@@ -55,7 +64,7 @@ function initializeBonePositions(){
 	leftUpperArm.startPosition.y = 100;
 	
 	leftForeArm.startPosition.x = 600;
-	leftForeArm.startPosition.y = 100;
+	leftForeArm.startPosition.y = 100;*/
 		
 	
 }
@@ -93,8 +102,10 @@ function drawBones(){
 
 function drawBoneMenu(){
 	for(i = 0; i < bones.length; i++){
-		//canvasContext.strokeText(bones.indexOf(bones[i]), 100, (100 +(20*i)));
-		
+		bones[i].resetButtonPosition.x = bones[i].initialPosition.x;
+		bones[i].resetButtonPosition.y = bones[i].initialPosition.y + 50;
+		drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, bones[i].resetButtonPosition.x, bones[i].resetButtonPosition.y, 0);
+		canvasContext.strokeText("Reset", bones[i].resetButtonPosition.x + 10, bones[i].resetButtonPosition.y+3);		
 	}
 	
 	//canvasContext.strokeText(mousePos.x.toString() + "," + mousePos.y.toString(), mousePos.x, mousePos.y);

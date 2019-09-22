@@ -2,6 +2,10 @@
 const SELECTOR_RADIUS = 5;
 
 function boneClass(){
+	this.initialPosition = {
+		x:0,
+		y:0
+	}
 	this.startPosition = {
 		x:0,
 		y:0
@@ -11,6 +15,10 @@ function boneClass(){
 		y:0
 	}
 	this.imagePosition = {
+		x:0,
+		y:0
+	}
+	this.resetButtonPosition = {
 		x:0,
 		y:0
 	}
@@ -164,5 +172,13 @@ function boneClass(){
 		console.log(savedLimbAngle);
 		this.limbAngle = savedLimbAngle;
 	}
+	
+	this.ResetBone = function(){
+		this.boneSet = false;
+		this.boneStartPositionSet = false;
+		this.boneEndPositionSet = false;
+		this.selected = false;
+	}
+	
 		
 }
