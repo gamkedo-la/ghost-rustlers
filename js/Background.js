@@ -68,9 +68,9 @@ function BackgroundClass() {
         if (ANIMATED_TUMBLEWEEDS && tumbleweedPic.loaded) {
             // move range spans 2x the width of the screen so it isn't always visible
             var weedx = canvas.width*2*Math.sin(performance.now()/15000) - canvas.width/2; 
-            var weedy = TUMBLEWEED_Y_OFFSET+(Math.sin(performance.now()/500)*16)-camPanY;
+            var weedy = TUMBLEWEED_Y_OFFSET+(Math.sin(performance.now()/500)*16);
             var weedr = weedx * 0.05;
-            drawImageCenteredAtLocationWithRotation(tumbleweedPic,weedx,weedy,weedr);
+            drawImageCenteredAtLocationWithRotation(tumbleweedPic,weedx - camPanX,weedy - camPanY,weedr);
         }
     }
 
