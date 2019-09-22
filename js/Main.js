@@ -9,6 +9,7 @@ var gameState = STATE_TITLE_SCREEN;
 
 var isPaused = false;
 var debugMode = false;
+var allObjects = [];
 var allCharacters = [];
 var allEnemies = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');

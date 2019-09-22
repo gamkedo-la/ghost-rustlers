@@ -320,6 +320,8 @@ function characterClass(character_team, character_color) {
     } else if (this.team === 'ENEMY_TEAM') {
       allEnemies.push(this);
     }
+    allObjects.push(this);
+    console.log(allObjects[0].width + ", " + allObjects[0].height);
 
     //this.leftShoulderJoint = {x: x, y: y}
     //this.rightShoulderJoint = {x: x, y: y}
