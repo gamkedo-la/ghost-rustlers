@@ -20,6 +20,12 @@ var positions = new Array();
 var positionsIndex = 0;
 var animationIndex = 0;
 
+var hideIcons = false;
+var hideIconsButtonPosition = {
+	x:700,
+	y:10
+}
+
 
 function boneChildren(){
 	leftForeArm.childOfOtherBone = false;
@@ -105,7 +111,7 @@ function drawBoneMenu(){
 		bones[i].resetButtonPosition.x = bones[i].initialPosition.x;
 		bones[i].resetButtonPosition.y = bones[i].initialPosition.y + 50;
 		drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, bones[i].resetButtonPosition.x, bones[i].resetButtonPosition.y, 0);
-		canvasContext.strokeText("Reset", bones[i].resetButtonPosition.x + 10, bones[i].resetButtonPosition.y+3);		
+		canvasContext.strokeText("Reset Bone", bones[i].resetButtonPosition.x + 10, bones[i].resetButtonPosition.y+3);		
 	}
 	
 	canvasContext.strokeText("1. Select white square on image to begin mapping bone to sprite.", 100, 60);
@@ -113,6 +119,9 @@ function drawBoneMenu(){
 	canvasContext.strokeText("3. Click desired end of bone", 100, 100);
 	canvasContext.strokeText("4. Once bone is created Blue icon to move sprite and Red icon to change angle", 100, 120);
 	
+	drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, hideIconsButtonPosition.x,hideIconsButtonPosition.y, 0);
+	canvasContext.strokeText("Hide Icons" , hideIconsButtonPosition.x + 10, hideIconsButtonPosition.y +3);
+
 }
 
 function StorePositions(){

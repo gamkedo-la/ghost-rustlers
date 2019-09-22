@@ -38,7 +38,7 @@ function boneClass(){
 	this.boneStartPositionSet = false;
 	this.boneEndPositionSet = false;
 	this.selected = false;
-	this.boneSet = false;
+	this.boneSet = false;	
 	
 	this.boneStartSelector = {
 		x:0,
@@ -93,35 +93,34 @@ function boneClass(){
 			drawImageCenteredAtLocationWithRotation(this.limbImage, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
 			//drawImageCenteredAtLocationWithRotation(this.boneImageOverlay, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
 		}
-		//colorCircle(this.endPosition.x, this.endPosition.y, SELECTOR_RADIUS, this.boneSelectorColor);
-		if(this.boneSet == false){
-			if(this.selected == true){				
-					drawImageCenteredAtLocationWithRotation(boneSelectorSelected, this.imagePosition.x, this.imagePosition.y, this.limbAngle);
-				}else{				
-					drawImageCenteredAtLocationWithRotation(boneSelector, this.imagePosition.x, this.imagePosition.y, this.limbAngle);
-				}
-		}	
-		if(this.boneStartPositionSet == true){
-			//colorCircle(this.startPosition.x, this.startPosition.y, SELECTOR_RADIUS, "blue");
-			if(this.selected == true){
-				if(this.boneSet == false){
-					drawImageCenteredAtLocationWithRotation(boneMoveSelectorSelected, this.boneStartSelector.x, this.boneStartSelector.y, this.limbAngle);
-				}else{	
-					drawImageCenteredAtLocationWithRotation(boneMoveSelectorSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
-				}
-			}else{				
-				drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
-			}			
-		}
-		
-		if(this.boneEndPositionSet == true){
-			//colorCircle(this.endPosition.x, this.endPosition.y, SELECTOR_RADIUS, "red");
-			if(this.selected == true){				
-				drawImageCenteredAtLocationWithRotation(boneChangeAngleSelectorSelected, this.endPosition.x, this.endPosition.y, this.limbAngle);
-			}else{				
-				drawImageCenteredAtLocationWithRotation(boneChangeAngleSelectorNotSelected, this.endPosition.x, this.endPosition.y, this.limbAngle);
+		if(hideIcons == false){
+			if(this.boneSet == false){
+				if(this.selected == true){				
+						drawImageCenteredAtLocationWithRotation(boneSelectorSelected, this.imagePosition.x, this.imagePosition.y, this.limbAngle);
+					}else{				
+						drawImageCenteredAtLocationWithRotation(boneSelector, this.imagePosition.x, this.imagePosition.y, this.limbAngle);
+					}
 			}	
-		}		
+			if(this.boneStartPositionSet == true){			
+				if(this.selected == true){
+					if(this.boneSet == false){
+						drawImageCenteredAtLocationWithRotation(boneMoveSelectorSelected, this.boneStartSelector.x, this.boneStartSelector.y, this.limbAngle);
+					}else{	
+						drawImageCenteredAtLocationWithRotation(boneMoveSelectorSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
+					}
+				}else{				
+					drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
+				}			
+			}
+			
+			if(this.boneEndPositionSet == true){			
+				if(this.selected == true){				
+					drawImageCenteredAtLocationWithRotation(boneChangeAngleSelectorSelected, this.endPosition.x, this.endPosition.y, this.limbAngle);
+				}else{				
+					drawImageCenteredAtLocationWithRotation(boneChangeAngleSelectorNotSelected, this.endPosition.x, this.endPosition.y, this.limbAngle);
+				}	
+			}	
+		}	
 	}
 	
 	this.moveBone = function(){

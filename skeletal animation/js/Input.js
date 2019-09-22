@@ -142,7 +142,20 @@ function onMouseDown(evt){
 		//Reset Bones	
 		if(hitTest(bones[i].resetButtonPosition, mousePos.x, mousePos.y)){
 			bones[i].ResetBone();
-		}		
+		}
+		//Hide Icons
+		if(hitTest(hideIconsButtonPosition, mousePos.x, mousePos.y)){
+			canvas.removeEventListener('mousedown', onMouseDown, false);
+			window.addEventListener('mouseup', mouseUpListener, false);
+			if(hideIcons == false){
+				hideIcons = true;
+				return;
+			}
+			if(hideIcons == true){
+				hideIcons = false;
+				return;
+			}
+		}
 	}
 			
 	if(changingAngle || movingBone){
