@@ -39,7 +39,7 @@ function initializeBonePositions(){
 	for(i = 0; i < bones.length; i++){
 		
 		bones[i].initialPosition.x = 100*(i+1);
-		bones[i].initialPosition.y = 100;
+		bones[i].initialPosition.y = 200;
 		bones[i].startPosition.x = bones[i].initialPosition.x;
 		bones[i].startPosition.y = bones[i].initialPosition.y;
 	}
@@ -108,7 +108,11 @@ function drawBoneMenu(){
 		canvasContext.strokeText("Reset", bones[i].resetButtonPosition.x + 10, bones[i].resetButtonPosition.y+3);		
 	}
 	
-	//canvasContext.strokeText(mousePos.x.toString() + "," + mousePos.y.toString(), mousePos.x, mousePos.y);
+	canvasContext.strokeText("1. Select white square on image to begin mapping bone to sprite.", 100, 60);
+	canvasContext.strokeText("2. Click desired beginning of bone.", 100, 80);
+	canvasContext.strokeText("3. Click desired end of bone", 100, 100);
+	canvasContext.strokeText("4. Once bone is created Blue icon to move sprite and Red icon to change angle", 100, 120);
+	
 }
 
 function StorePositions(){
