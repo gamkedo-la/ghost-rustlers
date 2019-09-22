@@ -47,7 +47,8 @@ function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
 function drawProjectileTrajectory(character) {
   if (character.hasFired) {
     var lineLength = DistanceBetweenTwoPixelCoords(aimFromX, aimFromY, aimToX, aimToY);
-    bulletT += MAX_BULLET_T / lineLength;
+    //TODO: Fix this so that the projectile moves at a constant speed for all line lengths.
+    bulletT += (MAX_BULLET_T * lineLength) * .0001;
   } else {
     aimToX = aimerX;
     aimToY = aimerY;
