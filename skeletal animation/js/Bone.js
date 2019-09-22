@@ -85,8 +85,14 @@ function boneClass(){
 			drawImageCenteredAtLocationWithRotation(this.limbImage, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
 			//drawImageCenteredAtLocationWithRotation(this.boneImageOverlay, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
 		}
-		colorCircle(this.endPosition.x, this.endPosition.y, SELECTOR_RADIUS, this.boneSelectorColor);
-		
+		//colorCircle(this.endPosition.x, this.endPosition.y, SELECTOR_RADIUS, this.boneSelectorColor);
+		if(this.boneSet == false){
+			if(this.selected == true){				
+					drawImageCenteredAtLocationWithRotation(boneSelectorSelected, this.imagePosition.x, this.imagePosition.y, this.limbAngle);
+				}else{				
+					drawImageCenteredAtLocationWithRotation(boneSelector, this.imagePosition.x, this.imagePosition.y, this.limbAngle);
+				}
+		}	
 		if(this.boneStartPositionSet == true){
 			//colorCircle(this.startPosition.x, this.startPosition.y, SELECTOR_RADIUS, "blue");
 			if(this.selected == true){				

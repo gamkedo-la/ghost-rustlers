@@ -101,7 +101,7 @@ function onMouseDown(evt){
 	for(i=0; i < bones.length; i++){
 		console.log((bones.indexOf(bones[i])) +": " + (bones[i].selected));
 		console.log((bones.indexOf(bones[i])) +": " + (bones[i].limbLength));
-		if((hitTest(bones[i].endPosition, mousePos.x, mousePos.y)) && (bones[i].selected == false)){			
+		if((hitTest(bones[i].imagePosition, mousePos.x, mousePos.y)) && (bones[i].selected == false)){			
 			bones[i].selected = true;
 			return;
 		}
@@ -125,7 +125,7 @@ function onMouseDown(evt){
 			console.log("Changing bone angle");
 			
 		changingAngle = true;
-		bones[i].boneSelectorColor = 'red';
+		bones[i].selected = true;
 		draggingIndex = i;
 		console.log("dragging index is " + draggingIndex);
 			
@@ -135,7 +135,7 @@ function onMouseDown(evt){
 			console.log("moving bone");
 			
 		movingBone = true;
-		bones[i].boneSelectorColor = 'red';
+		bones[i].selected = true;
 		draggingIndex = i;
 		console.log("dragging index is " + draggingIndex);
 			
@@ -166,9 +166,10 @@ function mouseUpListener(evt){
 		if(changingAngle || movingBone){
 			changingAngle = false;
 			movingBone = false;
-			bones[draggingIndex].boneSelectorColor = 'green';
+			bones[draggingIndex].selected = false;	
 			window.removeEventListener('mousemove', mouseMoveListener, false);
-		}
+			
+		}	
 }
 
 function hitTest(BoneSelector, mouseX, mouseY){

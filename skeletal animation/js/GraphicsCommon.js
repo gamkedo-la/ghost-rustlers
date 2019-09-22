@@ -2,7 +2,8 @@ var boneMoveSelectorSelected = document.createElement("img");
 var boneMoveSelectorNotSelected = document.createElement("img");
 var boneChangeAngleSelectorSelected = document.createElement("img");
 var boneChangeAngleSelectorNotSelected = document.createElement("img");
-
+var boneSelector = document.createElement("img");
+var boneSelectorSelected = document.createElement("img");
 
 function loadAnimatorIcons(){
 	boneMoveSelectorSelected.onload = function(){
@@ -24,6 +25,16 @@ function loadAnimatorIcons(){
 		boneChangeAngleSelectorNotSelectedLoaded = true;
 	}
 	boneChangeAngleSelectorNotSelected.src = "images/BoneRotateSelector.png";
+	
+	boneSelector.onload = function(){
+		boneSelectorLoaded = true;
+	}
+	boneSelector.src = "images/BoneSelector.png";
+	
+	boneSelectorSelected.onload = function(){
+		boneSelectorSelectedLoaded = true;
+	}
+	boneSelectorSelected.src = "images/BoneSelector_selected.png";
 }
 
 function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor){
