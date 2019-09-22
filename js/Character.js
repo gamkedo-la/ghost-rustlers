@@ -311,38 +311,6 @@ function characterClass(character_team, character_color) {
     }
   }
 
-  this.characterSpawn = function (x, y) {
-    // center character on screen
-    this.x = x;
-    this.y = y;
-    if (this.team === 'PLAYER_TEAM') {
-      allCharacters.push(this);
-    } else if (this.team === 'ENEMY_TEAM') {
-      allEnemies.push(this);
-    }
-    allObjects.push(this);
-    console.log(allObjects[0].width + ", " + allObjects[0].height);
-
-    //this.leftShoulderJoint = {x: x, y: y}
-    //this.rightShoulderJoint = {x: x, y: y}
-    this.leftElbow = {
-      x: 0,
-      y: 0
-    };
-    this.rightElbow = {
-      x: 0,
-      y: 0
-    };
-    this.leftHand = {
-      x: 0,
-      y: 0
-    };
-    this.rightHand = {
-      x: 0,
-      y: 0
-    };
-  }
-
   this.characterReset = function () {
     this.actionsRemaining = ACTIONS_PER_TURN;
     this.deactivateCharacter();

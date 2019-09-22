@@ -15,7 +15,7 @@ var allEnemies = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('ENEMY_TEAM', 'green');
 var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
-var boulder1 = new destructableObjectClass(500, 500);
+//var boulder1 = new destructableObjectClass(50, 50);
 var turnCount = 1;
 var playersTurn = true;
 
@@ -50,9 +50,10 @@ window.onload = function () {
   initNavGraph();
   initRenderLoop();
 
-  character1.characterSpawn(canvas.width / 2, canvas.height / 2);
-  character2.characterSpawn(canvas.width / 2 + 100, canvas.height / 2);
-  enemy1.characterSpawn(500, 500);
+  character1.objectSpawn(canvas.width / 2, canvas.height / 2);
+  character2.objectSpawn(canvas.width / 2 + 100, canvas.height / 2);
+  enemy1.objectSpawn(500, 500);
+  //boulder1.objectSpawn(50, 50);
 
   character1.activateCharacter();
   character2.deactivateCharacter();
