@@ -48,7 +48,6 @@ window.onload = function () {
   initArt();
   initInput();
   initNavGraph();
-  initRenderLoop();
 
   character1.objectSpawn(canvas.width / 2, canvas.height / 2);
   character2.objectSpawn(canvas.width / 2 + 100, canvas.height / 2);
@@ -113,7 +112,7 @@ function endPlayerTurn() {
 
 function enemyTurn() {
 
-  //Enemy Actions
+  //enemyAim();
 
 }
 

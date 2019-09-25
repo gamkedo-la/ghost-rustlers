@@ -1,3 +1,6 @@
+characterClass.prototype = new destructableObjectClass();
+characterClass.prototype.constructor = characterClass;
+
 const CHARACTER_HEIGHT = 80;
 const CHARACTER_WIDTH = 40;
 const RUN_SPEED = 4.0;
@@ -26,8 +29,6 @@ function characterClass(character_team, character_color) {
   this.isOnGround = false;
   this.isClimbing = false;
   this.isActive = false;
-
-  
 
   this.upperArm = {
     x: 0,
@@ -95,29 +96,23 @@ function characterClass(character_team, character_color) {
       this.bodyLeftPicInactive = enemyBodyLeftPic;
     }
 
-
     if (this.actionsRemaining <= 0) {
       canvasContext.globalCompositeOperation = "darken";
     } else if (!this.isActive) {
       canvasContext.globalCompositeOperation = "overlay";
     }
 
-    if (this.bodyRightPicUsed != undefined && this.bodyRightPic != undefined && this.bodyRightPicInactive != undefined) {
-      if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
-        canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyLeftPicUsed : (this.isActive ? this.bodyLeftPic : this.bodyLeftPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
-      } else {
-        canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyRightPicUsed : (this.isActive ? this.bodyRightPic : this.bodyRightPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
-      }
+    if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
+      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyLeftPicUsed : (this.isActive ? this.bodyLeftPic : this.bodyLeftPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
+    } else {
+      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyRightPicUsed : (this.isActive ? this.bodyRightPic : this.bodyRightPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
     }
+
     //Draw stylish cowboy hat
     drawImageCenteredAtLocationWithRotation(cowboyHatPic, this.x, this.y - CHARACTER_HEIGHT / 3, 1.9 * Math.PI);
 
-    if (this.upperArmPicUsed != undefined && this.upperArmPic != undefined && this.upperArmPicInactive != undefined) {
-      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle)
-    }
-    if (this.lowerArmPicUsed != undefined && this.lowerArmPic != undefined && this.lowerArmPicInactive != undefined) {
-      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle)
-    }
+    drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle)
+    drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle)
 
     if (isInAimMode && this.isActive || this.hasFired) {
       drawProjectileTrajectory(this);
@@ -332,6 +327,3 @@ function characterClass(character_team, character_color) {
   }
 
 }
-
-characterClass.prototype = new destructableObjectClass();
-characterClass.prototype.constructor = characterClass;
