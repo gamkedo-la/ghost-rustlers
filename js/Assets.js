@@ -59,7 +59,7 @@ function initArt(){
   {varName:cowboyHatPic,	theFile:"cowboyHat.png"},
   ];
   
-  picsToLoad	=	imageList.length;	//	sets	it	to	3,	since	3	Object	Literals	in	array
+  picsToLoad	=	imageList.length;
 
   for(var	i=0;i<imageList.length;i++)	{
       beginLoadingImage(imageList[i].varName,imageList[i].theFile);

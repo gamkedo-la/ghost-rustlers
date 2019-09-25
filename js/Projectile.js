@@ -50,8 +50,14 @@ function drawProjectileTrajectory(character) {
     //TODO: Fix this so that the projectile moves at a constant speed for all line lengths.
     bulletT += (MAX_BULLET_T * lineLength) * .0001;
   } else {
-    aimToX = aimerX;
-    aimToY = aimerY;
+    if (playersTurn == true){
+      aimToX = aimerX;
+      aimToY = aimerY;
+    } else {
+      aimToX = aiMousePosX;
+      aimToY = aiMousePosY;
+    }
+    
   }
 
   if (character.isActive && !character.hasFired) {
@@ -124,6 +130,7 @@ function drawProjectile(fromX, fromY, toX, toY) {
     if (bulletT >= MAX_BULLET_T) {
       bulletT = 0;
       ricochetCount++;
+      projectileAlive = false;
     }
   }
 }

@@ -18,6 +18,8 @@ var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
 //var boulder1 = new destructableObjectClass(50, 50);
 var turnCount = 1;
 var playersTurn = true;
+var aiMousePosX = 500;
+var aiMousePosY = 500;
 
 var background = new BackgroundClass();
 
@@ -111,7 +113,7 @@ function endPlayerTurn() {
 }
 
 function enemyTurn() {
-
+  enemy1.activateCharacter();
   //enemyAim();
 
 }
@@ -120,6 +122,7 @@ function endEnemyTurn() {
   console.log('end enemy turn');
   enemy1.movementDetermined = false;
   enemy1.hasFired = false;
+  enemy1.deactivateCharacter();
   character1.activateCharacter();
   playersTurn = true;
 }

@@ -10,9 +10,10 @@ function moveAimer() {
     if (isInAimMode) {
         return;
     }
-
-    aimerX = mousePos.x + camPanX;
-    aimerY = mousePos.y + camPanY;
+    if (playersTurn) {
+        aimerX = mousePos.x + camPanX;
+        aimerY = mousePos.y + camPanY;
+    }
 
     //If character1 is active set to character 1, else set to character 2
     let activeChar = character1.isActive ? character1 : character2;
@@ -23,8 +24,8 @@ function moveAimer() {
     let index = getNearestNode(outOfRangeX, outOfRangeY, playerNavGraph),
         coords = playerNavGraph[index];
 
-    outOfRangeX = BRICK_W/2 + coords.x * BRICK_W; 
-    outOfRangeY = BRICK_H/2 + coords.y * BRICK_H;
+    outOfRangeX = BRICK_W / 2 + coords.x * BRICK_W;
+    outOfRangeY = BRICK_H / 2 + coords.y * BRICK_H;
 
     let newPath = [];
     if (activeChar.path.length === 0) {
@@ -34,8 +35,8 @@ function moveAimer() {
     if (newPath.length > DISTANCE_PER_ACTION) {
         newPath.length = DISTANCE_PER_ACTION;
 
-        aimerX = BRICK_W/2 + newPath[DISTANCE_PER_ACTION - 1].x * BRICK_W, 
-        aimerY = BRICK_H/2 + newPath[DISTANCE_PER_ACTION - 1].y * BRICK_H;
+        aimerX = BRICK_W / 2 + newPath[DISTANCE_PER_ACTION - 1].x * BRICK_W,
+            aimerY = BRICK_H / 2 + newPath[DISTANCE_PER_ACTION - 1].y * BRICK_H;
     } else {
         aimerX = outOfRangeX;
         aimerY = outOfRangeY;
@@ -50,7 +51,7 @@ function wobbleAimer() {
     if (!isInAimMode) {
         return;
     }
-    
+
     aimerX = mousePos.x + camPanX;
     aimerY = mousePos.y + camPanY;
 
@@ -60,8 +61,8 @@ function wobbleAimer() {
         const WOBBLE_SPEEDY = 0.0021331;
         const WOBBLE_SIZEX = 8;
         const WOBBLE_SIZEY = 8;
-        aimerX += Math.sin(performance.now()*WOBBLE_SPEEDX)*WOBBLE_SIZEX;
-        aimerY += Math.sin(performance.now()*WOBBLE_SPEEDY)*WOBBLE_SIZEY;
+        aimerX += Math.sin(performance.now() * WOBBLE_SPEEDX) * WOBBLE_SIZEX;
+        aimerY += Math.sin(performance.now() * WOBBLE_SPEEDY) * WOBBLE_SIZEY;
     }
 }
 
@@ -78,17 +79,17 @@ function drawAimer() {
         }
 
         if (outOfRangeX != aimerX) {
-            colorRect(outOfRangeX - moveAimerPic.width / 4, outOfRangeY - moveAimerPic.height, moveAimerPic.width/2, moveAimerPic.height, 'red')
+            colorRect(outOfRangeX - moveAimerPic.width / 4, outOfRangeY - moveAimerPic.height, moveAimerPic.width / 2, moveAimerPic.height, 'red')
             canvasContext.drawImage(moveAimerPic, outOfRangeX - moveAimerPic.width / 2, outOfRangeY - moveAimerPic.height);
         }
 
         canvasContext.drawImage(moveAimerPic, aimerX - moveAimerPic.width / 2, aimerY - moveAimerPic.height);
-    }  
+    }
 }
 
 function findGround(x, y) {
     let groundY = y;
-        checkCol = colAtXCoord(x),
+    checkCol = colAtXCoord(x),
         startRow = rowAtYCoord(y),
         checkIndex = levelTileIndexAtColRowCoord(checkCol, startRow);
 
@@ -102,7 +103,7 @@ function findGround(x, y) {
                 break;
             }
         }
-    //Otherwise mouse is already in an empty tile
+        //Otherwise mouse is already in an empty tile
     } else {
         //Find nearest solid tile beneath the cursor.
         for (let i = startRow; i < BRICK_ROWS; i++) {

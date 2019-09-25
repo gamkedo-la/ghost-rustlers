@@ -113,21 +113,43 @@ function enemyClass(enemyTeam, enemyColor) {
                 }
             }
 
-            console.log(this.target);
+            //console.log(this.target);
 
             this.nextPathNode();
 			this.movementDetermined = true;
         }
-        
-        if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20 && !this.hasFired) {
+        var reachedDest = (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20 )
+        if(this.hasFired){
+            if(projectileAlive == false){
+                endEnemyTurn();
+            }
+        } else if (reachedDest) {
+            this.target = character1; //testing
             if (this.target != null) {
-                this.handleClick(); //shot 
-                this.fireWeapon();
-                console.log("Shot at "+this.target.team+" "+this.target.color);
+                //this.handleClick(); //shot 
+                isInAimMode = true;
+                var smoothK=0.85
+                aiMousePosX = smoothK * aiMousePosX + (1.0 - smoothK) * this.target.x;
+                aiMousePosY = smoothK * aiMousePosY + (1.0 - smoothK) * this.target.y;
+                var distToTarget = DistanceBetweenTwoPixelCoords(aiMousePosX, aiMousePosY, this.target.x, this.target.y);
+                //console.log(distToTarget);
+                if (distToTarget < 10){
+                    this.fireWeapon();
+                    console.log("Shot at "+this.target.team+" "+this.target.color);
+
+                    //endEnemyTurn();
+                }
+                
             } else {
                 this.wanderDir *= -1;
+                endEnemyTurn();
             }
-            endEnemyTurn();
+            //enemyAim();
+            
         }
     }
+
+    //function enemyAim(){
+        
+    //}
 }

@@ -45,13 +45,13 @@ function initKeys() {
 
 function calculateMousePos(evt) {
   var rect = canvas.getBoundingClientRect(),
-      root = document.documentElement;
+    root = document.documentElement;
   //	account	for	the	margins,	canvas	position	on	page,	scroll	amount,	etc.
   var mouseX = evt.clientX - rect.left - root.scrollLeft;
   var mouseY = evt.clientY - rect.top - root.scrollTop;
 
   moveAimer();
-  
+
   return {
     x: mouseX,
     y: mouseY
@@ -59,16 +59,35 @@ function calculateMousePos(evt) {
 }
 
 function setKeyHoldState(thisKey, setTo) {
+
+  if (thisKey == KEY_P) {
+    if (setTo) {
+      isPaused = !isPaused;
+      console.log("P pressed");
+    }
+  }
+  
+  if (thisKey == KEY_TILDE) {
+    if (setTo) {
+      debugMode = !debugMode;
+    }
+  }
+
+  if (playersTurn == false) {
+    console.log("Key Blocked on Enemy Turn")
+    return
+  }
+
   if (thisKey == KEY_LEFT_ARROW) {
     holdLeft = setTo;
   }
   if (thisKey == KEY_RIGHT_ARROW) {
     holdRight = setTo;
   }
-  if(thisKey == KEY_UP_ARROW) {
+  if (thisKey == KEY_UP_ARROW) {
     holdUp = setTo;
   }
-  if(thisKey == KEY_DOWN_ARROW) {
+  if (thisKey == KEY_DOWN_ARROW) {
     holdDown = setTo;
   }
   if (thisKey == KEY_1) {
@@ -84,19 +103,8 @@ function setKeyHoldState(thisKey, setTo) {
     hold_4_Key = setTo;
   }
   if (thisKey == KEY_E) {
-    if (setTo){
+    if (setTo) {
       isInAimMode = !isInAimMode;
-    }
-  }
-  if (thisKey == KEY_P) {
-      if (setTo) {
-        isPaused = !isPaused;
-       console.log ("P pressed");
-      }
-  }
-  if (thisKey == KEY_TILDE) {
-    if (setTo){
-      debugMode = !debugMode;
     }
   }
 }
@@ -110,9 +118,9 @@ function keyReleased(evt) {
 
   if (evt.keyCode == KEY_SPACE && character1.actionsRemaining == 0 && character2.actionsRemaining == 0) {
     endPlayerTurn();
-	if(evt.keyCode == KEY_SPACE && gameOver){
-		resetGame()
-	}
+    if (evt.keyCode == KEY_SPACE && gameOver) {
+      resetGame()
+    }
   } else {
     setKeyHoldState(evt.keyCode, false);
   }
@@ -120,11 +128,10 @@ function keyReleased(evt) {
 }
 
 function mouseReleased(evt) {
-  if(gameState == STATE_GAME){
-	character1.handleClick();
-	character2.handleClick();
-  }
-  else if(gameState == STATE_TITLE_SCREEN) {
+  if (gameState == STATE_GAME) {
+    character1.handleClick();
+    character2.handleClick();
+  } else if (gameState == STATE_TITLE_SCREEN) {
     titleScreenMouseClick(mousePos.x, mousePos.y);
   }
 }

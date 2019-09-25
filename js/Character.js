@@ -114,8 +114,10 @@ function characterClass(character_team, character_color) {
     drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle)
     drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle)
 
-    if (isInAimMode && this.isActive || this.hasFired) {
+    if ((isInAimMode && this.isActive) || this.hasFired) {
       drawProjectileTrajectory(this);
+    } else {
+      projectileAlive = false;
     }
 
     if (this.hasFired) {
@@ -286,7 +288,11 @@ function characterClass(character_team, character_color) {
   }
 
   this.fireWeapon = function () {
+    if (!debugMode) {
+      this.actionsRemaining--;
+    }
     this.hasFired = true;
+    projectileAlive = true;
     bulletT = 0.0;
     ricochetCount = 0;
     damageAvailable = true;
@@ -297,12 +303,13 @@ function characterClass(character_team, character_color) {
       if (isInAimMode) {
         this.fireWeapon();
       } else {
+        if (!debugMode) {
+          this.actionsRemaining--;
+        }
         this.path = currentPath;
         this.nextPathNode();
       }
-      if (!debugMode) {
-        this.actionsRemaining--;
-      }
+      
     }
   }
 
