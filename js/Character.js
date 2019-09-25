@@ -275,8 +275,15 @@ function characterClass(character_team, character_color) {
 
     //sets angles of arm segments
     if (isInAimMode && this.isActive) {
-      targetShoulderAngle = Math.atan2(aimerY - this.rightShoulderJoint.y, aimerX - this.rightShoulderJoint.x);
-      targetElbowAngle = -Math.PI / 6;
+      if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
+        targetShoulderAngle = Math.atan2(aimerY - this.rightShoulderJoint.y, aimerX - this.rightShoulderJoint.x);
+        targetElbowAngle = Math.PI / 6;
+      }
+      else {
+        targetShoulderAngle = Math.atan2(aimerY - this.rightShoulderJoint.y, aimerX - this.rightShoulderJoint.x);
+        targetElbowAngle = -Math.PI / 6;
+     }
+
     } else {
       targetShoulderAngle = Math.PI * 0;
       targetElbowAngle = -Math.PI * 0.7;
