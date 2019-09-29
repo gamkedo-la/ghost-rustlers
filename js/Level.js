@@ -57,6 +57,8 @@ const CACTUSBOTTOM_TILE = 8;
 
 function drawGroundBlocks() {
 
+    wallEdges = [];
+
     var cameraLeftMostCol = Math.floor(camPanX / BRICK_W);
     var cameraTopMostRow = Math.floor(camPanY / BRICK_H);
 
@@ -129,7 +131,9 @@ function drawGroundBlocks() {
 
     for (i = 0; i < wallEdges.length; i++) {
         wallEdges[i].angle = angleFromLine(wallEdges[i]);
-        //colorLine(wallEdges[i].x1, wallEdges[i].y1, wallEdges[i].x2, wallEdges[i].y2);
+        if (debugMode){
+            colorLine(wallEdges[i].x1, wallEdges[i].y1, wallEdges[i].x2, wallEdges[i].y2);
+        }
     }
 
 } // end of drawGroundBlocks()

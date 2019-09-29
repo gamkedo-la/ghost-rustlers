@@ -5,6 +5,8 @@ const STATE_GAME = 0;
 const STATE_TITLE_SCREEN = 1;
 const STATE_PAUSED = 2;
 const STATE_DEBUGMODE = 3;
+const STATE_WIN_SCREEN = 4;
+const STATE_LOSE_SCREEN = 5;
 var gameState = STATE_TITLE_SCREEN;
 
 var isPaused = false;
@@ -13,7 +15,7 @@ var allObjects = [];
 var allCharacters = [];
 var allEnemies = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
-var character2 = new characterClass('ENEMY_TEAM', 'green');
+var character2 = new characterClass('PLAYER_TEAM', 'green');
 var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
 //var boulder1 = new destructableObjectClass(50, 50);
 var turnCount = 1;
@@ -51,9 +53,9 @@ window.onload = function () {
   initInput();
   initNavGraph();
 
-  character1.objectSpawn(canvas.width / 2, canvas.height / 2);
+  character1.objectSpawn(canvas.width / 2 - 100, canvas.height / 2);
   character2.objectSpawn(canvas.width / 2 + 100, canvas.height / 2);
-  enemy1.objectSpawn(500, 500);
+  enemy1.objectSpawn(700, 500);
   //boulder1.objectSpawn(50, 50);
 
   character1.activateCharacter();
