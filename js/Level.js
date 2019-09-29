@@ -57,6 +57,8 @@ const CACTUSBOTTOM_TILE = 8;
 
 function drawGroundBlocks() {
 
+    wallEdges = [];
+
     var cameraLeftMostCol = Math.floor(camPanX / BRICK_W);
     var cameraTopMostRow = Math.floor(camPanY / BRICK_H);
 
