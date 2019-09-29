@@ -32,14 +32,14 @@ var levelTileGrid = [
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 5, 0, 8, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 ];
 
@@ -49,6 +49,10 @@ const LADDER_TILE = 2;
 const LADDER_PLATFORM_TILE = 3;
 const PLATFORM_TILE = 4;
 const LADDER_BROKEN_TILE = 5;
+
+const CACTUS_TILE = 6;
+const CACTUSTOP_TILE = 7;
+const CACTUSBOTTOM_TILE = 8;
 
 
 function drawGroundBlocks() {
@@ -93,6 +97,16 @@ function drawGroundBlocks() {
             if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_BROKEN_TILE){
                 canvasContext.drawImage(ladderBrokenPic, brickLeftEdgeX, brickTopEdgeY);
             }
+			
+			if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === CACTUS_TILE) {
+				canvasContext.drawImage(cactusPic, brickLeftEdgeX, brickTopEdgeY);
+			}
+			if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === CACTUSTOP_TILE) {
+				canvasContext.drawImage(cactusTopPic, brickLeftEdgeX, brickTopEdgeY);
+			}
+			if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === CACTUSBOTTOM_TILE) {
+				canvasContext.drawImage(cactusBottomPic, brickLeftEdgeX, brickTopEdgeY);
+			}
 
         } // end of for eachRow
     } // end of for eachCol

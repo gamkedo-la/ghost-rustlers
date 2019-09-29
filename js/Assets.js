@@ -20,6 +20,10 @@ var boulderPic = document.createElement("img");
 var buttonPic = document.createElement("img");
 var circleImg = document.createElement("img");
 
+var cactusPic = document.createElement("img");
+var cactusTopPic = document.createElement("img");
+var cactusBottomPic = document.createElement("img");
+
 //var inActiveColor = "#88880088";
 //var usedColor = "#000000AA";
 
@@ -57,6 +61,10 @@ function initArt(){
   {varName:buttonPic,	theFile:"button.png"},
   {varName:circleImg,	theFile:"circle.png"},
   {varName:cowboyHatPic,	theFile:"cowboyHat.png"},
+  
+  {varName:cactusPic, theFile:"cactus.png"},
+  {varName:cactusTopPic, theFile:"cactusTop.png"},
+  {varName:cactusBottomPic, theFile:"cactusBottom.png"},
   ];
   
   picsToLoad	=	imageList.length;
