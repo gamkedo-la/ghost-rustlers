@@ -208,7 +208,7 @@ function boneClass(){
 		this.parentBone = parentBoneSelected;
 		console.log("parent bone is: " + bones.indexOf(this.parentBone));	
 		this.relativeDistanceToParent = (Math.sqrt((Math.pow(this.locationOnParentSprite.x - this.parentBone.endPosition.x,2)) + (Math.pow(this.locationOnParentSprite.y - this.parentBone.endPosition.y,2))))
-		this.relativeAngleToParent =  Math.atan2(this.parentBone.endPosition.y - this.locationOnParentSprite.y, this.parentBone.endPosition.x - this.locationOnParentSprite.x);		
+		this.relativeAngleToParent =  Math.atan2(this.parentBone.endPosition.x - this.locationOnParentSprite.x, this.parentBone.endPosition.y - this.locationOnParentSprite.y);		
 		console.log("relative angle to parent is = " + this.relativeAngleToParent);
 		console.log("relative distance to parent is = " + this.relativeDistanceToParent);
 		
