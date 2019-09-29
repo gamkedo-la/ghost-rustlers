@@ -5,6 +5,8 @@ const STATE_GAME = 0;
 const STATE_TITLE_SCREEN = 1;
 const STATE_PAUSED = 2;
 const STATE_DEBUGMODE = 3;
+const STATE_WIN_SCREEN = 4;
+const STATE_LOSE_SCREEN = 5;
 var gameState = STATE_TITLE_SCREEN;
 
 var isPaused = false;

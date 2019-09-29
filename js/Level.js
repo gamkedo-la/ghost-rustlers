@@ -129,7 +129,9 @@ function drawGroundBlocks() {
 
     for (i = 0; i < wallEdges.length; i++) {
         wallEdges[i].angle = angleFromLine(wallEdges[i]);
-        //colorLine(wallEdges[i].x1, wallEdges[i].y1, wallEdges[i].x2, wallEdges[i].y2);
+        if (debugMode){
+            colorLine(wallEdges[i].x1, wallEdges[i].y1, wallEdges[i].x2, wallEdges[i].y2);
+        }
     }
 
 } // end of drawGroundBlocks()
