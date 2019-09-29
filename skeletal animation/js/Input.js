@@ -28,6 +28,8 @@ var changingAngle = false;
 var movingBone = false;
 
 var settingParent = false;
+var childBone = null;
+var parentBone = null;
 
 var highestIndex;
 var draggingIndex;
@@ -163,15 +165,12 @@ function onMouseDown(evt){
 			window.addEventListener('mouseup', mouseUpListener, false);
 			settingParent = true;
 			console.log(settingParent);
-			bones[i].parentToBeSet = true;
-			//bones[i].childOfOtherBone = true;
-			//return;
+			bones[i].parentToBeSet = true;		
 		}
 		if(bones[i].selected && bones[i].boneSet && settingParent){
 			canvas.removeEventListener('mousedown', onMouseDown, false);
-			window.addEventListener('mouseup', mouseUpListener, false);
-			var childBone;
-			var parentBone = bones[i];
+			window.addEventListener('mouseup', mouseUpListener, false);		
+			parentBone = bones[i];
 			for(j=0; j < bones.length; j++){
 				if(bones[j].parentToBeSet){
 					childBone = bones[j];
@@ -180,12 +179,22 @@ function onMouseDown(evt){
 			if(childBone == null){
 				return;
 			}			
-			childBone.SetParentBone(parentBone); //TODO:Finish wiring function
+			return;
+			/*childBone.SetParentBone(parentBone); 
 			settingParent = false;
-			console.log(settingParent);
-			//return;
+			console.log(settingParent);*/			
 		}
-		
+		if(parentBone != null){
+			//Set childlocation on parent sprite
+			canvas.removeEventListener('mousedown', onMouseDown, false);
+			window.addEventListener('mouseup', mouseUpListener, false);	
+			childBone.locationOnParentSprite.x = mousePos.x;
+			childBone.locationOnParentSprite.y = mousePos.y;
+			childBone.SetParentBone(parentBone);
+			parentBone = null;
+			childBone = null;
+			settingParent = false;
+		}		
 	}
 			
 	if(changingAngle || movingBone){

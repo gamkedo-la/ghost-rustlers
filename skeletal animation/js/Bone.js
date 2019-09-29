@@ -18,6 +18,10 @@ function boneClass(){
 		x:0,
 		y:0
 	}
+	this.locationOnParentSprite = {
+		x:0,
+		y:0
+	}
 	this.resetButtonPosition = {
 		x:0,
 		y:0
@@ -36,6 +40,8 @@ function boneClass(){
 	
 	this.positionAlongParentBone = 1; //A value from 0 to 1 that tracks the percentage of the parent limb length. 
 	this.distanceAlongParentBone = 0;
+	this.relativeDistanceToParent = 0;
+	this.relativeAngleToParent = 0;
 	
 	this.limbImage; //Image of Actual game object to be animated
 	//this.boneImageOverlay;	//Overlay image of a "bone" that designer can manipulate to move limb. Invisible during game.
@@ -82,24 +88,19 @@ function boneClass(){
 		}
 		else{
 			this.distanceAlongParentBone = (this.limbLength - (this.positionAlongParentBone * this.limbLength));
-
+			
 			//TODO: Complete position along parent bone logic
-			this.startPosition.x = this.parentBone.endPosition.x;
-			this.startPosition.y = this.parentBone.endPosition.y;
+			this.startPosition.x = this.parentBone.endPosition.x - (this.relativeDistanceToParent * Math.sin((this.relativeAngleToParent - this.parentBone.limbAngle)));
+			this.startPosition.y = this.parentBone.endPosition.y - (this.relativeDistanceToParent * Math.cos((this.relativeAngleToParent - this.parentBone.limbAngle)));	
+			
 			//this.combinedLimbAngle =  this.parentBoneLimbAngle +  this.limbAngle;	
-			this.combinedLimbAngle =  this.parentBone.limbAngle +  this.limbAngle;	
-			this.startPosition.x -= (this.distanceAlongParentBone * Math.cos(this.combinedLimbAngle));
-			this.startPosition.y -= (this.distanceAlongParentBone * Math.sin(this.combinedLimbAngle));
-			
-			
+							
+			this.combinedLimbAngle = this.parentBone.limbAngle + this.limbAngle;
 			this.endPosition.x = (this.limbLength * Math.cos(this.combinedLimbAngle) + this.startPosition.x);
-			this.endPosition.y = (this.limbLength * Math.sin(this.combinedLimbAngle) + this.startPosition.y);	
-			
+			this.endPosition.y = (this.limbLength * Math.sin(this.combinedLimbAngle) + this.startPosition.y);				
 			
 			this.imagePosition.x = this.startPosition.x + ((this.endPosition.x - this.startPosition.x)/2);
-			this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);
-			
-						
+			this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);						
 					
 			drawImageCenteredAtLocationWithRotation(this.limbImage, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
 			//drawImageCenteredAtLocationWithRotation(this.boneImageOverlay, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
@@ -205,8 +206,11 @@ function boneClass(){
 		this.positionAlongParentBone = 1;	
 		this.parentBone = new boneClass();
 		this.parentBone = parentBoneSelected;
-		console.log("parent bone is: " + bones.indexOf(this.parentBone));		
-		//this.startPosition.x = this.parentBone.endPosition.x;
-		//this.startPosition.y = this.parentBone.endPosition.y;
+		console.log("parent bone is: " + bones.indexOf(this.parentBone));	
+		this.relativeDistanceToParent = (Math.sqrt((Math.pow(this.locationOnParentSprite.x - this.parentBone.endPosition.x,2)) + (Math.pow(this.locationOnParentSprite.y - this.parentBone.endPosition.y,2))))
+		this.relativeAngleToParent =  Math.atan2(this.parentBone.endPosition.y - this.locationOnParentSprite.y, this.parentBone.endPosition.x - this.locationOnParentSprite.x);		
+		console.log("relative angle to parent is = " + this.relativeAngleToParent);
+		console.log("relative distance to parent is = " + this.relativeDistanceToParent);
+		
 	}
 }
