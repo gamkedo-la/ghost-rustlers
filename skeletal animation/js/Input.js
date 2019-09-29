@@ -27,9 +27,10 @@ var hold_4_Key = false;
 var changingAngle = false;
 var movingBone = false;
 
+var settingParent = false;
+
 var highestIndex;
 var draggingIndex;
-
 
 
 function initInput(){
@@ -62,7 +63,7 @@ function keyPressed(evt){
 		}
 		
 		if(animationIndex <= positionsIndex){
-		SetStickFigureToStoredPositions();
+		SetFigureToStoredPositions();
 		}		
 		
 		console.log("animation Index is " + animationIndex);
@@ -75,7 +76,7 @@ function keyPressed(evt){
 		}
 		
 		if(animationIndex <= positionsIndex){
-		SetStickFigureToStoredPositions();
+		SetFigureToStoredPositions();
 		}
 		
 		console.log(animationIndex);
@@ -99,8 +100,8 @@ function onMouseDown(evt){
 	
 	//find which bone was clicked
 	for(i=0; i < bones.length; i++){
-		console.log((bones.indexOf(bones[i])) +": " + (bones[i].selected));
-		console.log((bones.indexOf(bones[i])) +": " + (bones[i].limbLength));
+		//console.log((bones.indexOf(bones[i])) +": " + (bones[i].selected));
+		//console.log((bones.indexOf(bones[i])) +": " + (bones[i].limbLength));
 		if((hitTest(bones[i].imagePosition, mousePos.x, mousePos.y)) && (bones[i].selected == false)){			
 			bones[i].selected = true;
 			return;
@@ -122,22 +123,22 @@ function onMouseDown(evt){
 		}
 		//Moving Bone for Animations(See MouseMoveListener for function)
 		if((hitTest(bones[i].endPosition, mousePos.x, mousePos.y)) && (bones[i].boneEndPositionSet == true)){
-			console.log("Changing bone angle");
+			//console.log("Changing bone angle");
 			
 		changingAngle = true;
 		bones[i].selected = true;
 		draggingIndex = i;
-		console.log("dragging index is " + draggingIndex);
+		//console.log("dragging index is " + draggingIndex);
 			
 		}
 		//Moving bone location (See MouseMoveListener for function)
-		if((hitTest(bones[i].startPosition, mousePos.x, mousePos.y)) && (bones[i].boneEndPositionSet == true)){
-			console.log("moving bone");
+		if((hitTest(bones[i].startPosition, mousePos.x, mousePos.y)) && (bones[i].boneEndPositionSet == true) && (bones[i].childOfOtherBone == false)){
+			//console.log("moving bone");
 			
 		movingBone = true;
 		bones[i].selected = true;
 		draggingIndex = i;
-		console.log("dragging index is " + draggingIndex);
+		//console.log("dragging index is " + draggingIndex);
 		}
 		//Reset Bones	
 		if(hitTest(bones[i].resetButtonPosition, mousePos.x, mousePos.y)){
@@ -156,6 +157,35 @@ function onMouseDown(evt){
 				return;
 			}
 		}
+		//Setting Parent of current bone
+		if(bones[i].boneSet && hitTest(bones[i].setParentButtonPosition, mousePos.x, mousePos.y)){
+			canvas.removeEventListener('mousedown', onMouseDown, false);
+			window.addEventListener('mouseup', mouseUpListener, false);
+			settingParent = true;
+			console.log(settingParent);
+			bones[i].parentToBeSet = true;
+			//bones[i].childOfOtherBone = true;
+			//return;
+		}
+		if(bones[i].selected && bones[i].boneSet && settingParent){
+			canvas.removeEventListener('mousedown', onMouseDown, false);
+			window.addEventListener('mouseup', mouseUpListener, false);
+			var childBone;
+			var parentBone = bones[i];
+			for(j=0; j < bones.length; j++){
+				if(bones[j].parentToBeSet){
+					childBone = bones[j];
+				}
+			}
+			if(childBone == null){
+				return;
+			}			
+			childBone.SetParentBone(parentBone); //TODO:Finish wiring function
+			settingParent = false;
+			console.log(settingParent);
+			//return;
+		}
+		
 	}
 			
 	if(changingAngle || movingBone){

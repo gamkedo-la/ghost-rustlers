@@ -48,31 +48,7 @@ function initializeBonePositions(){
 		bones[i].initialPosition.y = 200;
 		bones[i].startPosition.x = bones[i].initialPosition.x;
 		bones[i].startPosition.y = bones[i].initialPosition.y;
-	}
-	/*
-	torso.startPosition.x = 100;	
-	torso.startPosition.y = 100;
-	
-	
-	head.startPosition.x = 200;
-	head.startPosition.y = 100;
-	
-	
-	rightUpperArm.startPosition.x = 300;
-	rightUpperArm.startPosition.y = 100;
-	
-	
-	rightForeArm.startPosition.x = 400;
-	rightForeArm.startPosition.y = 100;
-	
-	
-	leftUpperArm.startPosition.x = 500;
-	leftUpperArm.startPosition.y = 100;
-	
-	leftForeArm.startPosition.x = 600;
-	leftForeArm.startPosition.y = 100;*/
-		
-	
+	}	
 }
 
 function initializeBoneAngles(){
@@ -91,9 +67,7 @@ function boneImages(){
 	head.limbImage = newCharacterhead;	
 }
 
-function drawBones(){
-	//boneChildren();
-	//initializeBonePositions();
+function drawBones(){	
 	boneImages();
 	for(i = 0; i < bones.length; i++){
 		if(bones[i].limbLength == null){
@@ -101,9 +75,6 @@ function drawBones(){
 		}
 		bones[i].drawBone();
 	}
-	//if button pressed add positions to array;
-	//console.log(leftForeArm.parentBoneLimbAngle);	
-	//console.log(leftForeArm.combinedLimbAngle);
 }
 
 function drawBoneMenu(){
@@ -111,7 +82,12 @@ function drawBoneMenu(){
 		bones[i].resetButtonPosition.x = bones[i].initialPosition.x;
 		bones[i].resetButtonPosition.y = bones[i].initialPosition.y + 50;
 		drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, bones[i].resetButtonPosition.x, bones[i].resetButtonPosition.y, 0);
-		canvasContext.strokeText("Reset Bone", bones[i].resetButtonPosition.x + 10, bones[i].resetButtonPosition.y+3);		
+		canvasContext.strokeText("Reset Bone", bones[i].resetButtonPosition.x + 10, bones[i].resetButtonPosition.y+3);
+
+		bones[i].setParentButtonPosition.x = bones[i].initialPosition.x;
+		bones[i].setParentButtonPosition.y = bones[i].initialPosition.y + 70;
+		drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, bones[i].setParentButtonPosition.x, bones[i].setParentButtonPosition.y, 0);
+		canvasContext.strokeText("Set Parent", bones[i].setParentButtonPosition.x + 10, bones[i].setParentButtonPosition.y+3);			
 	}
 	
 	canvasContext.strokeText("1. Select white square on image to begin mapping bone to sprite.", 100, 60);
@@ -124,28 +100,7 @@ function drawBoneMenu(){
 
 }
 
-function StorePositions(){
-	//positions[positionsIndex] = new Array(leftForeArmLimbAngle, leftUpperArmLimbAngle);
-	var limbAngles = new Array();
-	
-	for(i=0; i < bones.length; i++){
-		limbAngles.push(bones[i].limbAngle);
-	}
-	
-	positions[positionsIndex] = limbAngles;	
-		
-	console.log(positions);
-	
-	positionsIndex +=1;
-		
-	console.log("positionsIndex is " + positionsIndex);	
-}
 
-function SetStickFigureToStoredPositions(){	
-			for(i = 0; i < bones.length; i++){
-			bones[i].setBoneAngle(positions[animationIndex] [i]);
-			}	
-}
 	
 
 

@@ -22,12 +22,17 @@ function boneClass(){
 		x:0,
 		y:0
 	}
+	this.setParentButtonPosition = {
+		x:0,
+		y:0
+	}
 	this.limbLength;
 	this.childOfOtherBone = false; //For example if the upperarm moves then so does the lower arm. 
 	this.parentBone;
 	this.limbAngle = 0;
 	this.combinedLimbAngle = 0;
 	this.parentBoneLimbAngle = 0;
+	this.imageAngle = 0;
 	
 	this.positionAlongParentBone = 1; //A value from 0 to 1 that tracks the percentage of the parent limb length. 
 	this.distanceAlongParentBone = 0;
@@ -39,6 +44,11 @@ function boneClass(){
 	this.boneEndPositionSet = false;
 	this.selected = false;
 	this.boneSet = false;	
+	this.parentSet = false;
+	this.parentToBeSet = false;
+	
+	this.childBone = null;
+	this.parentBone = null;
 	
 	this.boneStartSelector = {
 		x:0,
@@ -74,16 +84,17 @@ function boneClass(){
 			this.distanceAlongParentBone = (this.limbLength - (this.positionAlongParentBone * this.limbLength));
 
 			//TODO: Complete position along parent bone logic
-			
-			this.combinedLimbAngle =  this.parentBoneLimbAngle +  this.limbAngle;	
-			//this.combinedLimbAngle =  this.parentBone.limbAngle +  this.limbAngle;	
+			this.startPosition.x = this.parentBone.endPosition.x;
+			this.startPosition.y = this.parentBone.endPosition.y;
+			//this.combinedLimbAngle =  this.parentBoneLimbAngle +  this.limbAngle;	
+			this.combinedLimbAngle =  this.parentBone.limbAngle +  this.limbAngle;	
 			this.startPosition.x -= (this.distanceAlongParentBone * Math.cos(this.combinedLimbAngle));
 			this.startPosition.y -= (this.distanceAlongParentBone * Math.sin(this.combinedLimbAngle));
 			
-			if(this.boneSet == false){
-				this.endPosition.x = (this.limbLength * Math.cos(this.combinedLimbAngle) + this.startPosition.x);
-				this.endPosition.y = (this.limbLength * Math.sin(this.combinedLimbAngle) + this.startPosition.y);	
-			}
+			
+			this.endPosition.x = (this.limbLength * Math.cos(this.combinedLimbAngle) + this.startPosition.x);
+			this.endPosition.y = (this.limbLength * Math.sin(this.combinedLimbAngle) + this.startPosition.y);	
+			
 			
 			this.imagePosition.x = this.startPosition.x + ((this.endPosition.x - this.startPosition.x)/2);
 			this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);
@@ -93,6 +104,7 @@ function boneClass(){
 			drawImageCenteredAtLocationWithRotation(this.limbImage, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
 			//drawImageCenteredAtLocationWithRotation(this.boneImageOverlay, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
 		}
+		//Draw inital bone selector
 		if(hideIcons == false){
 			if(this.boneSet == false){
 				if(this.selected == true){				
@@ -100,8 +112,9 @@ function boneClass(){
 					}else{				
 						drawImageCenteredAtLocationWithRotation(boneSelector, this.imagePosition.x, this.imagePosition.y, this.limbAngle);
 					}
-			}	
-			if(this.boneStartPositionSet == true){			
+			}
+			//Draw change position selector
+			if(this.boneStartPositionSet == true && this.childOfOtherBone == false){			
 				if(this.selected == true){
 					if(this.boneSet == false){
 						drawImageCenteredAtLocationWithRotation(boneMoveSelectorSelected, this.boneStartSelector.x, this.boneStartSelector.y, this.limbAngle);
@@ -112,7 +125,7 @@ function boneClass(){
 					drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, this.startPosition.x, this.startPosition.y, this.limbAngle);
 				}			
 			}
-			
+			//Draw change angle selector	
 			if(this.boneEndPositionSet == true){			
 				if(this.selected == true){				
 					drawImageCenteredAtLocationWithRotation(boneChangeAngleSelectorSelected, this.endPosition.x, this.endPosition.y, this.limbAngle);
@@ -181,8 +194,19 @@ function boneClass(){
 		this.boneSet = false;
 		this.boneStartPositionSet = false;
 		this.boneEndPositionSet = false;
+		this.childOfOtherBone = false;
 		this.selected = false;
+		
 	}
 	
-		
+	this.SetParentBone = function(parentBoneSelected){
+		console.log("Set Parent Called");
+		this.childOfOtherBone = true;
+		this.positionAlongParentBone = 1;	
+		this.parentBone = new boneClass();
+		this.parentBone = parentBoneSelected;
+		console.log("parent bone is: " + bones.indexOf(this.parentBone));		
+		//this.startPosition.x = this.parentBone.endPosition.x;
+		//this.startPosition.y = this.parentBone.endPosition.y;
+	}
 }
