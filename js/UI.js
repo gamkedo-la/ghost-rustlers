@@ -12,8 +12,8 @@ function drawUI() {
         canvasContext.fillText("Character1 Team: " + character1.team, 50, 130);
         canvasContext.fillText("Character2 Team: " + character2.team, 50, 140);
         canvasContext.fillText("Turn: " + turnCount, 50, 150);
-        canvasContext.fillText("C1 Actions: " + character1.actionsRemaining, 50, 160);
-        canvasContext.fillText("C2 Actions: " + character2.actionsRemaining, 50, 170);
+        canvasContext.fillText("C1 Actions: " + allPlayerCharacters[0].actionsRemaining, 50, 160);
+        canvasContext.fillText("C2 Actions: " + allPlayerCharacters[1].actionsRemaining, 50, 170);
     }
 
     drawCharacterInfo();

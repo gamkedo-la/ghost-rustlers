@@ -11,9 +11,9 @@ var gameState = STATE_TITLE_SCREEN;
 
 var isPaused = false;
 var debugMode = false;
-var allObjects = [];
 var allCharacters = [];
-var allEnemies = [];
+var allPlayerCharacters = [];
+var allEnemyCharacters = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
 var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
@@ -30,11 +30,32 @@ function initRenderLoop() {
   setInterval(function () {
 
     if (hold_1_Key) {
+/*
+      for (i = 0; i < allPlayerCharacters.length; i++){
+        console.log(allPlayerCharacters[i]);
+        console.log(allPlayerCharacters.length);
+        if (allPlayerCharacters[i] == 0){
+          allPlayerCharacters[i].activateCharacter();
+        } else {
+          allPlayerCharacters[i].deactivateCharacter();
+        }
+      }
+*/
       character1.activateCharacter();
       character2.deactivateCharacter();
     }
 
     if (hold_2_Key) {
+/*
+      for (i = 0; i < allPlayerCharacters.length; i++){
+        console.log(allPlayerCharacters[i]);
+        if (allPlayerCharacters[i] == 1){
+          allPlayerCharacters[i].activateCharacter();
+        } else {
+          allPlayerCharacters[i].deactivateCharacter();
+        }
+      }
+*/  
       character1.deactivateCharacter();
       character2.activateCharacter();
     }
@@ -53,9 +74,9 @@ window.onload = function () {
   initInput();
   initNavGraph();
 
-  character1.objectSpawn(canvas.width / 2 - 100, canvas.height / 2);
-  character2.objectSpawn(canvas.width / 2 + 100, canvas.height / 2);
-  enemy1.objectSpawn(700, 500);
+  character1.objectSpawn(canvas.width / 2 -100, canvas.height / 2);
+  character2.objectSpawn(canvas.width / 2 + 300, canvas.height / 2);
+  enemy1.objectSpawn(500, 500);
   //boulder1.objectSpawn(50, 50);
 
   character1.activateCharacter();

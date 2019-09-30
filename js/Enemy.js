@@ -11,51 +11,7 @@ function enemyClass(enemyTeam, enemyColor) {
     this.wanderDir = 1;
     this.target = null;
     this.shoulderOffset = 10;
-/*
-    this.drawCharacter = function() {
-        if (this.health <= 0) {
-            return;
-        }
-        
-        if (enemyBodyRightPicLoaded && enemyBodyLeftPicLoaded) {
-            if (this.wanderDir < 0) {
-                canvasContext.drawImage(enemyBodyLeftPic, this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
-            } else {
-                canvasContext.drawImage(enemyBodyRightPic, this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
-            }
-        }
 
-        if (enemyUpperArmPicLoaded) {
-            drawImageCenteredAtLocationWithRotation(enemyUpperArmPic, this.upperArm.x, this.upperArm.y, this.shoulderAngle)
-        }
-
-        if (enemyLowerArmPicLoaded) {
-            drawImageCenteredAtLocationWithRotation(enemyLowerArmPic, this.lowerArm.x, this.lowerArm.y, this.handAngle)
-        }
-
-        if (this.bulletT >= MAX_BULLET_T) {
-            this.hasFired = false;
-        }
-
-        if (isInAimMode && this.isActive || this.hasFired) {
-            this.drawProjectileTrajectory();
-        }
-
-        if (this.hasFired) {
-            drawProjectile();
-        }
-
-        this.drawProjectileTrajectory = function() {
-            if (this.hasFired) {
-                var lineLength = DistanceBetweenTwoPixelCoords(aimFromX, aimFromY, aimToX, aimToY);
-                this.bulletT += MAX_BULLET_T / lineLength;
-            } else {
-                aimToX = aimerX;
-                aimToY = aimerY;
-            }
-        }
-    }
-*/
     //canvasContext.globalCompositeOperation  = "source-over";
 
     this.enemyMove = function() {
@@ -113,8 +69,6 @@ function enemyClass(enemyTeam, enemyColor) {
                 }
             }
 
-            //console.log(this.target);
-
             this.nextPathNode();
 			this.movementDetermined = true;
         }
@@ -144,12 +98,8 @@ function enemyClass(enemyTeam, enemyColor) {
                 this.wanderDir *= -1;
                 endEnemyTurn();
             }
-            //enemyAim();
             
         }
     }
 
-    //function enemyAim(){
-        
-    //}
 }

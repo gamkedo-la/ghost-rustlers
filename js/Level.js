@@ -132,7 +132,8 @@ function drawGroundBlocks() {
     for (i = 0; i < wallEdges.length; i++) {
         wallEdges[i].angle = angleFromLine(wallEdges[i]);
         if (debugMode){
-            colorLine(wallEdges[i].x1, wallEdges[i].y1, wallEdges[i].x2, wallEdges[i].y2);
+            //Commented out because it causes slowdown.  Only needed when troubleshooting wall edge colliders.
+            //colorLine(wallEdges[i].x1, wallEdges[i].y1, wallEdges[i].x2, wallEdges[i].y2);
         }
     }
 

@@ -19,10 +19,11 @@ function drawBulletOnLine(startX, startY, endX, endY, percent) {
   }
 
   if (ricochetCount > MAX_RICOCHETS) {
-    character1.bulletT = MAX_BULLET_T;
-    character2.bulletT = MAX_BULLET_T;
+    console.log(ricochetCount);
+    bulletT = MAX_BULLET_T;
+    bulletT = MAX_BULLET_T;
   } else {
-
+    console.log("drawing projectile");
     colorCircle(positionNowX, positionNowY, 5, 'white');
     checkForCollisionAgainstEnemy(positionNowX, positionNowY);
   }
@@ -30,15 +31,15 @@ function drawBulletOnLine(startX, startY, endX, endY, percent) {
 
 //Checks for collisions against friendly and enemy characters
 function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
-  for (i in allObjects) {
-    if (positionNowX > allObjects[i].x && //check left side
-      positionNowX < allObjects[i].x + allObjects[i].width && // check right side
-      positionNowY > allObjects[i].y && // check top side
-      positionNowY < allObjects[i].y + allObjects[i].height) { // check bottom side
+  for (i in allCharacters) {
+    if (positionNowX > allCharacters[i].x && //check left side
+      positionNowX < allCharacters[i].x + allCharacters[i].width && // check right side
+      positionNowY > allCharacters[i].y && // check top side
+      positionNowY < allCharacters[i].y + allCharacters[i].height) { // check bottom side
       if (damageAvailable) {
-        allObjects[i].health--;
+        allCharacters[i].health--;
         damageAvailable = false;
-        console.log("Hit! " + allObjects[i] +" health: " + allObjects[i].health);
+        console.log("Hit! " + allCharacters[i] + " health: " + allCharacters[i].health);
       }
     }
   }
@@ -48,16 +49,18 @@ function drawProjectileTrajectory(character) {
   if (character.hasFired) {
     var lineLength = DistanceBetweenTwoPixelCoords(aimFromX, aimFromY, aimToX, aimToY);
     //TODO: Fix this so that the projectile moves at a constant speed for all line lengths.
-    bulletT += (MAX_BULLET_T * lineLength) * .0001;
+    //bulletT += (MAX_BULLET_T * lineLength) * .0001;
+    bulletT += MAX_BULLET_T * 0.001;
+    console.log(bulletT);
   } else {
-    if (playersTurn == true){
+    if (playersTurn == true) {
       aimToX = aimerX;
       aimToY = aimerY;
     } else {
       aimToX = aiMousePosX;
       aimToY = aiMousePosY;
     }
-    
+
   }
 
   if (character.isActive && !character.hasFired) {
@@ -125,12 +128,10 @@ function drawProjectileTrajectory(character) {
 }
 
 function drawProjectile(fromX, fromY, toX, toY) {
-  if (projectileAlive) {
-    drawBulletOnLine(fromX, fromY, toX, toY, bulletT);
-    if (bulletT >= MAX_BULLET_T) {
-      bulletT = 0;
-      ricochetCount++;
-      projectileAlive = false;
-    }
+  drawBulletOnLine(fromX, fromY, toX, toY, bulletT);
+  if (bulletT >= MAX_BULLET_T) {
+    //bulletT = 0;
+    ricochetCount++;
+    projectileAlive = false;
   }
 }

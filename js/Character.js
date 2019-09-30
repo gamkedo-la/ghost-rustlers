@@ -116,12 +116,20 @@ function characterClass(character_team, character_color) {
     drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle)
     drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle)
 
+    if (this.isActive){
+      if (isInAimMode || this.hasFired) {
+        drawProjectileTrajectory(this);
+      } else {
+        projectileAlive = false;
+      }
+    }
+    /*
     if ((isInAimMode && this.isActive) || this.hasFired) {
       drawProjectileTrajectory(this);
-    } else {
+    } else if (this.isActive) {
       projectileAlive = false;
     }
-
+*/
     if (this.hasFired) {
 
       if (ricochetCount <= MAX_RICOCHETS) {
