@@ -91,3 +91,17 @@ function updateAutoPan() {
         camPanY -= AUTO_PAN_SPEED;
     }
 }
+
+function moveAutoPan(destX, destY) {
+    let panDeltaX = destX - canvas.width / 2 - camPanX,
+      panDeltaY = destY - canvas.height / 2 - camPanY;
+
+    if (Math.abs(panDeltaX) > DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X) {
+      panDeltaX += panDeltaX > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X;
+      beginAutoPanTo(camPanX + panDeltaX, null)
+    }
+    if (Math.abs(panDeltaY) > DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y) {
+      panDeltaY += panDeltaY > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y;
+      beginAutoPanTo(null, camPanY + panDeltaY);
+    }
+  }

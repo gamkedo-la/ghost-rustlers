@@ -260,21 +260,7 @@ function characterClass(character_team, character_color) {
       this.destinationXCoord = xCoordAtCenterOfCol(this.path[0].x);
       this.destinationYCoord = yCoordAtCenterOfRow(this.path[0].y);
       this.path.shift();
-      this.moveAutoPan();
-    }
-  }
-
-  this.moveAutoPan = function () {
-    let panDeltaX = this.destinationXCoord - canvas.width / 2 - camPanX,
-      panDeltaY = this.destinationYCoord - canvas.height / 2 - camPanY;
-
-    if (Math.abs(panDeltaX) > DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X) {
-      panDeltaX += panDeltaX > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X;
-      beginAutoPanTo(camPanX + panDeltaX, null)
-    }
-    if (Math.abs(panDeltaY) > DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y) {
-      panDeltaY += panDeltaY > 0 ? -DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y : DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y;
-      beginAutoPanTo(null, camPanY + panDeltaY);
+      moveAutoPan(this.destinationXCoord, this.destinationYCoord);
     }
   }
 
