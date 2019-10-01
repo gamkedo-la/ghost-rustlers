@@ -93,10 +93,9 @@ function characterClass(character_team, character_color) {
       return
     }
 
-    if (isInAimMode || this.hasFired) {
-      drawProjectileTrajectory(this);
-    } else {
-      projectileAlive = false;
+    if (isInAimMode && !this.hasFired) {
+      calculateProjectileTrajectory(this);
+      drawTrajectoryPath();
     }
 
     if (this.hasFired) {

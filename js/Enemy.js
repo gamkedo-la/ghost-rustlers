@@ -12,8 +12,6 @@ function enemyClass(enemyTeam, enemyColor) {
     this.target = null;
     this.shoulderOffset = 10;
 
-    //canvasContext.globalCompositeOperation  = "source-over";
-
     this.enemyMove = function() {
         if (this.health <= 0) {
             return;
