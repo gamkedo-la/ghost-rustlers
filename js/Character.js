@@ -65,33 +65,7 @@ function characterClass(character_team, character_color) {
 
   this.drawCharacter = function () {
 
-    if (this.team === 'PLAYER_TEAM') {
-      this.upperArmPic = characterUpperArmPic;
-      this.upperArmPicUsed = characterUpperArmPic_used;
-      this.upperArmPicInactive = characterUpperArmPic_inActive;
-      this.lowerArmPic = characterLowerArmPic;
-      this.lowerArmPicUsed = characterLowerArmPic_used;
-      this.lowerArmPicInactive = characterLowerArmPic_inActive;
-      this.bodyRightPic = characterBodyRightPic;
-      this.bodyRightPicUsed = characterBodyRightPic_used;
-      this.bodyRightPicInactive = characterBodyRightPic_inActive;
-      this.bodyLeftPic = characterBodyLeftPic;
-      this.bodyLeftPicUsed = characterBodyLeftPic_used;
-      this.bodyLeftPicInactive = characterBodyLeftPic_inActive;
-    } else if (this.team === 'ENEMY_TEAM') {
-      this.upperArmPic = enemyUpperArmPic;
-      this.upperArmPicUsed = enemyUpperArmPic;
-      this.upperArmPicInactive = enemyUpperArmPic;
-      this.lowerArmPic = enemyLowerArmPic;
-      this.lowerArmPicUsed = enemyLowerArmPic;
-      this.lowerArmPicInactive = enemyLowerArmPic;
-      this.bodyRightPic = enemyBodyRightPic;
-      this.bodyRightPicUsed = enemyBodyRightPic;
-      this.bodyRightPicInactive = enemyBodyRightPic;
-      this.bodyLeftPic = enemyBodyLeftPic;
-      this.bodyLeftPicUsed = enemyBodyLeftPic;
-      this.bodyLeftPicInactive = enemyBodyLeftPic;
-    }
+    this.setCharacterSprites();
 
     //Here's another method that might look better than the tinted sprite approach.
     //To test this, uncomment this and the last line, and set the inActiveColor and usedColor to #00000000 in the Assets.js.
@@ -103,18 +77,21 @@ function characterClass(character_team, character_color) {
       canvasContext.globalCompositeOperation = "overlay";
     }
 
-    //draw body sprite facing left or right
-    if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
-      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyLeftPicUsed : (this.isActive ? this.bodyLeftPic : this.bodyLeftPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
-    } else {
-      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyRightPicUsed : (this.isActive ? this.bodyRightPic : this.bodyRightPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
-    }
-
+    this.drawBody();
     this.drawArms();
-
     if (this.team == 'PLAYER_TEAM') {
       this.drawHat(this.x, this.y - CHARACTER_HEIGHT / 3, 1.9 * Math.PI);
     }
+
+    //ends sprites being drawn with darkness or transparancy
+    canvasContext.globalCompositeOperation = "source-over";
+
+    //TODO: move this function out of the drawCharacter function
+    this.characterAction();
+
+  }
+
+  this.characterAction = function() {
 
     if (this.isActive) {
       if (isInAimMode || this.hasFired) {
@@ -123,15 +100,8 @@ function characterClass(character_team, character_color) {
         projectileAlive = false;
       }
     }
-    /*
-    if ((isInAimMode && this.isActive) || this.hasFired) {
-      drawProjectileTrajectory(this);
-    } else if (this.isActive) {
-      projectileAlive = false;
-    }
-*/
-    if (this.hasFired) {
 
+    if (this.hasFired) {
       if (ricochetCount <= MAX_RICOCHETS) {
         drawProjectile(trajectoryPaths[ricochetCount].x1, trajectoryPaths[ricochetCount].y1, trajectoryPaths[ricochetCount].x2, trajectoryPaths[ricochetCount].y2);
       } else {
@@ -139,9 +109,6 @@ function characterClass(character_team, character_color) {
         bulletT = MAX_BULLET_T;
       }
     }
-
-    //ends sprites being drawn with darkness or transparancy
-    canvasContext.globalCompositeOperation = "source-over";
   }
 
   this.characterMove = function () {
@@ -231,6 +198,14 @@ function characterClass(character_team, character_color) {
       this.x = (1 + Math.floor(this.x / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
     }
 
+  }
+
+  this.drawBody = function () {
+    if (aimerX < this.x - (CHARACTER_WIDTH / 2)) { //If facing left...
+      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyLeftPicUsed : (this.isActive ? this.bodyLeftPic : this.bodyLeftPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
+    } else { // ...else facing right.
+      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyRightPicUsed : (this.isActive ? this.bodyRightPic : this.bodyRightPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
+    }
   }
 
   this.drawArms = function () {
@@ -354,6 +329,36 @@ function characterClass(character_team, character_color) {
 
   this.deactivateCharacter = function () {
     this.isActive = false;
+  }
+
+  this.setCharacterSprites = function () {
+    if (this.team === 'PLAYER_TEAM') {
+      this.upperArmPic = characterUpperArmPic;
+      this.upperArmPicUsed = characterUpperArmPic_used;
+      this.upperArmPicInactive = characterUpperArmPic_inActive;
+      this.lowerArmPic = characterLowerArmPic;
+      this.lowerArmPicUsed = characterLowerArmPic_used;
+      this.lowerArmPicInactive = characterLowerArmPic_inActive;
+      this.bodyRightPic = characterBodyRightPic;
+      this.bodyRightPicUsed = characterBodyRightPic_used;
+      this.bodyRightPicInactive = characterBodyRightPic_inActive;
+      this.bodyLeftPic = characterBodyLeftPic;
+      this.bodyLeftPicUsed = characterBodyLeftPic_used;
+      this.bodyLeftPicInactive = characterBodyLeftPic_inActive;
+    } else if (this.team === 'ENEMY_TEAM') {
+      this.upperArmPic = enemyUpperArmPic;
+      this.upperArmPicUsed = enemyUpperArmPic;
+      this.upperArmPicInactive = enemyUpperArmPic;
+      this.lowerArmPic = enemyLowerArmPic;
+      this.lowerArmPicUsed = enemyLowerArmPic;
+      this.lowerArmPicInactive = enemyLowerArmPic;
+      this.bodyRightPic = enemyBodyRightPic;
+      this.bodyRightPicUsed = enemyBodyRightPic;
+      this.bodyRightPicInactive = enemyBodyRightPic;
+      this.bodyLeftPic = enemyBodyLeftPic;
+      this.bodyLeftPicUsed = enemyBodyLeftPic;
+      this.bodyLeftPicInactive = enemyBodyLeftPic;
+    }
   }
 
 }
