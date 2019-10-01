@@ -8,7 +8,6 @@ const JUMP_SPEED = 1.6;
 const ACTIONS_PER_TURN = 2;
 const ARM_SEGMENT_LENGTH = 50;
 var isInAimMode = false;
-var projectileAlive = true;
 var damageAvailable = true;
 
 function characterClass(character_team, character_color) {
@@ -86,24 +85,23 @@ function characterClass(character_team, character_color) {
     //ends sprites being drawn with darkness or transparancy
     canvasContext.globalCompositeOperation = "source-over";
 
-    //TODO: move this function out of the drawCharacter function
-    this.characterAction();
-
   }
 
-  this.characterAction = function() {
+  this.characterAction = function () {
 
-    if (this.isActive) {
-      if (isInAimMode || this.hasFired) {
-        drawProjectileTrajectory(this);
-      } else {
-        projectileAlive = false;
-      }
+    if (this.isActive == false) {
+      return
+    }
+
+    if (isInAimMode || this.hasFired) {
+      drawProjectileTrajectory(this);
+    } else {
+      projectileAlive = false;
     }
 
     if (this.hasFired) {
       if (ricochetCount <= MAX_RICOCHETS) {
-        drawProjectile(trajectoryPaths[ricochetCount].x1, trajectoryPaths[ricochetCount].y1, trajectoryPaths[ricochetCount].x2, trajectoryPaths[ricochetCount].y2);
+        animateProjectile(trajectoryPaths[ricochetCount].x1, trajectoryPaths[ricochetCount].y1, trajectoryPaths[ricochetCount].x2, trajectoryPaths[ricochetCount].y2);
       } else {
         this.hasFired = false;
         bulletT = MAX_BULLET_T;

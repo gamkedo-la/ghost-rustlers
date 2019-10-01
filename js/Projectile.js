@@ -1,32 +1,32 @@
 var trajectoryPaths = [];
+var projectileSpeed = 20;
 var ricochetCount = 0;
 const MAX_BULLET_T = 1.0;
 const MAX_RICOCHETS = 2;
 var bulletT = MAX_BULLET_T;
+var projectileAlive = false;
 var aimFromX = 0;
 var aimFromY = 0;
 var aimToX = 0;
 var aimToY = 0;
 
-function drawBulletOnLine(startX, startY, endX, endY, percent) {
+function drawBulletAtPointOnLine(startX, startY, endX, endY, percent) {
   var oppositePerc = 1.0 - percent;
   var positionNowX = startX * oppositePerc + endX * percent;
   var positionNowY = startY * oppositePerc + endY * percent;
-  //var ricochetCount = 0;
 
-  if (isWallTileAtPixelCoord(positionNowX, positionNowY) == 1) {
-    //ricochetCount++;
-  }
-
+  colorCircle(positionNowX, positionNowY, 5, 'white');
+  /*
   if (ricochetCount > MAX_RICOCHETS) {
     console.log(ricochetCount);
     bulletT = MAX_BULLET_T;
-    bulletT = MAX_BULLET_T;
+    //bulletT = MAX_BULLET_T;
   } else {
     console.log("drawing projectile");
     colorCircle(positionNowX, positionNowY, 5, 'white');
     checkForCollisionAgainstEnemy(positionNowX, positionNowY);
   }
+  */
 }
 
 //Checks for collisions against friendly and enemy characters
@@ -47,11 +47,7 @@ function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
 
 function drawProjectileTrajectory(character) {
   if (character.hasFired) {
-    var lineLength = DistanceBetweenTwoPixelCoords(aimFromX, aimFromY, aimToX, aimToY);
-    //TODO: Fix this so that the projectile moves at a constant speed for all line lengths.
-    //bulletT += (MAX_BULLET_T * lineLength) * .0001;
-    bulletT += MAX_BULLET_T * 0.001;
-    console.log(bulletT);
+    
   } else {
     if (playersTurn == true) {
       aimToX = aimerX;
@@ -104,7 +100,6 @@ function drawProjectileTrajectory(character) {
       intersectingEdge = undefined;
 
       //find a wall edge that intersects the trajectory line.
-      //TODO: find only the closest wall edge if more than one intersect the trajectory line.
       wallEdges.forEach(function (wallEdge) {
         intersectionData = getLineIntersection(trajectoryPaths[i], wallEdge);
         if (intersectionData.linesIntersect) {
@@ -127,11 +122,13 @@ function drawProjectileTrajectory(character) {
 
 }
 
-function drawProjectile(fromX, fromY, toX, toY) {
-  drawBulletOnLine(fromX, fromY, toX, toY, bulletT);
-  if (bulletT >= MAX_BULLET_T) {
-    //bulletT = 0;
-    ricochetCount++;
-    projectileAlive = false;
+function animateProjectile(fromX, fromY, toX, toY) {
+  if (bulletT < MAX_BULLET_T){
+    var lineLength = DistanceBetweenTwoPixelCoords(fromX, fromY, toX, toY);
+    bulletT += (1/lineLength) * projectileSpeed;
+    drawBulletAtPointOnLine(fromX, fromY, toX, toY, bulletT);
+  } else {
+    ricochetCount++
+    bulletT = 0;
   }
 }

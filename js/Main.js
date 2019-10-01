@@ -30,32 +30,32 @@ function initRenderLoop() {
   setInterval(function () {
 
     if (hold_1_Key) {
-/*
-      for (i = 0; i < allPlayerCharacters.length; i++){
-        console.log(allPlayerCharacters[i]);
-        console.log(allPlayerCharacters.length);
-        if (allPlayerCharacters[i] == 0){
-          allPlayerCharacters[i].activateCharacter();
-        } else {
-          allPlayerCharacters[i].deactivateCharacter();
-        }
-      }
-*/
+      /*
+            for (i = 0; i < allPlayerCharacters.length; i++){
+              console.log(allPlayerCharacters[i]);
+              console.log(allPlayerCharacters.length);
+              if (allPlayerCharacters[i] == 0){
+                allPlayerCharacters[i].activateCharacter();
+              } else {
+                allPlayerCharacters[i].deactivateCharacter();
+              }
+            }
+      */
       character1.activateCharacter();
       character2.deactivateCharacter();
     }
 
     if (hold_2_Key) {
-/*
-      for (i = 0; i < allPlayerCharacters.length; i++){
-        console.log(allPlayerCharacters[i]);
-        if (allPlayerCharacters[i] == 1){
-          allPlayerCharacters[i].activateCharacter();
-        } else {
-          allPlayerCharacters[i].deactivateCharacter();
-        }
-      }
-*/  
+      /*
+            for (i = 0; i < allPlayerCharacters.length; i++){
+              console.log(allPlayerCharacters[i]);
+              if (allPlayerCharacters[i] == 1){
+                allPlayerCharacters[i].activateCharacter();
+              } else {
+                allPlayerCharacters[i].deactivateCharacter();
+              }
+            }
+      */
       character1.deactivateCharacter();
       character2.activateCharacter();
     }
@@ -74,56 +74,62 @@ window.onload = function () {
   initInput();
   initNavGraph();
 
-  character1.objectSpawn(canvas.width / 2 -100, canvas.height / 2);
+  character1.objectSpawn(canvas.width / 2 - 100, canvas.height / 2);
   character2.objectSpawn(canvas.width / 2 + 300, canvas.height / 2);
   enemy1.objectSpawn(500, 500);
-  //boulder1.objectSpawn(50, 50);
 
   character1.activateCharacter();
   character2.deactivateCharacter();
 }
 
 function updateState(newState) {
-	console.log (newState);
-	gameState = newState;
+  console.log(newState);
+  gameState = newState;
 }
 
 function moveEverything() {
-	if(gameState == STATE_TITLE_SCREEN){
-		return;
-    } else {
-		if(playersTurn){
-			character1.characterMove();
-			character2.characterMove();
-    } 
-  
-		enemy1.enemyMove();
+  if (gameState == STATE_TITLE_SCREEN) {
+    return;
+  } else {
+    if (playersTurn) {
+
+      character1.characterMove();
+      character2.characterMove();
+    }
+
+    enemy1.enemyMove();
 
     moveCamera();
-		wobbleAimer();
-	}
+    wobbleAimer();
+  }
 }
 
 function drawEverything() {
-	if(gameState == STATE_TITLE_SCREEN){
-		drawTitleScreen();
-	} else if (gameState == STATE_GAME){
-        
-        background.draw(-camPanX/4,-camPanY/8);
+  if (gameState == STATE_TITLE_SCREEN) {
+    drawTitleScreen();
+  } else if (gameState == STATE_GAME) {
 
-		canvasContext.save();
-		canvasContext.translate(-camPanX, -camPanY);
+    background.draw(-camPanX / 4, -camPanY / 8);
 
-		drawGroundBlocks();
-		character1.drawCharacter();
-		character2.drawCharacter();
-    enemy1.drawCharacter();
-    //boulder1.drawObject();
-		drawAimer();
+    canvasContext.save();
+    canvasContext.translate(-camPanX, -camPanY);
 
-		canvasContext.restore(); // undoes the .translate() used for cam scroll
-		drawUI();
-	}
+    drawGroundBlocks();
+
+    for (i = 0; i < allCharacters.length; i++){
+      allCharacters[i].drawCharacter();
+    }
+
+    //TODO: This should be moved somewhere else.
+    for (i = 0; i < allPlayerCharacters.length; i++){
+      allPlayerCharacters[i].characterAction();
+    }
+    
+    drawAimer();
+
+    canvasContext.restore(); // undoes the .translate() used for cam scroll
+    drawUI();
+  }
 }
 
 function endPlayerTurn() {
@@ -131,7 +137,7 @@ function endPlayerTurn() {
   playersTurn = false;
   character1.characterReset();
   character2.characterReset();
-	
+
   enemyTurn();
 }
 
