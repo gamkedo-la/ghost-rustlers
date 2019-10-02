@@ -3,10 +3,10 @@ var currentPath = [];
 
 function initNavGraph() {
 	playerNavGraph = generateNavGraph(levelTileGrid, playerLegalMove);
-	playerNavGraph = defineNeighbors(playerNavGraph, levelTileGrid);
+	playerNavGraph = defineNeighbors(playerNavGraph, levelTileGrid, playerLegalNode);
 }
 
-function defineNeighbors(graph, levelGrid) {
+function defineNeighbors(graph, levelGrid, conditions) {
 	let current, neighbor,
 		nGraph = graph.slice(0);
 	for (let i = 0; i < nGraph.length; i++) {
@@ -17,23 +17,31 @@ function defineNeighbors(graph, levelGrid) {
 			}
 			neighbor = nGraph[e];
 
-			//Connect adjacent nodes (within one tile)
-			if (Math.abs(current.x - neighbor.x) <= 1 && Math.abs(current.y - neighbor.y) <= 1) {
+			if (conditions(current, neighbor, levelGrid)) {
 				current.neighbors.push(e)
-			//Account for falling
-			} else if (Math.abs(current.x - neighbor.x) === 1 && neighbor.y > current.y) {
-				for (let y = current.y; y <= neighbor.y; y++) {
-					if (isSolidTile(levelGrid[y * BRICK_COLS + neighbor.x])) {
-						break;
-					} else if (y === neighbor.y) {
-						current.neighbors.push(e)
-					}
-				}
 			}
 		}
 	}
 
 	return nGraph;
+}
+
+function playerLegalNode(node, neighbor, levelGrid) {
+	//Connect adjacent nodes (within one tile)
+	if (Math.abs(node.x - neighbor.x) <= 1 && Math.abs(node.y - neighbor.y) <= 1) {
+		return true;
+	//Account for falling
+	} else if (Math.abs(node.x - neighbor.x) === 1 && neighbor.y > node.y) {
+		for (let y = node.y; y <= neighbor.y; y++) {
+			if (isSolidTile(levelGrid[y * BRICK_COLS + neighbor.x])) {
+				return false;
+			} else if (y === neighbor.y) {
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
 
 function graphSearch(start, end, graph) {
@@ -86,7 +94,7 @@ function getPath(start, goal, searchGraph, navGraph) {
 
 function getPathfor(character, toX, toY, graph) {
 	let start = getNearestNode(character.x, character.y, graph),
-		goal = getNearestNode(toX, toY, playerNavGraph);
+		goal = getNearestNode(toX, toY, graph);
 
 	let search = graphSearch(start, goal, graph);
 		return getPath(start, goal, search, graph);
@@ -162,7 +170,10 @@ function playerLegalMove(index, graph) {
 function isPassableTile(value) {
 	return 	value === EMPTY_TILE ||
 			value === LADDER_TILE ||
-			value === LADDER_BROKEN_TILE;
+			value === LADDER_BROKEN_TILE ||
+			value === CACTUS_TILE ||
+			value === CACTUSTOP_TILE ||
+			value === CACTUSBOTTOM_TILE;
 }
 
 function isSolidTile(value) {
