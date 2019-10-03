@@ -165,7 +165,11 @@ function characterClass(character_team, character_color) {
         this.speedX /= 3;
         this.speedY -= JUMP_SPEED;
       }
-    } else if (this.isClimbing && this.destinationYCoord - BRICK_H / 2 > this.y && Math.abs(this.x - this.destinationXCoord) <= BRICK_H / 2) {
+    //Hop one tile gaps
+    } else if (Math.abs(this.x - this.destinationXCoord) > BRICK_W * 1.75) {
+      this.speedY -= JUMP_SPEED;
+    }
+     else if (this.isClimbing && this.destinationYCoord - BRICK_H / 2 > this.y && Math.abs(this.x - this.destinationXCoord) <= BRICK_H / 2) {
       this.speedY = RUN_SPEED;
     } else if (this.isClimbing) {
       this.speedY = 0;

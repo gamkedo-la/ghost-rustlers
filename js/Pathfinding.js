@@ -3,7 +3,7 @@ var currentPath = [];
 
 function initNavGraph() {
 	playerNavGraph = generateNavGraph(levelTileGrid, playerLegalMove);
-	playerNavGraph = defineNeighbors(playerNavGraph, levelTileGrid, playerLegalNode);
+	playerNavGraph = defineNeighbors(playerNavGraph, levelTileGrid, playerLegalEdge);
 }
 
 function defineNeighbors(graph, levelGrid, conditions) {
@@ -26,10 +26,17 @@ function defineNeighbors(graph, levelGrid, conditions) {
 	return nGraph;
 }
 
-function playerLegalNode(node, neighbor, levelGrid) {
+function playerLegalEdge(node, neighbor, levelGrid) {
 	//Connect adjacent nodes (within one tile)
 	if (Math.abs(node.x - neighbor.x) <= 1 && Math.abs(node.y - neighbor.y) <= 1) {
 		return true;
+	//Hopping small gaps
+	} else if (neighbor.y === node.y && Math.abs(node.x - neighbor.x) === 2) {
+		let offset = neighbor.x < node.x ? -1 : 1;
+			gap = (node.y + 1) * BRICK_COLS + node.x + offset;
+		if (!isSolidTile(levelGrid[gap])) {
+			return true;
+		}
 	//Account for falling
 	} else if (Math.abs(node.x - neighbor.x) === 1 && neighbor.y > node.y) {
 		for (let y = node.y; y <= neighbor.y; y++) {
