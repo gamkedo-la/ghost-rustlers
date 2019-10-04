@@ -78,8 +78,11 @@ function drawCharacterInfo() {
    canvasContext.drawImage(circleImg,280, 15, 60, 60);
    canvasContext.drawImage(circleImg,480, 15, 60, 60);
    drawActionsRemaining();
-   drawHealthBar(character1);
-   drawHealthBar(character2);
+
+   for (i = 0; i < allCharacters.length; i++){
+       drawHealthBar(allCharacters[i]);
+   }
+
 } //End of drawCharacterInfo
 
 function drawHealthBar(char) {

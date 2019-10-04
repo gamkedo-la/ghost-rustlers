@@ -14,6 +14,7 @@ var debugMode = false;
 var allCharacters = [];
 var allPlayerCharacters = [];
 var allEnemyCharacters = [];
+var allObjects = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
 var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
@@ -30,34 +31,23 @@ function initRenderLoop() {
   setInterval(function () {
 
     if (hold_1_Key) {
-      /*
-            for (i = 0; i < allPlayerCharacters.length; i++){
-              console.log(allPlayerCharacters[i]);
-              console.log(allPlayerCharacters.length);
-              if (allPlayerCharacters[i] == 0){
-                allPlayerCharacters[i].activateCharacter();
-              } else {
-                allPlayerCharacters[i].deactivateCharacter();
-              }
-            }
-      */
-      character1.activateCharacter();
-      character2.deactivateCharacter();
+      for (i = 0; i < allPlayerCharacters.length; i++) {
+        if (i == 0) {
+          allPlayerCharacters[i].activateCharacter();
+        } else {
+          allPlayerCharacters[i].deactivateCharacter();
+        }
+      }
     }
 
     if (hold_2_Key) {
-      /*
-            for (i = 0; i < allPlayerCharacters.length; i++){
-              console.log(allPlayerCharacters[i]);
-              if (allPlayerCharacters[i] == 1){
-                allPlayerCharacters[i].activateCharacter();
-              } else {
-                allPlayerCharacters[i].deactivateCharacter();
-              }
-            }
-      */
-      character1.deactivateCharacter();
-      character2.activateCharacter();
+      for (i = 0; i < allPlayerCharacters.length; i++) {
+        if (i == 1) {
+          allPlayerCharacters[i].activateCharacter();
+        } else {
+          allPlayerCharacters[i].deactivateCharacter();
+        }
+      }
     }
 
     moveEverything();
@@ -92,15 +82,18 @@ function moveEverything() {
     return;
   } else {
     if (playersTurn) {
-
-      character1.characterMove();
-      character2.characterMove();
+      for (i = 0; i < allPlayerCharacters.length; i++) {
+        allPlayerCharacters[i].characterMove();
+      }
     }
 
-    enemy1.enemyMove();
+    for (i = 0; i < allEnemyCharacters.length; i++) {
+      allEnemyCharacters[i].enemyMove();
+    }
 
     moveCamera();
     wobbleAimer();
+    removeDeadUnits();
   }
 }
 
@@ -116,15 +109,15 @@ function drawEverything() {
 
     drawGroundBlocks();
 
-    for (i = 0; i < allCharacters.length; i++){
+    for (i = 0; i < allCharacters.length; i++) {
       allCharacters[i].drawCharacter();
     }
 
     //TODO: This should be moved somewhere else.
-    for (i = 0; i < allPlayerCharacters.length; i++){
+    for (i = 0; i < allPlayerCharacters.length; i++) {
       allPlayerCharacters[i].characterAction();
     }
-    
+
     drawAimer();
 
     canvasContext.restore(); // undoes the .translate() used for cam scroll
@@ -161,4 +154,18 @@ function resetGame() {
   character2.characterReset();
   turnCount = 1;
   gameOver = false;
+}
+
+function removeDeadUnitsFromList(fromArray)	{
+  for(var	i=fromArray.length-1;	i>=0;	i--)	{
+      if(fromArray[i].isDead)	{
+          fromArray.splice(i,1);
+      }
+  }
+}
+function removeDeadUnits()	{
+  removeDeadUnitsFromList(allCharacters);
+  removeDeadUnitsFromList(allEnemyCharacters);
+  removeDeadUnitsFromList(allPlayerCharacters);
+  removeDeadUnitsFromList(allObjects);
 }

@@ -1,5 +1,5 @@
 var trajectoryPaths = [];
-var projectileSpeed = 20;
+var projectileSpeed = 15;
 var ricochetCount = 0;
 const MAX_BULLET_T = 1.0;
 const MAX_RICOCHETS = 2;
@@ -107,19 +107,21 @@ function drawBulletAtPointOnLine(startX, startY, endX, endY, percent) {
   checkForCollisionAgainstEnemy(positionNowX, positionNowY);
 }
 
-//TODO: move collision detection to the character/object class
 //Checks for collisions against friendly and enemy characters
 function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
   for (i in allCharacters) {
-    if (positionNowX > allCharacters[i].x && //check left side
-      positionNowX < allCharacters[i].x + allCharacters[i].width && // check right side
-      positionNowY > allCharacters[i].y && // check top side
-      positionNowY < allCharacters[i].y + allCharacters[i].height) { // check bottom side
+    if (allCharacters[i].wasHitByProjectile(positionNowX, positionNowY)) {
       if (damageAvailable) {
-        allCharacters[i].health--;
-        damageAvailable = false;
+        resetProjectile();
+        allCharacters[i].takeDamage(1);
         console.log("Hit! " + allCharacters[i] + " health: " + allCharacters[i].health);
       }
     }
   }
+}
+
+function resetProjectile(){
+  damageAvailable = false;
+  bulletT = MAX_BULLET_T;
+  ricochetCount = MAX_RICOCHETS;
 }
