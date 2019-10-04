@@ -211,8 +211,17 @@ function characterClass(character_team, character_color) {
 
   this.drawArms = function () {
     this.calculateArmPositions();
-    drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle);
-    drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle);
+	
+	if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+	{
+		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, -this.shoulderAngle);
+		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle - 45);
+	}
+	else
+	{
+		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle);
+		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle);
+	}
   }
 
   this.calculateArmPositions = function () {
@@ -255,8 +264,16 @@ function characterClass(character_team, character_color) {
     this.rightShoulderJoint.y = this.y + this.shoulderOffset;
 
     //calculates coordinate of right elbow joint
-    this.rightElbow.x = ARM_SEGMENT_LENGTH * Math.cos(this.shoulderAngle) + this.rightShoulderJoint.x;
-    this.rightElbow.y = ARM_SEGMENT_LENGTH * Math.sin(this.shoulderAngle) + this.rightShoulderJoint.y;
+	if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+	{
+		this.rightElbow.x = -(ARM_SEGMENT_LENGTH * Math.cos(-this.shoulderAngle)) + this.rightShoulderJoint.x;
+		this.rightElbow.y = -(ARM_SEGMENT_LENGTH * Math.sin(-this.shoulderAngle)) + this.rightShoulderJoint.y;
+	}
+	else
+	{
+		this.rightElbow.x = ARM_SEGMENT_LENGTH * Math.cos(this.shoulderAngle) + this.rightShoulderJoint.x;
+		this.rightElbow.y = ARM_SEGMENT_LENGTH * Math.sin(this.shoulderAngle) + this.rightShoulderJoint.y;
+	}
 
     //calculates coordinate point of right hand
     this.rightHand.x = ARM_SEGMENT_LENGTH * Math.cos(this.handAngle) + this.rightElbow.x;
@@ -264,17 +281,33 @@ function characterClass(character_team, character_color) {
   }
 
   this.calculateArmSpriteCoords = function () {
-    //calculates coordinate of upper arm sprite
-    this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
-    this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
-
-    //calculates coordinate of lower arm sprite
-    this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
-    this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
+	//calculates coordinate of upper arm sprite
+	this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
+	this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
+	
+	if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+	{
+		//calculates coordinate of lower arm sprite
+		this.lowerArm.x = this.rightElbow.x - ((this.rightHand.x - this.rightElbow.x) / 2);
+		this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
+	}
+	else
+	{
+		//calculates coordinate of lower arm sprite
+		this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
+		this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
+	}
   }
 
   this.drawHat = function (x, y, ang) {
-    drawImageCenteredAtLocationWithRotation(cowboyHatPic, x, y, ang);
+	if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+	{
+		drawImageCenteredAtLocationWithRotation(cowboyHatLeftPic, x, y, -ang);
+	}
+	else
+	{
+		drawImageCenteredAtLocationWithRotation(cowboyHatRightPic, x, y, ang);
+	}
   }
 
   this.nextPathNode = function () {

@@ -15,7 +15,8 @@ var platformPic = document.createElement("img");
 var wallPic = document.createElement("img");
 var targetAimerPic = document.createElement("img");
 var moveAimerPic = document.createElement("img");
-var cowboyHatPic = document.createElement("img");
+var cowboyHatLeftPic = document.createElement("img");
+var cowboyHatRightPic = document.createElement("img");
 var boulderPic = document.createElement("img");
 var buttonPic = document.createElement("img");
 var circleImg = document.createElement("img");
@@ -61,7 +62,8 @@ function initArt(){
   {varName:boulderPic,	theFile:"boulder.png"},
   {varName:buttonPic,	theFile:"button.png"},
   {varName:circleImg,	theFile:"circle.png"},
-  {varName:cowboyHatPic,	theFile:"cowboyHat.png"},
+  {varName:cowboyHatLeftPic,	theFile:"cowboyHatLeft.png"},
+  {varName:cowboyHatRightPic,	theFile:"cowboyHatRight.png"},
   {varName:cactusPic, theFile:"cactus.png"},
   {varName:cactusTopPic, theFile:"cactusTop.png"},
   {varName:cactusBottomPic, theFile:"cactusBottom.png"},
