@@ -64,8 +64,8 @@ window.onload = function () {
   initInput();
   initNavGraph();
 
-  character1.objectSpawn(canvas.width / 2 - 100, canvas.height / 2);
-  character2.objectSpawn(canvas.width / 2 + 300, canvas.height / 2);
+  character1.objectSpawn(300, 300);
+  character2.objectSpawn(220, 300);
   enemy1.objectSpawn(500, 500);
 
   character1.activateCharacter();
