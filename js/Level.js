@@ -23,7 +23,7 @@ var brickBottomEdgeY;
 var levelTileGrid = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 0, 0,10, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 0, 0, 1, 1, 4, 4, 4, 3, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 8, 0, 3, 4, 0, 4, 4, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1,
     1, 0, 3, 1, 1, 0, 0, 0, 4, 3, 0, 1, 0, 3, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1,
     1, 0, 5, 1, 1, 0, 0, 0, 0, 2, 0, 1, 0, 2, 1, 0, 0, 0, 3, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1,
@@ -63,6 +63,9 @@ const LADDER_BROKEN_TILE = 5;
 const CACTUS_TILE = 6;
 const CACTUSTOP_TILE = 7;
 const CACTUSBOTTOM_TILE = 8;
+
+const CRATE = 9;
+const RED_BARREL = 10;
 
 
 function drawGroundBlocks() {
@@ -118,6 +121,12 @@ function drawGroundBlocks() {
 			}
 			if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === CACTUSBOTTOM_TILE) {
 				canvasContext.drawImage(cactusBottomPic, brickLeftEdgeX, brickTopEdgeY);
+            }
+            
+            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === CRATE) {
+				canvasContext.drawImage(cratePic, brickLeftEdgeX, brickTopEdgeY);
+			}if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === RED_BARREL) {
+				canvasContext.drawImage(redBarrelPic, brickLeftEdgeX, brickTopEdgeY);
 			}
 
         } // end of for eachRow

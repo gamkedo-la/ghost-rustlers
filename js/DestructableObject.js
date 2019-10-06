@@ -9,7 +9,9 @@ function destructableObjectClass(spawnX, spawnY) {
   this.isDead = false;
 
   this.drawObject = function () {
-    canvasContext.drawImage(boulderPic, this.x - (this.width / 2), this.y - (this.height / 2));
+    this.height = 40;
+    this.width = 40;
+    canvasContext.drawImage(cratePic, this.x - (this.width / 2), this.y - (this.height / 2));
   }
 
   this.objectSpawn = function (x, y) {

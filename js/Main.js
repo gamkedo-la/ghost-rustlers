@@ -18,6 +18,7 @@ var allObjects = [];
 var character1 = new characterClass('PLAYER_TEAM', 'red');
 var character2 = new characterClass('PLAYER_TEAM', 'green');
 var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
+var crate1 = new destructableObjectClass(460, 140);
 //var boulder1 = new destructableObjectClass(50, 50);
 var turnCount = 1;
 var playersTurn = true;
@@ -67,6 +68,8 @@ window.onload = function () {
   character1.objectSpawn(300, 300);
   character2.objectSpawn(220, 300);
   enemy1.objectSpawn(500, 500);
+  crate1.objectSpawn(460, 160);
+
 
   character1.activateCharacter();
   character2.deactivateCharacter();
@@ -109,9 +112,15 @@ function drawEverything() {
 
     drawGroundBlocks();
 
-    for (i = 0; i < allCharacters.length; i++) {
-      allCharacters[i].drawCharacter();
+    for (i = 0; i < allPlayerCharacters.length; i++) {
+      allPlayerCharacters[i].drawCharacter();
     }
+    for (i = 0; i < allEnemyCharacters.length; i++) {
+      allEnemyCharacters[i].drawCharacter();
+    }
+
+    crate1.drawObject();
+
 
     //TODO: This should be moved somewhere else.
     for (i = 0; i < allPlayerCharacters.length; i++) {
