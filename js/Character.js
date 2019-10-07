@@ -95,6 +95,7 @@ function characterClass(character_team, character_color) {
 
     if (isInAimMode && !this.hasFired) {
       calculateProjectileTrajectory(this);
+      this.drawWeapon(this.x, this.y);
       drawTrajectoryPath();
     }
 
@@ -308,6 +309,17 @@ function characterClass(character_team, character_color) {
 	{
 		drawImageCenteredAtLocationWithRotation(cowboyHatRightPic, x, y, ang);
 	}
+  }
+
+  this.drawWeapon = function (x, y) {
+    if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+    {
+      drawImageCenteredAtLocationWithRotation(weaponPic, x, y);
+    }
+    else
+    {
+      drawImageCenteredAtLocationWithRotation(weaponPic, x, y);
+    }
   }
 
   this.nextPathNode = function () {
