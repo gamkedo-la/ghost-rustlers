@@ -7,6 +7,7 @@ const RUN_SPEED = 4.0;
 const JUMP_SPEED = 1.6;
 const ACTIONS_PER_TURN = 2;
 const ARM_SEGMENT_LENGTH = 50;
+const GUN_POS = 8;
 var isInAimMode = false;
 var damageAvailable = true;
 
@@ -95,11 +96,12 @@ function characterClass(character_team, character_color) {
 
     if (isInAimMode && !this.hasFired) {
       calculateProjectileTrajectory(this);
-      this.drawWeapon(this.x, this.y);
+      this.drawWeapon(this.rightHand.x + GUN_POS, this.rightHand.y);
       drawTrajectoryPath();
     }
 
     if (this.hasFired) {
+      this.drawWeapon(this.rightHand.x + GUN_POS, this.rightHand.y);
       if (ricochetCount <= MAX_RICOCHETS) {
         animateProjectile(trajectoryPaths[ricochetCount].x1, trajectoryPaths[ricochetCount].y1, trajectoryPaths[ricochetCount].x2, trajectoryPaths[ricochetCount].y2);
       } else {
