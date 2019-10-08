@@ -1,5 +1,11 @@
+var positions = new Array();
+var positionsIndex = 0;
+var animationIndex = 0;
+
+
+
 function StorePositions(){
-	//positions[positionsIndex] = new Array(leftForeArmLimbAngle, leftUpperArmLimbAngle);
+	
 	var limbAngles = new Array();
 	
 	for(i=0; i < bones.length; i++){
@@ -18,5 +24,6 @@ function StorePositions(){
 function SetFigureToStoredPositions(){	
 			for(i = 0; i < bones.length; i++){
 			bones[i].setBoneAngle(positions[animationIndex] [i]);
-			}	
+			}
+			
 }

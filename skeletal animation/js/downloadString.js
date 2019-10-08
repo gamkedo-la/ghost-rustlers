@@ -20,6 +20,7 @@ function downloadString(text, fileType, fileName) {
     a.href = URL.createObjectURL(blob);
     a.dataset.downloadurl = [fileType, a.download, a.href].join(':');
     a.style.display = "none";
+	
     // add to the document temporarily and click it
     document.body.appendChild(a);
     a.click();

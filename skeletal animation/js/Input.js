@@ -57,29 +57,29 @@ function keyPressed(evt){
 	}
 	
 	if(evt.keyCode == KEY_UP_ARROW){
-		if(animationIndex < positionsIndex){	
-				
 		animationIndex +=1;
+		if(animationIndex < positionsIndex){
+		SetFigureToStoredPositions();
+				
 		}else {
 			animationIndex = 0;
-		}
-		
-		if(animationIndex <= positionsIndex){
-		SetFigureToStoredPositions();
-		}		
-		
-		console.log("animation Index is " + animationIndex);
+			SetFigureToStoredPositions();
+		}						
+		console.log("animation Index is " + animationIndex);		
 	}
 	if(evt.keyCode == KEY_DOWN_ARROW){
-		if(animationIndex > 0){
 		animationIndex -=1;
+		if(animationIndex < positionsIndex){
+		SetFigureToStoredPositions();
+				
+		}
+								
+		if(animationIndex > 0){
+		SetFigureToStoredPositions();
 		}else{
 			animationIndex = positionsIndex;
 		}
-		
-		if(animationIndex <= positionsIndex){
-		SetFigureToStoredPositions();
-		}
+				
 		
 		console.log(animationIndex);
 	}
@@ -194,12 +194,25 @@ function onMouseDown(evt){
 			parentBone = null;
 			childBone = null;
 			settingParent = false;
-		}		
+		}
+		//Ssving Key Frames
+		if(hitTest(saveKeyFrameButtonPosition, mousePos.x, mousePos.y)){
+			StorePositions();
+		}
+		
 	}
 			
 	if(changingAngle || movingBone){
 		window.addEventListener('mousemove', mouseMoveListener, false);
 	}
+	
+	//Download Animation
+		
+		if(hitTest(downloadAnimationButtonPosition, mousePos.x, mousePos.y)){
+			var myJSON = JSON.stringify(positions);
+			downloadString("var positions = " + myJSON + ";", "text/javascript", "myFilename.js")
+		}
+	
 		canvas.removeEventListener('mousedown', onMouseDown, false);
 		window.addEventListener('mouseup', mouseUpListener, false);	
 }		
