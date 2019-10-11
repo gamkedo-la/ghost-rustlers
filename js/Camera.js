@@ -43,6 +43,11 @@ function clampCameraCoords(x, y) {
 
     let maxPanRight = BRICK_COLS * BRICK_W - canvas.width,
         maxPanTop = BRICK_ROWS * BRICK_H - canvas.height;
+
+    // bugfix: a very large canvas (1080p) can result in a negative number
+    // which makes the camera flicker back and forth on alternating frames
+    if (maxPanRight<0) maxPanRight = 0;
+    if (maxPanTop<0) maxPanTop = 0;
     
     if (x < 0) {
         x = 0;
