@@ -30,9 +30,17 @@ function boneClass(){
 		x:0,
 		y:0
 	}
+	this.setRootButtonPosition = {
+		x:0,
+		y:0
+	}
+	
 	this.limbLength;
+	
+	this.isRoot = false;
 	this.childOfOtherBone = false; //For example if the upperarm moves then so does the lower arm. 
 	this.parentBone;
+	
 	this.limbAngle = 0;
 	this.combinedLimbAngle = 0;
 	this.parentBoneLimbAngle = 0;
@@ -80,9 +88,11 @@ function boneClass(){
 		if(this.childOfOtherBone == false){			
 			this.endPosition.x = (this.limbLength * Math.cos(this.limbAngle) + this.startPosition.x);
 			this.endPosition.y = (this.limbLength * Math.sin(this.limbAngle) + this.startPosition.y);					
-					
-			this.imagePosition.x = this.startPosition.x + ((this.endPosition.x - this.startPosition.x)/2);
-			this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);	
+
+			if(animationSet == false || this.isRoot == true){
+				this.imagePosition.x = this.startPosition.x + ((this.endPosition.x - this.startPosition.x)/2);
+				this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);
+			}		
 						
 			drawImageCenteredAtLocationWithRotation(this.limbImage, this.imagePosition.x, this.imagePosition.y, this.limbAngle);
 		}
@@ -99,8 +109,10 @@ function boneClass(){
 			this.endPosition.x = (this.limbLength * Math.cos(this.combinedLimbAngle) + this.startPosition.x);
 			this.endPosition.y = (this.limbLength * Math.sin(this.combinedLimbAngle) + this.startPosition.y);				
 			
-			this.imagePosition.x = this.startPosition.x + ((this.endPosition.x - this.startPosition.x)/2);
-			this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);						
+			if(animationSet == false && this.isRoot == false){
+				this.imagePosition.x = this.startPosition.x + ((this.endPosition.x - this.startPosition.x)/2);
+				this.imagePosition.y = this.startPosition.y + ((this.endPosition.y - this.startPosition.y)/2);
+			}									
 					
 			drawImageCenteredAtLocationWithRotation(this.limbImage, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
 			//drawImageCenteredAtLocationWithRotation(this.boneImageOverlay, this.imagePosition.x, this.imagePosition.y, this.combinedLimbAngle);
@@ -189,6 +201,12 @@ function boneClass(){
 	this.setBoneAngle = function(savedLimbAngle){
 		console.log(savedLimbAngle);
 		this.limbAngle = savedLimbAngle;
+	}
+	
+	this.SetBonePositionsFromSavedFrames = function(imageX, imageY, angle){
+		this.imagePosition.x = imageX;
+		this.imagePosition.y = imageY;
+		this.limbAngle = angle;
 	}
 	
 	this.ResetBone = function(){

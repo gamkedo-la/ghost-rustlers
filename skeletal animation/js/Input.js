@@ -49,7 +49,8 @@ function initKeys(){
 function keyPressed(evt){
 	if(evt.keyCode == KEY_S){
 		console.log("S Pressed");
-		StorePositions();
+		//StorePositions();
+		StorePositionsForExport();
 	}
 	
 	if(evt.keyCode == KEY_F){
@@ -102,6 +103,7 @@ function onMouseDown(evt){
 	
 	//find which bone was clicked
 	for(i=0; i < bones.length; i++){
+		
 		//console.log((bones.indexOf(bones[i])) +": " + (bones[i].selected));
 		//console.log((bones.indexOf(bones[i])) +": " + (bones[i].limbLength));
 		if((hitTest(bones[i].imagePosition, mousePos.x, mousePos.y)) && (bones[i].selected == false)){			
@@ -159,6 +161,15 @@ function onMouseDown(evt){
 				return;
 			}
 		}
+		//Setting Root Bone
+		if(hitTest(bones[i].setRootButtonPosition, mousePos.x, mousePos.y)){
+			for(j=0; j < bones.length; j++){				
+					bones[j].isRoot = false;	
+					console.log(j + " : " + bones[j].isRoot);					
+			}
+			bones[i].isRoot = true;	
+			
+		}
 		//Setting Parent of current bone
 		if(bones[i].boneSet && hitTest(bones[i].setParentButtonPosition, mousePos.x, mousePos.y)){
 			canvas.removeEventListener('mousedown', onMouseDown, false);
@@ -179,10 +190,7 @@ function onMouseDown(evt){
 			if(childBone == null){
 				return;
 			}			
-			return;
-			/*childBone.SetParentBone(parentBone); 
-			settingParent = false;
-			console.log(settingParent);*/			
+			return;					
 		}
 		if(parentBone != null){
 			//Set childlocation on parent sprite
@@ -195,16 +203,17 @@ function onMouseDown(evt){
 			childBone = null;
 			settingParent = false;
 		}
-		//Ssving Key Frames
+		//Saving Key Frames
 		if(hitTest(saveKeyFrameButtonPosition, mousePos.x, mousePos.y)){
-			StorePositions();
+			//StorePositions();
+			StorePositionsForExport();
 		}
 		
 	}
 			
 	if(changingAngle || movingBone){
 		window.addEventListener('mousemove', mouseMoveListener, false);
-	}
+	}	
 	
 	//Download Animation
 		

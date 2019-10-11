@@ -14,6 +14,8 @@ var downloadAnimationButtonPosition = {
 	x:100,
 	y:375
 }
+
+
 function drawBoneMenu(){
 	for(i = 0; i < bones.length; i++){
 		bones[i].resetButtonPosition.x = bones[i].initialPosition.x;
@@ -24,7 +26,12 @@ function drawBoneMenu(){
 		bones[i].setParentButtonPosition.x = bones[i].initialPosition.x;
 		bones[i].setParentButtonPosition.y = bones[i].initialPosition.y + 70;
 		drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, bones[i].setParentButtonPosition.x, bones[i].setParentButtonPosition.y, 0);
-		canvasContext.strokeText("Set Parent", bones[i].setParentButtonPosition.x + 10, bones[i].setParentButtonPosition.y+3);			
+		canvasContext.strokeText("Set Parent", bones[i].setParentButtonPosition.x + 10, bones[i].setParentButtonPosition.y+3);		
+
+		bones[i].setRootButtonPosition.x = bones[i].initialPosition.x;
+		bones[i].setRootButtonPosition.y = bones[i].initialPosition.y + 80;
+		drawImageCenteredAtLocationWithRotation(boneMoveSelectorNotSelected, bones[i].setRootButtonPosition.x, bones[i].setRootButtonPosition.y, 0);
+		canvasContext.strokeText("Set Root", bones[i].setRootButtonPosition.x + 10, bones[i].setRootButtonPosition.y+3);		
 	}
 	
 	canvasContext.strokeText("1. Select white square on image to begin mapping bone to sprite.", 100, 60);
