@@ -1,5 +1,8 @@
 var canvas, canvasContext;
 
+// experimental
+const FULLSCREEN_CANVAS = true; // resize canvas to fill entire browser?
+
 //Game States
 const STATE_GAME = 0;
 const STATE_TITLE_SCREEN = 1;
@@ -56,10 +59,21 @@ function initRenderLoop() {
   }, 1000 / framesPerSecond);
 }
 
+function resize_canvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;    
+    console.log("canvas size: " + canvas.width + "x" + canvas.height);
+}
+
 window.onload = function () {
 
   canvas = document.getElementById('gameCanvas');
   canvasContext = canvas.getContext('2d');
+
+  if (FULLSCREEN_CANVAS) {
+    resize_canvas();
+    window.addEventListener('resize', resize_canvas);
+  }
 
   initArt();
   initInput();
