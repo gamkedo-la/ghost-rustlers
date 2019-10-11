@@ -106,6 +106,7 @@ function characterClass(character_team, character_color) {
         animateProjectile(trajectoryPaths[ricochetCount].x1, trajectoryPaths[ricochetCount].y1, trajectoryPaths[ricochetCount].x2, trajectoryPaths[ricochetCount].y2);
       } else {
         this.hasFired = false;
+        resetProjectile();
         bulletT = MAX_BULLET_T;
       }
     }

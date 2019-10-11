@@ -124,4 +124,5 @@ function resetProjectile(){
   damageAvailable = false;
   bulletT = MAX_BULLET_T;
   ricochetCount = MAX_RICOCHETS;
+  projectileAlive = false;
 }

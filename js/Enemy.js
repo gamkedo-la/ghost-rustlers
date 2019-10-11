@@ -6,13 +6,13 @@ function enemyClass(enemyTeam, enemyColor) {
     this.height = 136;
     this.width = 64;
     this.isOnGround;
-	this.hasFired = false;
+    this.hasFired = false;
     this.movementDetermined = false;
     this.wanderDir = 1;
     this.target = null;
     this.shoulderOffset = 10;
 
-    this.enemyMove = function() {
+    this.enemyMove = function () {
         if (this.health <= 0) {
             return;
         }
@@ -23,13 +23,13 @@ function enemyClass(enemyTeam, enemyColor) {
         this.characterMove();
     }
 
-/*
-    this.handleClick = function() {
+    /*
+        this.handleClick = function() {
 
-    }
-*/
+        }
+    */
 
-    this.checkLineOfSight = function() {
+    this.checkLineOfSight = function () {
         let currentRow = rowAtYCoord(this.y),
             p1Row = rowAtYCoord(character1.y),
             p2Row = rowAtYCoord(character2.y);
@@ -53,8 +53,8 @@ function enemyClass(enemyTeam, enemyColor) {
         }
     }
 
-    this.AI_Movement = function() {
-		if(!this.movementDetermined) {
+    this.AI_Movement = function () {
+        if (!this.movementDetermined) {
             this.checkLineOfSight();
             if (this.target === null) {
                 let AI_Destination = this.x + BRICK_W * DISTANCE_PER_ACTION * this.wanderDir;
@@ -68,35 +68,37 @@ function enemyClass(enemyTeam, enemyColor) {
             }
 
             this.nextPathNode();
-			this.movementDetermined = true;
+            this.movementDetermined = true;
         }
-        var reachedDest = (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20 )
-        if(this.hasFired){
-            if(projectileAlive == false){
+        var reachedDest = (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20)
+ /*       if (this.actionsRemaining <= 0) {
+            if (projectileAlive == false) {
                 endEnemyTurn();
             }
-        } else if (reachedDest) {
+       } else 
+    */    if (reachedDest) {
             this.target = character1; //testing
             if (this.target != null) {
                 //this.handleClick(); //shot 
                 isInAimMode = true;
-                var smoothK=0.85
+                var smoothK = 0.85
                 aiMousePosX = smoothK * aiMousePosX + (1.0 - smoothK) * this.target.x;
                 aiMousePosY = smoothK * aiMousePosY + (1.0 - smoothK) * this.target.y;
                 var distToTarget = DistanceBetweenTwoPixelCoords(aiMousePosX, aiMousePosY, this.target.x, this.target.y);
                 //console.log(distToTarget);
-                if (distToTarget < 10){
+                if (distToTarget < 10) {
                     this.fireWeapon();
-                    console.log("Shot at "+this.target.team+" "+this.target.color);
-
-                    //endEnemyTurn();
+                    console.log("Shot at " + this.target.team + " " + this.target.color);
+                    if (projectileAlive == false) {
+                        endEnemyTurn();
+                    }
                 }
-                
+
             } else {
                 this.wanderDir *= -1;
                 endEnemyTurn();
             }
-            
+
         }
     }
 

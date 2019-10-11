@@ -60,9 +60,9 @@ function initRenderLoop() {
 }
 
 function resize_canvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;    
-    console.log("canvas size: " + canvas.width + "x" + canvas.height);
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  console.log("canvas size: " + canvas.width + "x" + canvas.height);
 }
 
 window.onload = function () {
@@ -137,9 +137,16 @@ function drawEverything() {
 
 
     //TODO: This should be moved somewhere else.
-    for (i = 0; i < allPlayerCharacters.length; i++) {
-      allPlayerCharacters[i].characterAction();
+    if (playersTurn) {
+      for (i = 0; i < allPlayerCharacters.length; i++) {
+        allPlayerCharacters[i].characterAction();
+      }
+    } else {
+      for (i = 0; i < allEnemyCharacters.length; i++) {
+        allEnemyCharacters[i].characterAction();
+      }
     }
+
 
     drawAimer();
 
@@ -179,14 +186,15 @@ function resetGame() {
   gameOver = false;
 }
 
-function removeDeadUnitsFromList(fromArray)	{
-  for(var	i=fromArray.length-1;	i>=0;	i--)	{
-      if(fromArray[i].isDead)	{
-          fromArray.splice(i,1);
-      }
+function removeDeadUnitsFromList(fromArray) {
+  for (var i = fromArray.length - 1; i >= 0; i--) {
+    if (fromArray[i].isDead) {
+      fromArray.splice(i, 1);
+    }
   }
 }
-function removeDeadUnits()	{
+
+function removeDeadUnits() {
   removeDeadUnitsFromList(allCharacters);
   removeDeadUnitsFromList(allEnemyCharacters);
   removeDeadUnitsFromList(allPlayerCharacters);
