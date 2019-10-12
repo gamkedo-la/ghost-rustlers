@@ -12,7 +12,7 @@ function winScreenMouseClick(mousePosX, mousePosY){
 		mousePosY > (canvas.height/2-25) && //top side
 		mousePosY < (canvas.height/2-25) + 50) //bottom side
 	{		
-		updateState(STATE_GAME);
+		updateState(STATE_TITLE_SCREEN);
 		hauntedHoedownSound.loopSong("hauntedHoedown");		
 	}
 }

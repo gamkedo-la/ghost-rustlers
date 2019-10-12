@@ -128,6 +128,5 @@ function angleOfReflection(incomingLine, surfaceLine) {
     //rotate the exit angle back to it's actual angle.
     var ricochetAngle = rotatedExitAngle + angleFromLine(surfaceLine);
 
-    //console.log(ricochetAngle);
     return ricochetAngle;
 }

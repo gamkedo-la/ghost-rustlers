@@ -27,11 +27,7 @@ function destructableObjectClass(spawnX, spawnY) {
     }
 
     allCharacters.push(this);
-    console.log(allCharacters[0].width + ", " + allCharacters[0].height);
 
-
-    //this.leftShoulderJoint = {x: x, y: y}
-    //this.rightShoulderJoint = {x: x, y: y}
     this.leftElbow = {
       x: 0,
       y: 0

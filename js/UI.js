@@ -39,7 +39,8 @@ function drawUI() {
 	if (turnCount > levelTurns){
 		colorText("Game Over Man!", 225, 300, "white", font = "14px Arial Black");
 		colorText("Press Space to Reset Game", 225, 500, "white", font = "14px Arial Black");
-		gameOver = true;
+		//gameOver = true;
+        gameState = STATE_LOSE_SCREEN;
 	}
 	
 }

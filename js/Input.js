@@ -133,5 +133,9 @@ function mouseReleased(evt) {
     character2.handleClick();
   } else if (gameState == STATE_TITLE_SCREEN) {
     titleScreenMouseClick(mousePos.x, mousePos.y);
+  } else if (gameState == STATE_WIN_SCREEN) {
+    winScreenMouseClick(mousePos.x, mousePos.y);
+  } else if (gameState == STATE_LOSE_SCREEN){
+    loseScreenMouseClick(mousePos.x, mousePos.y);
   }
 }

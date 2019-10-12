@@ -99,7 +99,7 @@ function drawGroundBlocks() {
             } else {
                 createVertRightFacingWallEdges(eachCol, eachRow);
             } // end of isWallTileAtLevelTileCoord()
-            //console.log(isLadderTileAtLevelTileCoord(eachRow, eachRow));
+
             if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_TILE){
                 canvasContext.drawImage(ladderPic, brickLeftEdgeX, brickTopEdgeY);
             }

@@ -79,8 +79,13 @@ function characterClass(character_team, character_color) {
 
     this.drawBody();
     this.drawArms();
+
     if (this.team == 'PLAYER_TEAM') {
       this.drawHat(this.x, this.y - CHARACTER_HEIGHT / 3, 1.9 * Math.PI);
+    }
+
+    if (isInAimMode && this.isActive){
+      this.drawWeapon(this.rightHand.x + GUN_POS, this.rightHand.y);
     }
 
     //ends sprites being drawn with darkness or transparancy
@@ -96,12 +101,10 @@ function characterClass(character_team, character_color) {
 
     if (isInAimMode && !this.hasFired) {
       calculateProjectileTrajectory(this);
-      this.drawWeapon(this.rightHand.x + GUN_POS, this.rightHand.y);
       drawTrajectoryPath();
     }
 
     if (this.hasFired) {
-      this.drawWeapon(this.rightHand.x + GUN_POS, this.rightHand.y);
       if (ricochetCount <= MAX_RICOCHETS) {
         animateProjectile(trajectoryPaths[ricochetCount].x1, trajectoryPaths[ricochetCount].y1, trajectoryPaths[ricochetCount].x2, trajectoryPaths[ricochetCount].y2);
       } else {
@@ -317,11 +320,11 @@ function characterClass(character_team, character_color) {
   this.drawWeapon = function (x, y) {
     if (aimerX < this.x - (CHARACTER_WIDTH / 2))
     {
-      drawImageCenteredAtLocationWithRotation(weaponPic, x, y);
+      drawImageCenteredAtLocationWithRotation(weaponPic, x, y); //TODO: add rotation angle
     }
     else
     {
-      drawImageCenteredAtLocationWithRotation(weaponPic, x, y);
+      drawImageCenteredAtLocationWithRotation(weaponPic, x, y); //TODO: add rotation angle
     }
   }
 

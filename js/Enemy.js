@@ -71,12 +71,8 @@ function enemyClass(enemyTeam, enemyColor) {
             this.movementDetermined = true;
         }
         var reachedDest = (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20)
- /*       if (this.actionsRemaining <= 0) {
-            if (projectileAlive == false) {
-                endEnemyTurn();
-            }
-       } else 
-    */    if (reachedDest) {
+
+        if (reachedDest) {
             this.target = character1; //testing
             if (this.target != null) {
                 //this.handleClick(); //shot 
@@ -85,7 +81,6 @@ function enemyClass(enemyTeam, enemyColor) {
                 aiMousePosX = smoothK * aiMousePosX + (1.0 - smoothK) * this.target.x;
                 aiMousePosY = smoothK * aiMousePosY + (1.0 - smoothK) * this.target.y;
                 var distToTarget = DistanceBetweenTwoPixelCoords(aiMousePosX, aiMousePosY, this.target.x, this.target.y);
-                //console.log(distToTarget);
                 if (distToTarget < 10) {
                     this.fireWeapon();
                     console.log("Shot at " + this.target.team + " " + this.target.color);

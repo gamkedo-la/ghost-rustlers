@@ -12,17 +12,17 @@ const STATE_WIN_SCREEN = 4;
 const STATE_LOSE_SCREEN = 5;
 var gameState = STATE_TITLE_SCREEN;
 
+var currentLevel = 1;
 var isPaused = false;
 var debugMode = false;
 var allCharacters = [];
 var allPlayerCharacters = [];
 var allEnemyCharacters = [];
 var allObjects = [];
-var character1 = new characterClass('PLAYER_TEAM', 'red');
-var character2 = new characterClass('PLAYER_TEAM', 'green');
-var enemy1 = new enemyClass('ENEMY_TEAM', 'white');
-var crate1 = new destructableObjectClass(460, 140);
-//var boulder1 = new destructableObjectClass(50, 50);
+var character1;
+var character2;
+var enemy1;
+var crate1;
 var turnCount = 1;
 var playersTurn = true;
 var aiMousePosX = 500;
@@ -54,8 +54,17 @@ function initRenderLoop() {
       }
     }
 
-    moveEverything();
-    drawEverything();
+    if (gameState == STATE_TITLE_SCREEN) {
+      drawTitleScreen();
+    } else if (gameState == STATE_WIN_SCREEN) {
+      drawWinScreen();
+    } else if (gameState == STATE_LOSE_SCREEN) {
+      drawLoseScreen();
+    } else if (gameState == STATE_GAME) {
+      moveEverything();
+      drawEverything();
+    }
+
   }, 1000 / framesPerSecond);
 }
 
@@ -79,80 +88,94 @@ window.onload = function () {
   initInput();
   initNavGraph();
 
-  character1.objectSpawn(300, 300);
-  character2.objectSpawn(220, 300);
-  enemy1.objectSpawn(500, 500);
-  crate1.objectSpawn(460, 160);
-
+  loadLevel(currentLevel);
 
   character1.activateCharacter();
   character2.deactivateCharacter();
 }
 
+function loadLevel(levelToLoad) {
+  if (levelToLoad == 1) {
+    currentLevel = 1
+
+    allCharacters = [];
+    allPlayerCharacters = [];
+    allEnemyCharacters = [];
+    allObjects = [];
+
+    character1 = new characterClass('PLAYER_TEAM', 'red');
+    character2 = new characterClass('PLAYER_TEAM', 'green');
+    enemy1 = new enemyClass('ENEMY_TEAM', 'white');
+    crate1 = new destructableObjectClass(460, 140);
+
+    character1.objectSpawn(300, 300);
+    character2.objectSpawn(220, 300);
+    enemy1.objectSpawn(500, 500);
+    crate1.objectSpawn(460, 160);
+
+    character1.activateCharacter();
+
+    //TODO: snap camera back to starting position.
+  }
+}
+
 function updateState(newState) {
-  console.log(newState);
   gameState = newState;
+  resetGame();
 }
 
 function moveEverything() {
-  if (gameState == STATE_TITLE_SCREEN) {
-    return;
-  } else {
-    if (playersTurn) {
-      for (i = 0; i < allPlayerCharacters.length; i++) {
-        allPlayerCharacters[i].characterMove();
-      }
-    }
 
-    for (i = 0; i < allEnemyCharacters.length; i++) {
-      allEnemyCharacters[i].enemyMove();
+  if (playersTurn) {
+    for (i = 0; i < allPlayerCharacters.length; i++) {
+      allPlayerCharacters[i].characterMove();
     }
-
-    moveCamera();
-    wobbleAimer();
-    removeDeadUnits();
   }
+
+  for (i = 0; i < allEnemyCharacters.length; i++) {
+    allEnemyCharacters[i].enemyMove();
+  }
+
+  moveCamera();
+  wobbleAimer();
+  removeDeadUnits();
+  checkForEndGame();
 }
 
 function drawEverything() {
-  if (gameState == STATE_TITLE_SCREEN) {
-    drawTitleScreen();
-  } else if (gameState == STATE_GAME) {
 
-    background.draw(-camPanX / 4, -camPanY / 8);
+  background.draw(-camPanX / 4, -camPanY / 8);
 
-    canvasContext.save();
-    canvasContext.translate(-camPanX, -camPanY);
+  canvasContext.save();
+  canvasContext.translate(-camPanX, -camPanY);
 
-    drawGroundBlocks();
+  drawGroundBlocks();
 
-    for (i = 0; i < allPlayerCharacters.length; i++) {
-      allPlayerCharacters[i].drawCharacter();
-    }
-    for (i = 0; i < allEnemyCharacters.length; i++) {
-      allEnemyCharacters[i].drawCharacter();
-    }
-
-    crate1.drawObject();
-
-
-    //TODO: This should be moved somewhere else.
-    if (playersTurn) {
-      for (i = 0; i < allPlayerCharacters.length; i++) {
-        allPlayerCharacters[i].characterAction();
-      }
-    } else {
-      for (i = 0; i < allEnemyCharacters.length; i++) {
-        allEnemyCharacters[i].characterAction();
-      }
-    }
-
-
-    drawAimer();
-
-    canvasContext.restore(); // undoes the .translate() used for cam scroll
-    drawUI();
+  for (i = 0; i < allPlayerCharacters.length; i++) {
+    allPlayerCharacters[i].drawCharacter();
   }
+  for (i = 0; i < allEnemyCharacters.length; i++) {
+    allEnemyCharacters[i].drawCharacter();
+  }
+
+  crate1.drawObject();
+
+  //TODO: This should be moved somewhere else.
+  if (playersTurn) {
+    for (i = 0; i < allPlayerCharacters.length; i++) {
+      allPlayerCharacters[i].characterAction();
+    }
+  } else {
+    for (i = 0; i < allEnemyCharacters.length; i++) {
+      allEnemyCharacters[i].characterAction();
+    }
+  }
+
+  drawAimer();
+
+  canvasContext.restore(); // undoes the .translate() used for cam scroll
+
+  drawUI();
 }
 
 function endPlayerTurn() {
@@ -180,10 +203,19 @@ function endEnemyTurn() {
 }
 
 function resetGame() {
-  character1.characterReset();
-  character2.characterReset();
+  allCharacters = [];
+  loadLevel(currentLevel);
+  playersTurn = true;
   turnCount = 1;
   gameOver = false;
+}
+
+function checkForEndGame() {
+  if (allPlayerCharacters.length <= 0) {
+    updateState(STATE_LOSE_SCREEN);
+  } else if (allEnemyCharacters.length <= 0) {
+    updateState(STATE_WIN_SCREEN);
+  }
 }
 
 function removeDeadUnitsFromList(fromArray) {
