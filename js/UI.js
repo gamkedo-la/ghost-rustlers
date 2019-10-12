@@ -25,7 +25,7 @@ function drawUI() {
     canvasContext.fillText("Press 1 & 2 to select Character.", 50, 70);
     canvasContext.fillText("Left Mouse Click to Move when not Aiming or Shoot when Aiming.", 50, 80);
     canvasContext.fillText("Press Arrow Keys to Pan Camera", 50, 90);
-	colorText(turnCount + "/" + levelTurns, 390, 40, "white", font = "30px Arial Black");
+	colorText(turnCount + "/" + levelTurns, canvas.width/2, 40, "white", font = "30px Arial Black");
 	
 	
     if (character1.actionsRemaining == 0 && character2.actionsRemaining == 0) {
@@ -49,13 +49,13 @@ function drawCharacterInfo() {
     canvasContext.fillStyle = '#7F87FB';
     canvasContext.font = "14px Verdana";
     //canvasContext.fillText("Character 1", 150, 20);
-    canvasContext.fillText("Character A:" , 240, 90);
-    canvasContext.fillText("Character B:", 470, 90);
-    canvasContext.fillText(character2.actionsRemaining, 570, 90);
-    canvasContext.fillText(character1.actionsRemaining, 340, 90);
+    canvasContext.fillText("Character A:", canvas.width/2 - 200, 90);
+    canvasContext.fillText("Character B:", canvas.width/2 + 200, 90);
+    canvasContext.fillText(character1.actionsRemaining, canvas.width/2 - 200 + 100, 90);
+    canvasContext.fillText(character2.actionsRemaining, canvas.width/2 + 200 + 100, 90);
     canvasContext.fillStyle = 'white';
     canvasContext.font = "20px Verdana";
-    canvasContext.fillText("Ghosts", 380, 90);
+    canvasContext.fillText("Ghosts", canvas.width/2, 90);
     /*
      if (character1.isActive) {
         canvasContext.strokeStyle = "red";
@@ -77,8 +77,8 @@ function drawCharacterInfo() {
    //for (var i = 1; i < ghosts.length; i++) {
     drawGhost(canvasContext, canvas.width/2+20, 55, 8*i, 10);
 //}
-   canvasContext.drawImage(circleImg,280, 15, 60, 60);
-   canvasContext.drawImage(circleImg,480, 15, 60, 60);
+   canvasContext.drawImage(circleImg,canvas.width/2 - 200, 15, 60, 60);
+   canvasContext.drawImage(circleImg,canvas.width/2 + 200, 15, 60, 60);
    drawActionsRemaining();
 
    for (i = 0; i < allCharacters.length; i++){
@@ -114,11 +114,11 @@ function drawHealthBar(char) {
 
 function drawActionsRemaining(x,y,r,sAngle,eAngle,counterclockwise){
     canvasContext.beginPath();
-        canvasContext.arc(310,45,25,0*Math.PI,character1.actionsRemaining*Math.PI);
+        canvasContext.arc(canvas.width/2 - 170,45,25,0*Math.PI,character1.actionsRemaining*Math.PI);
         canvasContext.fillStyle = "#D32D41";
         canvasContext.fill();
     canvasContext.beginPath();
-        canvasContext.arc(510,45,25,0*Math.PI,character2.actionsRemaining*Math.PI);
+        canvasContext.arc(canvas.width/2 + 230,45,25,0*Math.PI,character2.actionsRemaining*Math.PI);
         canvasContext.fillStyle = "#7F8C5D";
         canvasContext.fill();
 }

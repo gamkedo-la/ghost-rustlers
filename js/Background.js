@@ -53,12 +53,19 @@ function BackgroundClass() {
         // parallax layers aplenty
         for (var num=0; num<layerCount; num++) {
             if (parallaxPic[num].loaded) 
+			{
                 canvasContext.drawImage(
                     parallaxPic[num],
                     x*num*layerXscale + xOffset,
                     y*num*layerYscale + yOffset);
                     //,parallaxPic[num].width, //canvas.width,
-                    //canvas.height);            
+                    //canvas.height);
+					
+				canvasContext.drawImage(
+                    parallaxPic[num],
+                    x*num*layerXscale + xOffset + canvas.width/2,
+                    y*num*layerYscale + yOffset);
+			}
         }
 
         // spinning sun rays in a hardcoded position (no parallax)
