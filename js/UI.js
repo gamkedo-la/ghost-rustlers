@@ -1,5 +1,6 @@
 var gameOver = false;
 let ghosts = 12;
+let ghostsLeft;
 
 function drawUI() {
     if (debugMode) {
@@ -72,9 +73,9 @@ function drawCharacterInfo() {
         canvasContext.stroke();
     }
     *///GhostBar
-   for (var i = 1; i < ghosts; i++) {
+   //for (var i = 1; i < ghosts.length; i++) {
     drawGhost(canvasContext, canvas.width/2+20, 55, 8*i, 10);
-}
+//}
    canvasContext.drawImage(circleImg,280, 15, 60, 60);
    canvasContext.drawImage(circleImg,480, 15, 60, 60);
    drawActionsRemaining();
@@ -122,24 +123,9 @@ function drawActionsRemaining(x,y,r,sAngle,eAngle,counterclockwise){
 }
 
 
-function drawGhost(context, x, y, width, height){
-    canvasContext.save();
-            context.beginPath();
-            context.moveTo(x, y);
-            // top left edge
-            context.lineTo(x - width , y + height/2 );
-            // bottom left edge
-            context.lineTo(x, y + height);
-            // bottom right edge
-            context.lineTo(x + width, y + height/2);
-            // closing the path automatically creates
-            // the top right edge
-            context.closePath();
-            context.fillStyle = "white";
-            context.fill();
-            canvasContext.strokeStyle = "pink";
-            canvasContext.stroke();
-    canvasContext.restore();
+function drawGhost(positionX, positionY, width, height, color){
+colorRect(screen - 340, 60, (ghosts / ghostsLeft), 22, 'white');
+colorLine(screen - 340, 60, ghosts, 22,"black");
 }
 
 
