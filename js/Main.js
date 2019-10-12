@@ -181,16 +181,21 @@ function drawEverything() {
 function endPlayerTurn() {
   turnCount++;
   playersTurn = false;
-  character1.characterReset();
-  character2.characterReset();
+
+  for (i = 0; i < allPlayerCharacters.length; i++) {
+      allPlayerCharacters[i].characterReset();
+  }
 
   enemyTurn();
 }
 
 function enemyTurn() {
-  enemy1.activateCharacter();
-  //enemyAim();
 
+  for (i = 0; i < allEnemyCharacters.length; i++) {
+    allEnemyCharacters[i].characterReset();
+  }
+
+  enemy1.activateCharacter();
 }
 
 function endEnemyTurn() {

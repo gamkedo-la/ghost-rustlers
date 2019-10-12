@@ -1,6 +1,7 @@
 enemyClass.prototype = new characterClass('ENEMY_TEAM', 'white');
 
 function enemyClass(enemyTeam, enemyColor) {
+
     this.x = 100;
     this.y = 75;
     this.height = 136;
@@ -23,11 +24,9 @@ function enemyClass(enemyTeam, enemyColor) {
         this.characterMove();
     }
 
-    /*
-        this.handleClick = function() {
-
-        }
-    */
+    this.handleClick = function () {
+        //Empty
+    }
 
     this.checkLineOfSight = function () {
         let currentRow = rowAtYCoord(this.y),
@@ -54,46 +53,49 @@ function enemyClass(enemyTeam, enemyColor) {
     }
 
     this.AI_Movement = function () {
-        if (!this.movementDetermined) {
-            this.checkLineOfSight();
-            if (this.target === null) {
-                let AI_Destination = this.x + BRICK_W * DISTANCE_PER_ACTION * this.wanderDir;
-                this.path = getPathfor(this, AI_Destination, this.y, playerNavGraph);
-            } else {
-                this.path = getPathfor(this, this.target.x, this.target.y, playerNavGraph);
-                this.wanderDir = this.target.x > this.x ? 1 : -1;
-                if (this.path.length > DISTANCE_PER_ACTION) {
-                    this.path.length = DISTANCE_PER_ACTION;
-                }
-            }
-
-            this.nextPathNode();
-            this.movementDetermined = true;
-        }
-        var reachedDest = (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20)
-
-        if (reachedDest) {
-            this.target = character1; //testing
-            if (this.target != null) {
-                //this.handleClick(); //shot 
-                isInAimMode = true;
-                var smoothK = 0.85
-                aiMousePosX = smoothK * aiMousePosX + (1.0 - smoothK) * this.target.x;
-                aiMousePosY = smoothK * aiMousePosY + (1.0 - smoothK) * this.target.y;
-                var distToTarget = DistanceBetweenTwoPixelCoords(aiMousePosX, aiMousePosY, this.target.x, this.target.y);
-                if (distToTarget < 10) {
-                    this.fireWeapon();
-                    console.log("Shot at " + this.target.team + " " + this.target.color);
-                    if (projectileAlive == false) {
-                        endEnemyTurn();
+        if (this.actionsRemaining > 0) {
+            if (!this.movementDetermined) {
+                this.checkLineOfSight();
+                if (this.target === null) {
+                    let AI_Destination = this.x + BRICK_W * DISTANCE_PER_ACTION * this.wanderDir;
+                    this.path = getPathfor(this, AI_Destination, this.y, playerNavGraph);
+                } else {
+                    this.path = getPathfor(this, this.target.x, this.target.y, playerNavGraph);
+                    this.wanderDir = this.target.x > this.x ? 1 : -1;
+                    if (this.path.length > DISTANCE_PER_ACTION) {
+                        this.path.length = DISTANCE_PER_ACTION;
                     }
                 }
 
-            } else {
-                this.wanderDir *= -1;
-                endEnemyTurn();
+                this.nextPathNode();
+                this.actionsRemaining--;
+                this.movementDetermined = true;
             }
 
+            var reachedDest = (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20)
+            if (reachedDest) {
+                this.AI_FireWeapon();
+            }
+        } else if (projectileAlive == false) {
+            endEnemyTurn();
+        }
+    }
+
+    this.AI_FireWeapon = function () {
+        this.target = character1; //testing
+        if (this.target != null) {
+
+            isInAimMode = true;
+            var smoothK = 0.85
+            aiMousePosX = smoothK * aiMousePosX + (1.0 - smoothK) * this.target.x;
+            aiMousePosY = smoothK * aiMousePosY + (1.0 - smoothK) * this.target.y;
+
+            this.fireWeapon();
+            console.log("Shot at " + this.target.team + " " + this.target.color);
+
+        } else {
+            this.wanderDir *= -1;
+            endEnemyTurn();
         }
     }
 

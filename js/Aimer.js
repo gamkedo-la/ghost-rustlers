@@ -35,8 +35,9 @@ function moveAimer() {
     if (newPath.length > DISTANCE_PER_ACTION) {
         newPath.length = DISTANCE_PER_ACTION;
 
-        aimerX = BRICK_W / 2 + newPath[DISTANCE_PER_ACTION - 1].x * BRICK_W,
-            aimerY = BRICK_H / 2 + newPath[DISTANCE_PER_ACTION - 1].y * BRICK_H;
+        aimerX = BRICK_W / 2 + newPath[DISTANCE_PER_ACTION - 1].x * BRICK_W;
+        aimerY = BRICK_H / 2 + newPath[DISTANCE_PER_ACTION - 1].y * BRICK_H;
+
     } else {
         aimerX = outOfRangeX;
         aimerY = outOfRangeY;
@@ -48,7 +49,7 @@ function moveAimer() {
 }
 
 function wobbleAimer() {
-    if (!isInAimMode) {
+    if (!isInAimMode || !playersTurn) {
         return;
     }
 

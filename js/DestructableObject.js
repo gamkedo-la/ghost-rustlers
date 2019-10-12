@@ -63,6 +63,7 @@ function destructableObjectClass(spawnX, spawnY) {
     this.health -= damage;
     if (this.health <= 0){
       console.log("Character Defeated");
+      this.actionsRemaining = 0;
       this.isDead = true;
     }
   }
