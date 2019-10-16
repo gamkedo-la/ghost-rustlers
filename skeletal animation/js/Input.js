@@ -218,8 +218,12 @@ function onMouseDown(evt){
 	//Download Animation
 		
 		if(hitTest(downloadAnimationButtonPosition, mousePos.x, mousePos.y)){
-			var myJSON = JSON.stringify(positions);
-			downloadString("var positions = " + myJSON + ";", "text/javascript", "myFilename.js")
+			var myJSONX = JSON.stringify(positionsX);
+			var myJSONY = JSON.stringify(positionsY);
+			var myJSONAngle = JSON.stringify(positionsAngle);
+			downloadString("var positionsX = " + myJSONX + ";\n" 
+			+ "var positionsY = " + myJSONY + ";\n"
+			+ "var limbAngles =" + myJSONAngle + ";", "text/javascript", "myFilename.js")
 		}
 	
 		canvas.removeEventListener('mousedown', onMouseDown, false);

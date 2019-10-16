@@ -12,8 +12,7 @@ var leftUpperArm = new boneClass();
 var leftForeArm = new boneClass();
 var head = new boneClass();
 
-var bones = new Array(torso, rightUpperArm, rightForeArm, head,
-						leftUpperArm, leftForeArm);
+var bones = new Array(torso, rightUpperArm, rightForeArm, head);
 
 
 
