@@ -111,6 +111,17 @@ function setKeyHoldState(thisKey, setTo) {
 
 function keyPressed(evt) {
   setKeyHoldState(evt.keyCode, true);
+  
+  //Animation test
+  if(evt.keyCode == KEY_UP_ARROW){
+		animationIndex +=1;
+		if(animationIndex > 2){
+			animationIndex = 0;
+		}
+		console.log("animation Index is " + animationIndex);		
+	}
+	//end animation test code
+	
   evt.preventDefault(); // without this, arrow keys scroll the browser!
 }
 

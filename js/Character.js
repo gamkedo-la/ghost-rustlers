@@ -11,6 +11,9 @@ const GUN_POS = 8;
 var isInAimMode = false;
 var damageAvailable = true;
 
+//Animation variables
+var animationIndex = 0; 
+
 function characterClass(character_team, character_color) {
 
   this.actionsRemaining = ACTIONS_PER_TURN;
@@ -64,7 +67,7 @@ function characterClass(character_team, character_color) {
   };
   
   //Test Items from Skeletal Animation System START
-  /*
+  
   //Sprites Array
 this.newCharacterhead = document.createElement("img");
 this.newCharacterheadLoaded = false;
@@ -78,25 +81,25 @@ this.newCharacterTorsoLoaded = false;
 
 this.loadCharacterImages = function(){	
 
-	newCharacterhead.onload = function(){
+	this.newCharacterhead.onload = function(){
 		newCharacterheadLoaded = true;
 	}
-	newCharacterhead.src = "images/cowboyHatRight.png"; //image file path here
+	this.newCharacterhead.src = "images/cowboyHatRight.png"; //image file path here
 	
-	newCharacterTorso.onload = function(){
+	this.newCharacterTorso.onload = function(){
 		newCharacterTorsoLoaded = true;
 	}
-	newCharacterTorso.src = "images/characterBodyPlaceHolderRight.png"; //image file path here
+	this.newCharacterTorso.src = "images/characterBodyPlaceHolderRight.png"; //image file path here
 	
-	newCharacterUpperArm.onload = function(){
+	this.newCharacterUpperArm.onload = function(){
 		newCharacterUpperArmLoaded = true;
 	}
-	newCharacterUpperArm.src = "images/characterUpperArmPlaceHolder.png"; //image file path here	
+	this.newCharacterUpperArm.src = "images/characterUpperArmPlaceHolder.png"; //image file path here	
 	
-	newCharacterForeArm.onload = function(){
+	this.newCharacterForeArm.onload = function(){
 		newCharacterForeArmLoaded = true;
 	}
-	newCharacterForeArm.src = "images/characterLowerArmPlaceHolder.png"; //image file path here
+	this.newCharacterForeArm.src = "images/characterLowerArmPlaceHolder.png"; //image file path here
 }
   //Postions and angles arrays
 	this.torsoSprite = this.newCharacterTorso;
@@ -105,22 +108,16 @@ this.loadCharacterImages = function(){
 	this.lowerArmSprite = this.newCharacterForeArm;
 	this.spriteArray = new Array(this.torsoSprite, this.upperArmSprite, this.lowerArmSprite, this.headSprite); //same order here as bones array in Skeletal Animation System
   
-	this.positionsX = [[389.5,-12.334998092074102,-39.19778369209928,2],[389.5,-17.6664036114567,-40.12229966823247,2],[389.5,-19.242158903144627,-42.61366139095975,3.4217289612493005],[389.5,-17.777514585095105,-45.412278334393875,1.946605563810408]];
-	this.positionsY = [[410,5.1304433649737575,9.941610039203908,46.5],[410,12.287998358428808,27.79571602568791,46.5],[410,24.607331983155632,49.33138782478426,57.06028235632431],[410,12.536700913860727,25.672088494881393,44]];
-	this.limbAngles =[[0,0.8537845069879517,-1.6652155997563742,-0.04270905576500415],[0,0.4266274931268761,-1.6652155997563742,-0.04270905576500415],[0,-0.17219081452293902,-1.0225510836340417,-0.22494126505117096],[0,0.4136892132788633,-1.3851392906188422,0]];
-  
- //drawing logic
-this.SetBonePositionsFromSavedFrames = function(imageX, imageY, angle){
-		this.imagePosition.x = imageX;
-		this.imagePosition.y = imageY;
-		this.limbAngle = angle;
-	} 
-	*/
-  //Test Items from Skeletal Animation System END
+	this.positionsX = new Array ([389.5,-12.334998092074102,-39.19778369209928,2],[389.5,-17.6664036114567,-40.12229966823247,2],[389.5,-19.242158903144627,-42.61366139095975,3.4217289612493005],[389.5,-17.777514585095105,-45.412278334393875,1.946605563810408]);
+	this.positionsY = new Array([410,5.1304433649737575,9.941610039203908,46.5],[410,12.287998358428808,27.79571602568791,46.5],[410,24.607331983155632,49.33138782478426,57.06028235632431],[410,12.536700913860727,25.672088494881393,44]);
+	this.limbAngles = new Array([0,0.8537845069879517,-1.6652155997563742,-0.04270905576500415],[0,0.4266274931268761,-1.6652155997563742,-0.04270905576500415],[0,-0.17219081452293902,-1.0225510836340417,-0.22494126505117096],[0,0.4136892132788633,-1.3851392906188422,0]);
+  	
+ //Test Items from Skeletal Animation System END
 
   this.drawCharacter = function () {
 
     this.setCharacterSprites();
+	this.loadCharacterImages();
 
     //Here's another method that might look better than the tinted sprite approach.
     //To test this, uncomment this and the last line, and set the inActiveColor and usedColor to #00000000 in the Assets.js.
@@ -131,14 +128,19 @@ this.SetBonePositionsFromSavedFrames = function(imageX, imageY, angle){
     } else if (!this.isActive) {
       canvasContext.globalCompositeOperation = "overlay";
     }
-
-    this.drawBody();
+	
+	this.drawBody()
     this.drawArms();
-
-    if (this.team == 'PLAYER_TEAM') {
-      this.drawHat(this.x, this.y - CHARACTER_HEIGHT / 3, 1.9 * Math.PI);
-    }
-
+	
+	if(this.isActive){    
+		//this.drawArms();
+		if (this.team == 'PLAYER_TEAM') {
+		  this.drawHat(this.x, this.y - CHARACTER_HEIGHT / 3, 1.9 * Math.PI);
+		}
+	}else{
+		//idle animation
+		//this.drawFromAnimationData();
+	}
     if (isInAimMode && this.isActive){
       this.drawWeapon(this.rightHand.x + GUN_POS, this.rightHand.y);
     }
@@ -150,8 +152,8 @@ this.SetBonePositionsFromSavedFrames = function(imageX, imageY, angle){
 
   this.characterAction = function () {
 
-    if (this.isActive == false) {
-		//idle animation
+    if (this.isActive == false) {		
+		
       return
     }
 
@@ -262,6 +264,15 @@ this.SetBonePositionsFromSavedFrames = function(imageX, imageY, angle){
       this.x = (1 + Math.floor(this.x / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
     }
 
+  }
+  
+  //Animation test
+  this.drawFromAnimationData = function(){
+	  for(i=1; i < this.spriteArray.length; i++){
+			//Sprites drawn relavtive to character center
+			drawImageCenteredAtLocationWithRotation(this.spriteArray[i], ((this.x - (CHARACTER_WIDTH / 2)) - (this.positionsX[animationIndex] [i])), (this.y - (CHARACTER_HEIGHT / 2)) - (this.positionsY[animationIndex] [i]), this.limbAngles[animationIndex] [i])
+			
+		}
   }
 
   this.drawBody = function () {
