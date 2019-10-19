@@ -178,6 +178,8 @@ function isPassableTile(value) {
 	return 	value === EMPTY_TILE ||
 			value === LADDER_TILE ||
 			value === LADDER_BROKEN_TILE ||
+			value === CRATE ||
+			value === RED_BARREL ||
 			value === CACTUS_TILE ||
 			value === CACTUSTOP_TILE ||
 			value === CACTUSBOTTOM_TILE;

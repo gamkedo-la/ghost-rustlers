@@ -72,7 +72,7 @@ function initArt(){
   {varName:redBarrelPic, theFile:"red_barrel.png"},
   {varName:cratePic, theFile:"crate.png"},
   {varName:weaponPic, theFile:"weapon.png"},
-  {varName:bulletPic, theFile:"weapon.png"}
+  {varName:bulletPic, theFile:"bullet.png"}
 ];
   
   picsToLoad	=	imageList.length;

@@ -82,7 +82,7 @@ function enemyClass(enemyTeam, enemyColor) {
     }
 
     this.AI_FireWeapon = function () {
-        this.target = character1; //testing
+        //this.target = character1; //testing
         if (this.target != null) {
 
             isInAimMode = true;

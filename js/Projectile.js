@@ -1,5 +1,5 @@
 var trajectoryPaths = [];
-var projectileSpeed = 15;
+var projectileSpeed = 1;
 var ricochetCount = 0;
 const MAX_BULLET_T = 1.0;
 const MAX_RICOCHETS = 5;
@@ -89,19 +89,21 @@ function animateProjectile(fromX, fromY, toX, toY) {
   if (bulletT < MAX_BULLET_T) {
     var lineLength = DistanceBetweenTwoPixelCoords(fromX, fromY, toX, toY);
     bulletT += (1 / lineLength) * projectileSpeed;
-    drawBulletAtPointOnLine(fromX, fromY, toX, toY, bulletT);
+    ang = trajectoryPaths[ricochetCount].angle;
+    drawBulletAtPointOnLine(fromX, fromY, toX, toY, bulletT, ang);
   } else {
     ricochetCount++
     bulletT = 0;
   }
 }
 
-function drawBulletAtPointOnLine(startX, startY, endX, endY, percent) {
+function drawBulletAtPointOnLine(startX, startY, endX, endY, percent, ang) {
   var oppositePerc = 1.0 - percent;
   var positionNowX = startX * oppositePerc + endX * percent;
   var positionNowY = startY * oppositePerc + endY * percent;
 
-  colorCircle(positionNowX, positionNowY, 5, 'white');
+  //colorCircle(positionNowX, positionNowY, 5, 'white');
+  drawImageCenteredAtLocationWithRotation(bulletPic, positionNowX, positionNowY, ang)
 
   //TODO: move somwhere else?
   checkForCollisionAgainstEnemy(positionNowX, positionNowY);
