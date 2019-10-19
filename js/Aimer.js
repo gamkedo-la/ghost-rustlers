@@ -72,7 +72,9 @@ function drawAimer() {
         canvasContext.drawImage(targetAimerPic, aimerX - targetAimerPic.width / 2, aimerY - targetAimerPic.height / 2);
     } else {
         let drawEdges = debugMode ? true : false;
-        drawNavGraph(playerNavGraph, 'white', drawEdges);
+        if (debugMode) {
+            drawNavGraph(playerNavGraph, 'white', drawEdges);
+        }
         drawNavGraph(currentPath, 'green');
 
         if (character1.path.length > 0 || character2.path.length > 0) {

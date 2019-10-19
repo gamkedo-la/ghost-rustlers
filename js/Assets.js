@@ -14,6 +14,11 @@ var ladderPlatformPic = document.createElement("img");
 var platformPic = document.createElement("img");
 var wallInteriorPic = document.createElement("img");
 var wallTopPic = document.createElement("img");
+var wallRightIntPic = document.createElement("img");
+var wallRightTopPic = document.createElement("img");
+var wallBottomEdgePic = document.createElement("img");
+var wallBottomIntPic = document.createElement("img");
+var wallBottomRightCornerPic = document.createElement("img");
 var targetAimerPic = document.createElement("img");
 var moveAimerPic = document.createElement("img");
 var cowboyHatLeftPic = document.createElement("img");
@@ -57,6 +62,11 @@ function initArt(){
   {varName:enemyUpperArmPic,	theFile:"enemyUpperArm.gif"},
   {varName:wallInteriorPic,	theFile:"wall_rock_interior.png"},
   {varName:wallTopPic,	theFile:"wall_rock_top.png"},
+  {varName:wallRightIntPic,	theFile:"wall_rock_right_int.png"},
+  {varName:wallRightTopPic,	theFile:"wall_rock_right_top.png"},
+  {varName:wallBottomEdgePic,	theFile:"wall_rock_bottom.png"},
+  {varName:wallBottomIntPic,	theFile:"wall_rock_bottom_int.png"},
+  {varName:wallBottomRightCornerPic,	theFile:"wall_rock_bottom_right_corner.png"},
   {varName:ladderPic,	theFile:"ladder.png"},
   {varName:ladderBrokenPic,	theFile:"ladderBroken.png"},
   {varName:ladderPlatformPic,	theFile:"ladderPlatform.png"},

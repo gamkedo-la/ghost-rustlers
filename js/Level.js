@@ -101,6 +101,7 @@ function drawGroundBlocks() {
                 createVertLeftFacingWallEdges(eachCol, eachRow);
             } else {
                 createVertRightFacingWallEdges(eachCol, eachRow);
+                drawWallVertEdges(eachCol, eachRow);
             } // end of isWallTileAtLevelTileCoord()
 
             if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_TILE) {
@@ -161,6 +162,7 @@ function drawGroundBlocks() {
                 createHorTopFacingWallEdges(eachCol, eachRow);
             } else {
                 createHorBottomFacingWallEdges(eachCol, eachRow);
+                drawWallHorEdges(eachCol, eachRow);
             } // end of isWallTileAtLevelTileCoord()
         }
     }
@@ -185,7 +187,7 @@ function spawnCrates() {
     }
 }
 
-function spawnBarrels(){
+function spawnBarrels() {
     if (barrels.length < barrelCoords.length) {
         for (i = 0; i < barrelCoords.length; i++) {
             barrels[i] = new destructableObjectClass('BARREL');
@@ -242,6 +244,7 @@ function createVertLeftFacingWallEdges(eachCol, eachRow) {
 
 function createVertRightFacingWallEdges(eachCol, eachRow) {
     if (isWallTileAtLevelTileCoord(eachCol - 1, eachRow)) {
+        //canvasContext.drawImage(wallRightIntPic, brickLeftEdgeX, brickTopEdgeY);
         if (wallStartX == null && wallStartY == null) {
             startWallEdge();
         }
@@ -277,6 +280,7 @@ function createHorTopFacingWallEdges(eachCol, eachRow) {
 
 function createHorBottomFacingWallEdges(eachCol, eachRow) {
     if (isWallTileAtLevelTileCoord(eachCol, eachRow - 1)) {
+        //canvasContext.drawImage(wallBottomEdgePic, brickLeftEdgeX, brickTopEdgeY);
         if (wallStartX == null && wallStartY == null) {
             startWallEdge();
         }
@@ -289,5 +293,42 @@ function createHorBottomFacingWallEdges(eachCol, eachRow) {
             endWallEdge(brickLeftEdgeX, brickTopEdgeY);
             saveWallEdgeToList();
         }
+    }
+}
+
+function drawWallHorEdges(eachCol, eachRow) {
+    //if this tile is under a wall that is open to the left.
+    if (isWallTileAtLevelTileCoord(eachCol, eachRow - 1) &&
+        !isWallTileAtLevelTileCoord(eachCol - 1, eachRow - 1)) {
+
+        canvasContext.drawImage(wallBottomEdgePic, brickLeftEdgeX, brickTopEdgeY);
+
+        //if this tile is under a wall tile that is next to another wall tile on the left.
+    } else if (isWallTileAtLevelTileCoord(eachCol, eachRow - 1) &&
+        isWallTileAtLevelTileCoord(eachCol - 1, eachRow - 1)) {
+
+        canvasContext.drawImage(wallBottomIntPic, brickLeftEdgeX, brickTopEdgeY);
+
+    }
+
+}
+
+function drawWallVertEdges(eachCol, eachRow) {
+    if (isWallTileAtLevelTileCoord(eachCol - 1, eachRow) &&
+        !isWallTileAtLevelTileCoord(eachCol - 1, eachRow - 1)) {
+
+        canvasContext.drawImage(wallRightTopPic, brickLeftEdgeX, brickTopEdgeY);
+
+    } else if (isWallTileAtLevelTileCoord(eachCol - 1, eachRow) &&
+        isWallTileAtLevelTileCoord(eachCol - 1, eachRow - 1)) {
+
+        canvasContext.drawImage(wallRightIntPic, brickLeftEdgeX, brickTopEdgeY);
+
+    } else if (!isWallTileAtLevelTileCoord(eachCol - 1, eachRow) &&
+        isWallTileAtLevelTileCoord(eachCol - 1, eachRow - 1) &&
+        !isWallTileAtLevelTileCoord(eachCol, eachRow - 1)) {
+
+        canvasContext.drawImage(wallBottomRightCornerPic, brickLeftEdgeX, brickTopEdgeY);
+
     }
 }
