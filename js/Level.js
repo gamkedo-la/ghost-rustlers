@@ -97,7 +97,7 @@ function drawGroundBlocks() {
             brickBottomEdgeY = brickTopEdgeY + BRICK_H;
 
             if (isWallTileAtLevelTileCoord(eachCol, eachRow)) {
-                canvasContext.drawImage(wallPic, brickLeftEdgeX, brickTopEdgeY);
+                canvasContext.drawImage(wallInteriorPic, brickLeftEdgeX, brickTopEdgeY);
                 createVertLeftFacingWallEdges(eachCol, eachRow);
             } else {
                 createVertRightFacingWallEdges(eachCol, eachRow);
@@ -259,6 +259,7 @@ function createVertRightFacingWallEdges(eachCol, eachRow) {
 
 function createHorTopFacingWallEdges(eachCol, eachRow) {
     if (!isWallTileAtLevelTileCoord(eachCol, eachRow - 1)) {
+        canvasContext.drawImage(wallTopPic, brickLeftEdgeX, brickTopEdgeY);
         if (wallStartX == null && wallStartY == null) {
             startWallEdge();
         }

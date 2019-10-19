@@ -12,7 +12,8 @@ var ladderPic = document.createElement("img");
 var ladderBrokenPic = document.createElement("img");
 var ladderPlatformPic = document.createElement("img");
 var platformPic = document.createElement("img");
-var wallPic = document.createElement("img");
+var wallInteriorPic = document.createElement("img");
+var wallTopPic = document.createElement("img");
 var targetAimerPic = document.createElement("img");
 var moveAimerPic = document.createElement("img");
 var cowboyHatLeftPic = document.createElement("img");
@@ -54,7 +55,8 @@ function initArt(){
   {varName:enemyBodyLeftPic,	theFile:"ghostBanditBodyLeft.gif"},
   {varName:enemyLowerArmPic,	theFile:"enemyLowerArm.gif"},
   {varName:enemyUpperArmPic,	theFile:"enemyUpperArm.gif"},
-  {varName:wallPic,	theFile:"wall.png"},
+  {varName:wallInteriorPic,	theFile:"wall_rock_interior.png"},
+  {varName:wallTopPic,	theFile:"wall_rock_top.png"},
   {varName:ladderPic,	theFile:"ladder.png"},
   {varName:ladderBrokenPic,	theFile:"ladderBroken.png"},
   {varName:ladderPlatformPic,	theFile:"ladderPlatform.png"},
