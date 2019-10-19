@@ -387,11 +387,11 @@ this.loadCharacterImages = function(){
   this.drawWeapon = function (x, y) {
     if (aimerX < this.x - (this.torsoSprite.width / 2))
     {
-      drawImageCenteredAtLocationWithRotation(weaponPic, x, y); //TODO: add rotation angle
+      drawImageCenteredAtLocationWithRotation(weaponPic, x, y, this.handAngle); //TODO: add rotation angle
     }
     else
     {
-      drawImageCenteredAtLocationWithRotation(weaponPic, x, y); //TODO: add rotation angle
+      drawImageCenteredAtLocationWithRotation(weaponPic, x, y, this.handAngle); //TODO: add rotation angle
     }
   }
 
