@@ -19,10 +19,12 @@ var allCharacters = [];
 var allPlayerCharacters = [];
 var allEnemyCharacters = [];
 var allObjects = [];
-var character1;
-var character2;
-var enemy1;
-var crate1;
+var crates = [];
+var barrels = [];
+//var character1;
+//var character2;
+//var enemy1;
+//var crate1;
 var turnCount = 1;
 var playersTurn = true;
 var aiMousePosX = 500;
@@ -106,12 +108,12 @@ function loadLevel(levelToLoad) {
     character1 = new characterClass('PLAYER_TEAM', 'red');
     character2 = new characterClass('PLAYER_TEAM', 'green');
     enemy1 = new enemyClass('ENEMY_TEAM', 'white');
-    crate1 = new destructableObjectClass('CRATE');
+    //crate1 = new destructableObjectClass('CRATE');
 
     character1.objectSpawn(5, 6);
     character2.objectSpawn(7, 6);
     enemy1.objectSpawn(15, 6);
-    crate1.objectSpawn(11, 3);
+    //crate1.objectSpawn(11, 3);
 
     character1.activateCharacter();
 
@@ -150,13 +152,15 @@ function drawEverything() {
   canvasContext.translate(-camPanX, -camPanY);
 
   drawGroundBlocks();
+  spawnCrates();
+  spawnBarrels();
 
   for (i = 0; i < allPlayerCharacters.length; i++) {
     allPlayerCharacters[i].drawCharacter();
   }
   for (i = 0; i < allEnemyCharacters.length; i++) {
     allEnemyCharacters[i].drawCharacter();
-  } 
+  }
   for (i = 0; i < allObjects.length; i++) {
     allObjects[i].drawObject();
   }
@@ -244,4 +248,5 @@ function removeDeadUnits() {
   removeDeadUnitsFromList(allEnemyCharacters);
   removeDeadUnitsFromList(allPlayerCharacters);
   removeDeadUnitsFromList(allObjects);
+  removeDeadUnitsFromList(crates);
 }

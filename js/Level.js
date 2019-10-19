@@ -8,8 +8,8 @@ const AIR_RESISTANCE = 0.95;
 const GRAVITY = 0.6;
 var levelTurns = 6; //place holder.
 var wallEdges = [];
-var barrels = [];
-var crates = [];
+var barrelCoords = [];
+var crateCoords = [];
 var wallStartX;
 var wallStartY;
 var wallEndX;
@@ -20,13 +20,14 @@ var brickLeftEdgeX;
 var brickTopEdgeY;
 var brickRightEdgeX;
 var brickBottomEdgeY;
+var firstTileGridPassComplete = false;
 
 
 var levelTileGrid = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0,10, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 1, 1, 4, 4, 4, 3, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 8, 0, 3, 4, 0, 4, 4, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1,
+    1, 0, 0, 10, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 0, 0, 1, 1, 4, 4, 4, 3, 0, 0, 9, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 8, 0, 3, 4, 0, 4, 4, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1,
     1, 0, 3, 1, 1, 0, 0, 0, 4, 3, 0, 1, 0, 3, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1,
     1, 0, 5, 1, 1, 0, 0, 0, 0, 2, 0, 1, 0, 2, 1, 0, 0, 0, 3, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1,
     1, 0, 2, 1, 0, 0, 0, 0, 0, 2, 0, 1, 0, 5, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1,
@@ -102,41 +103,55 @@ function drawGroundBlocks() {
                 createVertRightFacingWallEdges(eachCol, eachRow);
             } // end of isWallTileAtLevelTileCoord()
 
-            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_TILE){
+            if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_TILE) {
                 canvasContext.drawImage(ladderPic, brickLeftEdgeX, brickTopEdgeY);
             }
-            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_PLATFORM_TILE){
+            if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_PLATFORM_TILE) {
                 canvasContext.drawImage(ladderPlatformPic, brickLeftEdgeX, brickTopEdgeY);
             }
-            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === PLATFORM_TILE){
+            if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === PLATFORM_TILE) {
                 canvasContext.drawImage(platformPic, brickLeftEdgeX, brickTopEdgeY);
             }
-            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_BROKEN_TILE){
+            if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === LADDER_BROKEN_TILE) {
                 canvasContext.drawImage(ladderBrokenPic, brickLeftEdgeX, brickTopEdgeY);
             }
-			
-			if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === CACTUS_TILE) {
-				canvasContext.drawImage(cactusPic, brickLeftEdgeX, brickTopEdgeY);
-			}
-			if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === CACTUSTOP_TILE) {
-				canvasContext.drawImage(cactusTopPic, brickLeftEdgeX, brickTopEdgeY);
-			}
-			if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === CACTUSBOTTOM_TILE) {
-				canvasContext.drawImage(cactusBottomPic, brickLeftEdgeX, brickTopEdgeY);
+
+            if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === CACTUS_TILE) {
+                canvasContext.drawImage(cactusPic, brickLeftEdgeX, brickTopEdgeY);
             }
-            
-            if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === CRATE) {
-				canvasContext.drawImage(cratePic, brickLeftEdgeX, brickTopEdgeY);
-			}if(levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow) ] === RED_BARREL) {
-				canvasContext.drawImage(redBarrelPic, brickLeftEdgeX, brickTopEdgeY);
-			}
+            if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === CACTUSTOP_TILE) {
+                canvasContext.drawImage(cactusTopPic, brickLeftEdgeX, brickTopEdgeY);
+            }
+            if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === CACTUSBOTTOM_TILE) {
+                canvasContext.drawImage(cactusBottomPic, brickLeftEdgeX, brickTopEdgeY);
+            }
+
+            if (!firstTileGridPassComplete) {
+
+                if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === CRATE) {
+                    var crateCoord = {
+                        col: eachCol,
+                        row: eachRow
+                    };
+                    crateCoords.push(crateCoord);
+                }
+                if (levelTileGrid[levelTileIndexAtColRowCoord(eachCol, eachRow)] === RED_BARREL) {
+                    var barrelCoord = {
+                        col: eachCol,
+                        row: eachRow
+                    };
+                    barrelCoords.push(barrelCoord);
+                }
+            }
 
         } // end of for eachRow
     } // end of for eachCol
 
+    firstTileGridPassComplete = true;
+
     for (var eachRow = cameraTopMostRow; eachRow < cameraBottomMostRow; eachRow++) {
         for (var eachCol = cameraLeftMostCol; eachCol < cameraRightMostCol; eachCol++) {
-            
+
             brickLeftEdgeX = eachCol * BRICK_W;
             brickTopEdgeY = eachRow * BRICK_H;
             brickRightEdgeX = brickLeftEdgeX + BRICK_W;
@@ -152,13 +167,33 @@ function drawGroundBlocks() {
 
     for (i = 0; i < wallEdges.length; i++) {
         wallEdges[i].angle = angleFromLine(wallEdges[i]);
-        if (debugMode){
+        if (debugMode) {
             //Commented out because it causes slowdown.  Only needed when troubleshooting wall edge colliders.
             //colorLine(wallEdges[i].x1, wallEdges[i].y1, wallEdges[i].x2, wallEdges[i].y2);
         }
     }
 
 } // end of drawGroundBlocks()
+
+function spawnCrates() {
+    if (crates.length < crateCoords.length) {
+        for (i = 0; i < crateCoords.length; i++) {
+            crates[i] = new destructableObjectClass('CRATE');
+            crates[i].objectSpawn(crateCoords[i].col, crateCoords[i].row)
+            crateCoords.splice(i, 1);
+        }
+    }
+}
+
+function spawnBarrels(){
+    if (barrels.length < barrelCoords.length) {
+        for (i = 0; i < barrelCoords.length; i++) {
+            barrels[i] = new destructableObjectClass('BARREL');
+            barrels[i].objectSpawn(barrelCoords[i].col, barrelCoords[i].row)
+            barrelCoords.splice(i, 1);
+        }
+    }
+}
 
 function saveWallEdgeToList() {
 
@@ -240,7 +275,7 @@ function createHorTopFacingWallEdges(eachCol, eachRow) {
 }
 
 function createHorBottomFacingWallEdges(eachCol, eachRow) {
-    if (isWallTileAtLevelTileCoord(eachCol, eachRow - 1)) { 
+    if (isWallTileAtLevelTileCoord(eachCol, eachRow - 1)) {
         if (wallStartX == null && wallStartY == null) {
             startWallEdge();
         }
