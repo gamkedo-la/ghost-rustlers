@@ -1,27 +1,38 @@
-function destructableObjectClass(spawnX, spawnY) {
-  this.x = spawnX;
-  this.y = spawnY;
-  this.height = 80;
-  this.width = 40;
-  this.team = "OBJECT"
+function destructableObjectClass(character_team) {
+  this.x;
+  this.y;
+  this.height;
+  this.width;
+  this.team = character_team;
   this.health = 1;
   this.maxHealth = 8;
   this.isDead = false;
+  this.sprite;
 
   this.drawObject = function () {
-    this.height = 40;
-    this.width = 40;
-    canvasContext.drawImage(cratePic, this.x - (this.width / 2), this.y - (this.height / 2));
+    //this.height = 40;
+    //this.width = 40;
+    //this.height = sprite.getContentSize().height;
+    //this.width = sprite.getContentSize().width;
+    //canvasContext.drawImage(sprite, this.x - (this.width / 2), this.y - (this.height / 2));
+    drawImageCenteredAtLocationWithRotation(this.sprite, this.x, this.y, 0)
+    console.log(this.sprite.width + " " + this.sprite.height);
   }
 
-  this.objectSpawn = function (x, y) {
+  this.objectSpawn = function (tileCol, tileRow) {
     // center character on screen
-    this.x = x;
-    this.y = y;
+    this.x = xCoordAtCenterOfCol(tileCol);
+    this.y = yCoordAtCenterOfRow(tileRow);
     if (this.team === 'PLAYER_TEAM') {
       allPlayerCharacters.push(this);
     } else if (this.team === 'ENEMY_TEAM') {
       allEnemyCharacters.push(this);
+    } else if (this.team === 'CRATE') {
+      this.sprite = cratePic;
+      allObjects.push(this);
+    }else if (this.team === 'BARREL'){
+      this.sprite = redBarrelPic;
+      allObjects.push(this);
     } else {
       allObjects.push(this);
     }
@@ -48,10 +59,10 @@ function destructableObjectClass(spawnX, spawnY) {
 
   this.wasHitByProjectile = function (projectileX, projectileY) {
 
-    if (projectileX > this.x && //check left side
-      projectileX < this.x + this.width && // check right side
-      projectileY > this.y && // check top side
-      projectileY < this.y + this.height) { // check bottom side
+    if (projectileX > this.x - (this.sprite.width/2) && //check left side
+      projectileX < this.x + (this.sprite.width/2) && // check right side
+      projectileY > this.y - (this.sprite.height/2) && // check top side
+      projectileY < this.y + (this.sprite.height/2)) { // check bottom side
 
       return true;
     } else {

@@ -106,12 +106,12 @@ function loadLevel(levelToLoad) {
     character1 = new characterClass('PLAYER_TEAM', 'red');
     character2 = new characterClass('PLAYER_TEAM', 'green');
     enemy1 = new enemyClass('ENEMY_TEAM', 'white');
-    crate1 = new destructableObjectClass(460, 140);
+    crate1 = new destructableObjectClass('CRATE');
 
-    character1.objectSpawn(300, 300);
-    character2.objectSpawn(220, 300);
-    enemy1.objectSpawn(500, 500);
-    crate1.objectSpawn(460, 160);
+    character1.objectSpawn(5, 6);
+    character2.objectSpawn(7, 6);
+    enemy1.objectSpawn(15, 6);
+    crate1.objectSpawn(11, 3);
 
     character1.activateCharacter();
 
@@ -156,9 +156,17 @@ function drawEverything() {
   }
   for (i = 0; i < allEnemyCharacters.length; i++) {
     allEnemyCharacters[i].drawCharacter();
+  } 
+  for (i = 0; i < allObjects.length; i++) {
+    allObjects[i].drawObject();
   }
 
-  crate1.drawObject();
+  //crate1.drawObject();
+
+  if (debugMode) {
+    console.log(enemy1.x + " " + enemy1.y);
+    console.log(enemy1.bodyRightPic.width + " " + enemy1.bodyRightPic.height);
+  }
 
   //TODO: This should be moved somewhere else.
   if (playersTurn) {
@@ -183,7 +191,7 @@ function endPlayerTurn() {
   playersTurn = false;
 
   for (i = 0; i < allPlayerCharacters.length; i++) {
-      allPlayerCharacters[i].characterReset();
+    allPlayerCharacters[i].characterReset();
   }
 
   enemyTurn();

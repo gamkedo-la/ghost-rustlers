@@ -91,7 +91,13 @@ function drawHealthBar(char) {
     var pipSize = 10,
         pipGap = Math.round(pipSize/5);
         pipPositionX = char.x - ((pipSize * char.health) + (char.health + pipGap)) / 2 ;
-        pipPositionY = char.y - (CHARACTER_HEIGHT) - pipSize * 2;
+
+        if (char.torsoSprite === undefined){
+            pipPositionY = char.y - (char.height) - pipSize * 2;
+        } else {
+            pipPositionY = char.y - (char.torsoSprite.height) - pipSize * 2;
+        }
+        
     
     canvasContext.save();
     canvasContext.translate(-camPanX, -camPanY);

@@ -1,8 +1,6 @@
 characterClass.prototype = new destructableObjectClass();
 characterClass.prototype.constructor = characterClass;
 
-const CHARACTER_HEIGHT = 80;
-const CHARACTER_WIDTH = 40;
 const RUN_SPEED = 4.0;
 const JUMP_SPEED = 1.6;
 const ACTIONS_PER_TURN = 2;
@@ -24,7 +22,7 @@ function characterClass(character_team, character_color) {
   this.path = [];
   this.destinationXCoord;
   this.destinationYCoord;
-  this.shoulderOffset = -CHARACTER_HEIGHT / 4;
+  this.shoulderOffset;
   this.shoulderAngle = 0;
   this.elbowAngle = 0;
   this.handAngle = 0;
@@ -116,8 +114,10 @@ this.loadCharacterImages = function(){
 
   this.drawCharacter = function () {
 
+    this.shoulderOffset = -this.torsoSprite.height / 4;
+
     this.setCharacterSprites();
-	this.loadCharacterImages();
+	  this.loadCharacterImages();
 
     //Here's another method that might look better than the tinted sprite approach.
     //To test this, uncomment this and the last line, and set the inActiveColor and usedColor to #00000000 in the Assets.js.
@@ -135,7 +135,7 @@ this.loadCharacterImages = function(){
 	if(this.isActive){    
 		//this.drawArms();
 		if (this.team == 'PLAYER_TEAM') {
-		  this.drawHat(this.x, this.y - CHARACTER_HEIGHT / 3, 1.9 * Math.PI);
+		  this.drawHat(this.x, this.y - this.torsoSprite.height / 3, 1.9 * Math.PI);
 		}
 	}else{
 		//idle animation
@@ -183,8 +183,8 @@ this.loadCharacterImages = function(){
     } else {
       this.speedX *= AIR_RESISTANCE;
       this.speedY += GRAVITY;
-      if (this.speedY > CHARACTER_HEIGHT) { // cheap test to ensure can't fall through floor
-        this.speedY = CHARACTER_HEIGHT;
+      if (this.speedY > this.torsoSprite.height) { // cheap test to ensure can't fall through floor
+        this.speedY = this.torsoSprite.height;
       }
     }
 
@@ -241,27 +241,27 @@ this.loadCharacterImages = function(){
     }
 
     //Solid tile above
-    if (!this.isClimbing && this.speedY < 0 && isSolidTileAtPixelCoord(this.x, this.y - (CHARACTER_HEIGHT / 2))) {
-      this.y = (Math.floor(this.y / BRICK_H)) * BRICK_H + (CHARACTER_HEIGHT / 2);
+    if (!this.isClimbing && this.speedY < 0 && isSolidTileAtPixelCoord(this.x, this.y - (this.torsoSprite.height / 2))) {
+      this.y = (Math.floor(this.y / BRICK_H)) * BRICK_H + (this.torsoSprite.height / 2);
       this.speedY = 0.0;
     }
 
     //Solid tile below
-    if (!this.isClimbing && this.speedY > 0 && isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2))) {
-      this.y = (1 + Math.floor(this.y / BRICK_H)) * BRICK_H - (CHARACTER_HEIGHT / 2);
+    if (!this.isClimbing && this.speedY > 0 && isSolidTileAtPixelCoord(this.x, this.y + (this.torsoSprite.height / 2))) {
+      this.y = (1 + Math.floor(this.y / BRICK_H)) * BRICK_H - (this.torsoSprite.height / 2);
       this.isOnGround = true;
       this.speedY = 0;
-    } else if (!isSolidTileAtPixelCoord(this.x, this.y + (CHARACTER_HEIGHT / 2) + 2)) {
+    } else if (!isSolidTileAtPixelCoord(this.x, this.y + (this.torsoSprite.height / 2) + 2)) {
       this.isOnGround = false;
     }
 
     //Solid tile left
-    if (this.speedX < 0 && isSolidTileAtPixelCoord(this.x - (CHARACTER_WIDTH / 2), this.y)) {
-      this.x = (Math.floor(this.x / BRICK_W)) * BRICK_W + (CHARACTER_WIDTH / 2);
+    if (this.speedX < 0 && isSolidTileAtPixelCoord(this.x - (this.torsoSprite.width / 2), this.y)) {
+      this.x = (Math.floor(this.x / BRICK_W)) * BRICK_W + (this.torsoSprite.width / 2);
     }
     //Solid tile right
-    if (this.speedX > 0 && isSolidTileAtPixelCoord(this.x + (CHARACTER_WIDTH / 2), this.y)) {
-      this.x = (1 + Math.floor(this.x / BRICK_W)) * BRICK_W - (CHARACTER_WIDTH / 2);
+    if (this.speedX > 0 && isSolidTileAtPixelCoord(this.x + (this.torsoSprite.width / 2), this.y)) {
+      this.x = (1 + Math.floor(this.x / BRICK_W)) * BRICK_W - (this.torsoSprite.width / 2);
     }
 
   }
@@ -270,23 +270,23 @@ this.loadCharacterImages = function(){
   this.drawFromAnimationData = function(){
 	  for(i=1; i < this.spriteArray.length; i++){
 			//Sprites drawn relavtive to character center
-			drawImageCenteredAtLocationWithRotation(this.spriteArray[i], ((this.x - (CHARACTER_WIDTH / 2)) - (this.positionsX[animationIndex] [i])), (this.y - (CHARACTER_HEIGHT / 2)) - (this.positionsY[animationIndex] [i]), this.limbAngles[animationIndex] [i])
+			drawImageCenteredAtLocationWithRotation(this.spriteArray[i], ((this.x - (this.torsoSprite.width / 2)) - (this.positionsX[animationIndex] [i])), (this.y - (this.torsoSprite.height / 2)) - (this.positionsY[animationIndex] [i]), this.limbAngles[animationIndex] [i])
 			
 		}
   }
 
   this.drawBody = function () {
-    if (aimerX < this.x - (CHARACTER_WIDTH / 2)) { //If facing left...
-      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyLeftPicUsed : (this.isActive ? this.bodyLeftPic : this.bodyLeftPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
+    if (aimerX < this.x - (this.torsoSprite.width / 2)) { //If facing left...
+      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyLeftPicUsed : (this.isActive ? this.bodyLeftPic : this.bodyLeftPicInactive)), this.x - (this.torsoSprite.width / 2), this.y - (this.torsoSprite.height / 2));
     } else { // ...else facing right.
-      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyRightPicUsed : (this.isActive ? this.bodyRightPic : this.bodyRightPicInactive)), this.x - (CHARACTER_WIDTH / 2), this.y - (CHARACTER_HEIGHT / 2));
+      canvasContext.drawImage((this.actionsRemaining <= 0 ? this.bodyRightPicUsed : (this.isActive ? this.bodyRightPic : this.bodyRightPicInactive)), this.x - (this.torsoSprite.width / 2), this.y - (this.torsoSprite.height / 2));
     }
   }
 
   this.drawArms = function () {
     this.calculateArmPositions();
 	
-	if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+	if (aimerX < this.x - (this.torsoSprite.width / 2))
 	{
 		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, -this.shoulderAngle);
 		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle - 45);
@@ -313,7 +313,7 @@ this.loadCharacterImages = function(){
 
     //sets angles of arm segments
     if (isInAimMode && this.isActive) {
-      if (aimerX < this.x - (CHARACTER_WIDTH / 2)) {
+      if (aimerX < this.x - (this.torsoSprite.width / 2)) {
         targetShoulderAngle = Math.atan2(aimerY - this.rightShoulderJoint.y, aimerX - this.rightShoulderJoint.x);
         targetElbowAngle = Math.PI / 6;
       } else {
@@ -338,7 +338,7 @@ this.loadCharacterImages = function(){
     this.rightShoulderJoint.y = this.y + this.shoulderOffset;
 
     //calculates coordinate of right elbow joint
-	if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+	if (aimerX < this.x - (this.torsoSprite.width / 2))
 	{
 		this.rightElbow.x = -(ARM_SEGMENT_LENGTH * Math.cos(-this.shoulderAngle)) + this.rightShoulderJoint.x;
 		this.rightElbow.y = -(ARM_SEGMENT_LENGTH * Math.sin(-this.shoulderAngle)) + this.rightShoulderJoint.y;
@@ -359,7 +359,7 @@ this.loadCharacterImages = function(){
 	this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
 	this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
 	
-	if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+	if (aimerX < this.x - (this.torsoSprite.width / 2))
 	{
 		//calculates coordinate of lower arm sprite
 		this.lowerArm.x = this.rightElbow.x - ((this.rightHand.x - this.rightElbow.x) / 2);
@@ -374,7 +374,7 @@ this.loadCharacterImages = function(){
   }
 
   this.drawHat = function (x, y, ang) {
-	if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+	if (aimerX < this.x - (this.torsoSprite.width / 2))
 	{
 		drawImageCenteredAtLocationWithRotation(cowboyHatLeftPic, x, y, -ang);
 	}
@@ -385,7 +385,7 @@ this.loadCharacterImages = function(){
   }
 
   this.drawWeapon = function (x, y) {
-    if (aimerX < this.x - (CHARACTER_WIDTH / 2))
+    if (aimerX < this.x - (this.torsoSprite.width / 2))
     {
       drawImageCenteredAtLocationWithRotation(weaponPic, x, y); //TODO: add rotation angle
     }

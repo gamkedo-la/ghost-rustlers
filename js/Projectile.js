@@ -109,12 +109,12 @@ function drawBulletAtPointOnLine(startX, startY, endX, endY, percent) {
 
 //Checks for collisions against friendly and enemy characters
 function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
-  for (i in allCharacters) {
-    if (allCharacters[i].wasHitByProjectile(positionNowX, positionNowY)) {
+  for (i in allObjects) {
+    if (allObjects[i].wasHitByProjectile(positionNowX, positionNowY)) {
       if (damageAvailable) {
         resetProjectile();
-        allCharacters[i].takeDamage(1);
-        console.log("Hit! " + allCharacters[i] + " health: " + allCharacters[i].health);
+        allObjects[i].takeDamage(1);
+        console.log("Hit! " + allObjects[i] + " health: " + allCharacters[i].health);
       }
     }
   }

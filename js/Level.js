@@ -8,6 +8,8 @@ const AIR_RESISTANCE = 0.95;
 const GRAVITY = 0.6;
 var levelTurns = 6; //place holder.
 var wallEdges = [];
+var barrels = [];
+var crates = [];
 var wallStartX;
 var wallStartY;
 var wallEndX;
