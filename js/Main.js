@@ -63,6 +63,7 @@ function initRenderLoop() {
     } else if (gameState == STATE_LOSE_SCREEN) {
       drawLoseScreen();
     } else if (gameState == STATE_GAME) {
+
       moveEverything();
       drawEverything();
     }
@@ -114,6 +115,10 @@ function loadLevel(levelToLoad) {
     character2.objectSpawn(7, 6);
     enemy1.objectSpawn(15, 6);
     //crate1.objectSpawn(11, 3);
+	
+	for(i = 0; i < allCharacters.length; i++){
+		allCharacters[i].setCharacterSprites();
+	}
 
     character1.activateCharacter();
 
