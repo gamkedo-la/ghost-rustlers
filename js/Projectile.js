@@ -62,11 +62,12 @@ function calculateProjectileTrajectory(character) {
     //find a wall edge that intersects the trajectory line.
     wallEdges.forEach(function (wallEdge) {
       intersectionData = getLineIntersection(trajectoryPaths[i], wallEdge);
-      if (intersectionData.linesIntersect) {
+      if (intersectionData.linesIntersect && (i == 0 || wallEdge != trajectoryPaths[i - 1].hitEdge)) {
         intersectingEdge = wallEdge;
         if (intersectingEdge != undefined) {
           trajectoryPaths[i].x2 = intersectionData.x;
           trajectoryPaths[i].y2 = intersectionData.y;
+          trajectoryPaths[i].hitEdge = wallEdge;
           ricochetAngle = angleOfReflection(trajectoryPaths[i], intersectingEdge);
         }
       }
