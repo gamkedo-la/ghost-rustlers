@@ -80,18 +80,18 @@ function characterClass(character_team, character_color) {
     }
 	
 	this.drawBody()
-    //this.drawArms();
+    this.drawArms();
 	
 	if(this.isActive){
 		this.animationState = "";
-		this.drawArms();		
+		//this.drawArms();		
 		if (this.team == 'PLAYER_TEAM') {
 		  this.drawHat(this.x, this.y - this.torsoSprite.height / 3, 1.9 * Math.PI);
 		}
 	}else{
 		//TODO: idle animation here
 		this.animationState = "idle";
-		drawFromAnimationData(this, animationIndex);
+		//drawFromAnimationData(this, animationIndex);
 	}
     if (isInAimMode && this.isActive){
       this.drawWeapon(this.rightHand.x + GUN_POS, this.rightHand.y);
