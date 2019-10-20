@@ -30,6 +30,7 @@ function characterClass(character_team, character_color) {
   this.isOnGround = false;
   this.isClimbing = false;
   this.isActive = false;
+  this.animationState = "";
 
   this.upperArm = {
     x: 0,
@@ -79,16 +80,18 @@ function characterClass(character_team, character_color) {
     }
 	
 	this.drawBody()
-    this.drawArms();
+    //this.drawArms();
 	
-	if(this.isActive){    
-		//this.drawArms();
+	if(this.isActive){
+		this.animationState = "";
+		this.drawArms();		
 		if (this.team == 'PLAYER_TEAM') {
 		  this.drawHat(this.x, this.y - this.torsoSprite.height / 3, 1.9 * Math.PI);
 		}
 	}else{
 		//TODO: idle animation here
-		//drawFromAnimationData(this, );
+		this.animationState = "idle";
+		drawFromAnimationData(this, animationIndex);
 	}
     if (isInAimMode && this.isActive){
       this.drawWeapon(this.rightHand.x + GUN_POS, this.rightHand.y);
@@ -366,7 +369,6 @@ function characterClass(character_team, character_color) {
         this.path = currentPath;
         this.nextPathNode();
       }
-
     }
   }
 
