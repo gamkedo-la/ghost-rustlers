@@ -113,7 +113,7 @@ function loadLevel(levelToLoad) {
 
     character1.objectSpawn(5, 6);
     character2.objectSpawn(7, 6);
-    enemy1.objectSpawn(15, 6);
+    enemy1.objectSpawn(5, 12);
     //crate1.objectSpawn(11, 3);
 	
 	for(i = 0; i < allCharacters.length; i++){
