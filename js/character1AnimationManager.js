@@ -11,7 +11,7 @@
 					positionsY = new Array([410,5.1304433649737575,9.941610039203908,46.5],[410,12.287998358428808,27.79571602568791,46.5],[410,24.607331983155632,49.33138782478426,57.06028235632431],[410,12.536700913860727,25.672088494881393,44]);
 					limbAngles = new Array([0,0.8537845069879517,-1.6652155997563742,-0.04270905576500415],[0,0.4266274931268761,-1.6652155997563742,-0.04270905576500415],[0,-0.17219081452293902,-1.0225510836340417,-0.22494126505117096],[0,0.4136892132788633,-1.3851392906188422,0]);
 			}			
-			drawImageCenteredAtLocationWithRotation(characterClass.spriteArray[i], ((characterClass.x - (characterClass.torsoSprite.width / 2)) - (positionsX[animationIndex] [i])), (characterClass.y - (characterClass.torsoSprite.height / 2)) - (positionsY[animationIndex] [i]), limbAngles[animationIndex] [i])
+			drawImageCenteredAtLocationWithRotation(characterClass.spriteArray[i], ((characterClass.x ) - (positionsX[animationIndex] [i])),(characterClass.y - (positionsY[animationIndex] [i])), limbAngles[animationIndex] [i])
 			
 		}
 		
