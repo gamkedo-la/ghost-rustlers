@@ -98,8 +98,7 @@ function calculateMousePos(evt){
 		};	
 }
 
-function onMouseDown(evt){
-	console.log("mouse Pressed");
+function onMouseDown(evt){	
 	
 	//find which bone was clicked
 	for(i=0; i < bones.length; i++){
@@ -148,6 +147,31 @@ function onMouseDown(evt){
 		if(hitTest(bones[i].resetButtonPosition, mousePos.x, mousePos.y)){
 			bones[i].ResetBone();
 		}
+		//Instructions Menu Visibility
+			if(hitTest(howToAnimateButtonPos, mousePos.x, mousePos.y)){
+				howToAnimate = true;
+				howToMakeBone = false;
+				howToSetChild = false;
+				howToSetRoot = false;
+			}
+			if(hitTest(howToMakeBoneButtonPos, mousePos.x, mousePos.y)){
+				howToAnimate = false;
+				howToMakeBone = true;
+				howToSetChild = false;
+				howToSetRoot = false;
+			}
+			if(hitTest(howToSetChildButtonPos, mousePos.x, mousePos.y)){
+				howToAnimate = false;
+				howToMakeBone = false;
+				howToSetChild = true;
+				howToSetRoot = false;
+			}
+			if(hitTest(howToSetRootButtonPos, mousePos.x, mousePos.y)){
+				howToAnimate = false;
+				howToMakeBone = false;
+				howToSetChild = false;
+				howToSetRoot = true;
+			}
 		//Hide Icons
 		if(hitTest(hideIconsButtonPosition, mousePos.x, mousePos.y)){
 			canvas.removeEventListener('mousedown', onMouseDown, false);
@@ -223,7 +247,7 @@ function onMouseDown(evt){
 			var myJSONAngle = JSON.stringify(positionsAngle);
 			downloadString("var positionsX = " + myJSONX + ";\n" 
 			+ "var positionsY = " + myJSONY + ";\n"
-			+ "var limbAngles =" + myJSONAngle + ";", "text/javascript", "myFilename.js")
+			+ "var limbAngles = " + myJSONAngle + ";", "text/javascript", "myFilename.js")
 		}
 	
 		canvas.removeEventListener('mousedown', onMouseDown, false);
@@ -244,7 +268,7 @@ function mouseMoveListener(evt){
 }
 
 function mouseUpListener(evt){
-	console.log("mouse released");
+	
 		canvas.addEventListener('mousedown', onMouseDown, false);
 		window.removeEventListener('mouseup', mouseUpListener, false);
 		if(changingAngle || movingBone){
