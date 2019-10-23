@@ -34,8 +34,8 @@ function initializeBonePositions(){
 	
 	for(i = 0; i < bones.length; i++){
 		
-		bones[i].initialPosition.x = 100*(i+1);
-		bones[i].initialPosition.y = 200;
+		bones[i].initialPosition.x = 80;
+		bones[i].initialPosition.y = 150 + 80*(i);
 		bones[i].startPosition.x = bones[i].initialPosition.x;
 		bones[i].startPosition.y = bones[i].initialPosition.y;
 	}	
