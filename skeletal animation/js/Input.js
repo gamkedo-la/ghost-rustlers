@@ -245,15 +245,28 @@ function onMouseDown(evt){
 			var myJSONX = JSON.stringify(positionsX);
 			var myJSONY = JSON.stringify(positionsY);
 			var myJSONAngle = JSON.stringify(positionsAngle);
-			downloadString("var positionsX = " + myJSONX + ";\n" 
-			+ "var positionsY = " + myJSONY + ";\n"
-			+ "var limbAngles = " + myJSONAngle + ";", "text/javascript", "myFilename.js")
+			downloadString("//Raw Animation Data\n"
+			+"var positionsX = " + myJSONX + ";\n" 
+			+"var positionsY = " + myJSONY + ";\n"
+			+"var limbAngles = " + myJSONAngle + ";/n"
+			+"\n\n"
+			+"//Example Script for importing animation into game:\n"
+			+"function drawFromAnimationData(characterClass, animationIndex) {\n"
+			+"	if (characterClass.team == (team name here as String)) {\n"
+			+"		for (j = 1; j < characterClass.spriteArray.length; j++) {\n"
+			+"			if (characterClass.animationState == (animationNameHere as String)) {\n"
+			+"				positionsX = new Array" + myJSONX + ";\n"
+			+"				positionsY = new Array" + myJSONY + ";\n"
+			+"				limbAngles = new Array" + myJSONAngle + ";\n"
+			+"			}\n"
+			+"		drawImageCenteredAtLocationWithRotation(characterClass.spriteArray[j], ((characterClass.x) - (positionsX[animationIndex][j])), (characterClass.y - (positionsY[animationIndex][j])), limbAngles[animationIndex][j]);\n"
+			+"		}\n"
+			+"	}\n}", "text/javascript", "myFilename.js")
 		}
-	
+
 		canvas.removeEventListener('mousedown', onMouseDown, false);
 		window.addEventListener('mouseup', mouseUpListener, false);	
 }		
-
 
 function mouseMoveListener(evt){
 	if(changingAngle && movingBone){

@@ -93,11 +93,8 @@ function drawBoneMenu(){
 		canvasContext.strokeText("Child bone should snap to the new location.  If the parent is moved the child will move with it.", instructionTextPos.x, instructionTextPos.y +90);
 	}
 	if(howToSetRoot){
-		canvasContext.strokeText("1. Make sure bones are set in child and parent images.", instructionTextPos.x, instructionTextPos.y +10);
-		canvasContext.strokeText("2. Click the 'Set Parent' icon on the menu of the child image .", instructionTextPos.x, instructionTextPos.y +30);
-		canvasContext.strokeText("3. Click the Blue icon on the parent's bone.", instructionTextPos.x, instructionTextPos.y +50);		
-		canvasContext.strokeText("4. Click the desired location relative to the parent image.", instructionTextPos.x, instructionTextPos.y +70);
-		canvasContext.strokeText("Child bone should snap to the new location.  If the parent is moved the child will move with it.", instructionTextPos.x, instructionTextPos.y +90);
+		canvasContext.strokeText("1. Once the bone on the desired root image is created click the 'Set Root' icon next to the image.", instructionTextPos.x, instructionTextPos.y +10);
+		canvasContext.strokeText("-All bone animations will be saved relative to the root bone position .", instructionTextPos.x, instructionTextPos.y +30);
 	}
 	
 	//Hide Icons button
