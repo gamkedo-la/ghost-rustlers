@@ -32,6 +32,7 @@ var cactusBottomPic = document.createElement("img");
 var redBarrelPic = document.createElement("img");
 var cratePic = document.createElement("img");
 var weaponPic = document.createElement("img");
+var LeftweaponPic = document.createElement("img");
 var bulletPic = document.createElement("img");
 
 //var inActiveColor = "#88880088";
@@ -84,6 +85,7 @@ function initArt(){
   {varName:redBarrelPic, theFile:"red_barrel.png"},
   {varName:cratePic, theFile:"crate.png"},
   {varName:weaponPic, theFile:"weapon.png"},
+  {varName:LeftweaponPic, theFile:"Left_weapon.png"},
   {varName:bulletPic, theFile:"bullet.png"}
 ];
   

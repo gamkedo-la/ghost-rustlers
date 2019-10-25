@@ -330,7 +330,7 @@ function characterClass(character_team, character_color) {
   this.drawWeapon = function (x, y) {
     if (aimerX < this.x - (this.torsoSprite.width / 2))
     {
-      drawImageCenteredAtLocationWithRotation(weaponPic, x, y, this.handAngle); //TODO: add rotation angle
+      drawImageCenteredAtLocationWithRotation(LeftweaponPic, x, y, this.handAngle); //TODO: add rotation angle
     }
     else
     {
