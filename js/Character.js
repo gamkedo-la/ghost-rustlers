@@ -9,9 +9,6 @@ const GUN_POS = 8;
 var isInAimMode = false;
 var damageAvailable = true;
 
-//Animation variables
-var animationIndex = 0; 
-
 function characterClass(character_team, character_color) {
 
   this.actionsRemaining = ACTIONS_PER_TURN;
@@ -31,6 +28,7 @@ function characterClass(character_team, character_color) {
   this.isClimbing = false;
   this.isActive = false;
   this.animationState = "";
+  this.animationIndex = 0;
 
   this.upperArm = {
     x: 0,
@@ -67,7 +65,7 @@ function characterClass(character_team, character_color) {
 
   this.drawCharacter = function () {
 
-    this.shoulderOffset = -this.torsoSprite.height / 4;   	
+    this.shoulderOffset = -this.torsoSprite.height / 4;
 
     //Here's another method that might look better than the tinted sprite approach.
     //To test this, uncomment this and the last line, and set the inActiveColor and usedColor to #00000000 in the Assets.js.
@@ -78,22 +76,28 @@ function characterClass(character_team, character_color) {
     } else if (!this.isActive) {
       canvasContext.globalCompositeOperation = "overlay";
     }
-	
-	this.drawBody()
+
+    this.drawBody()
     //this.drawArms();
-	
-	if(this.isActive){
-		this.animationState = "";
-		this.drawArms();		
-		if (this.team == 'PLAYER_TEAM') {
-		  this.drawHat(this.x, this.y - this.torsoSprite.height / 3, 1.9 * Math.PI);
-		}
-	}else{
-		//TODO: idle animation here
-		this.animationState = "idle";
-		drawFromAnimationData(this, animationIndex);
-	}
-    if (isInAimMode && this.isActive){
+
+    if (this.isActive) {
+      this.animationState = "";
+      this.drawArms();
+      if (this.team == 'PLAYER_TEAM') {
+        this.drawHat(this.x, this.y - this.torsoSprite.height / 3, 1.9 * Math.PI);
+      }
+    } else {
+      //TODO: idle animation here
+      this.animationState = "idle";
+      if (this.color === 'green') {
+        drawFromAnimationData(this, ANIM_TIP_HAT);
+      }
+      if (this.color === 'red') {
+        drawFromAnimationData(this, ANIM_TIP_HAT);
+      }
+
+    }
+    if (isInAimMode && this.isActive) {
       this.drawWeapon(this.rightHand.x + GUN_POS, this.rightHand.y);
     }
 
@@ -104,8 +108,8 @@ function characterClass(character_team, character_color) {
 
   this.characterAction = function () {
 
-    if (this.isActive == false) {		
-		
+    if (this.isActive == false) {
+
       return
     }
 
@@ -126,7 +130,7 @@ function characterClass(character_team, character_color) {
   }
 
   this.characterMove = function () {
-	  
+
     this.x += this.speedX; // move the character based on its current horizontal speed 
     this.y += this.speedY; // same as above, but for vertical
 
@@ -182,11 +186,10 @@ function characterClass(character_team, character_color) {
         this.speedX /= 3;
         this.speedY -= JUMP_SPEED;
       }
-    //Hop one tile gaps
+      //Hop one tile gaps
     } else if (Math.abs(this.x - this.destinationXCoord) > BRICK_W * 1.75) {
       this.speedY -= JUMP_SPEED;
-    }
-     else if (this.isClimbing && this.destinationYCoord - BRICK_H / 2 > this.y && Math.abs(this.x - this.destinationXCoord) <= BRICK_H / 2) {
+    } else if (this.isClimbing && this.destinationYCoord - BRICK_H / 2 > this.y && Math.abs(this.x - this.destinationXCoord) <= BRICK_H / 2) {
       this.speedY = RUN_SPEED;
     } else if (this.isClimbing) {
       this.speedY = 0;
@@ -228,17 +231,14 @@ function characterClass(character_team, character_color) {
 
   this.drawArms = function () {
     this.calculateArmPositions();
-	
-	if (aimerX < this.x - (this.torsoSprite.width / 2))
-	{
-		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, -this.shoulderAngle);
-		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle - 45);
-	}
-	else
-	{
-		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle);
-		drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle);
-	}
+
+    if (aimerX < this.x - (this.torsoSprite.width / 2)) {
+      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, -this.shoulderAngle);
+      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle - 45);
+    } else {
+      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.upperArmPicUsed : (this.isActive ? this.upperArmPic : this.upperArmPicInactive)), this.upperArm.x, this.upperArm.y, this.shoulderAngle);
+      drawImageCenteredAtLocationWithRotation((this.actionsRemaining <= 0 ? this.lowerArmPicUsed : (this.isActive ? this.lowerArmPic : this.lowerArmPicInactive)), this.lowerArm.x, this.lowerArm.y, this.handAngle);
+    }
   }
 
   this.calculateArmPositions = function () {
@@ -281,16 +281,13 @@ function characterClass(character_team, character_color) {
     this.rightShoulderJoint.y = this.y + this.shoulderOffset;
 
     //calculates coordinate of right elbow joint
-	if (aimerX < this.x - (this.torsoSprite.width / 2))
-	{
-		this.rightElbow.x = -(ARM_SEGMENT_LENGTH * Math.cos(-this.shoulderAngle)) + this.rightShoulderJoint.x;
-		this.rightElbow.y = -(ARM_SEGMENT_LENGTH * Math.sin(-this.shoulderAngle)) + this.rightShoulderJoint.y;
-	}
-	else
-	{
-		this.rightElbow.x = ARM_SEGMENT_LENGTH * Math.cos(this.shoulderAngle) + this.rightShoulderJoint.x;
-		this.rightElbow.y = ARM_SEGMENT_LENGTH * Math.sin(this.shoulderAngle) + this.rightShoulderJoint.y;
-	}
+    if (aimerX < this.x - (this.torsoSprite.width / 2)) {
+      this.rightElbow.x = -(ARM_SEGMENT_LENGTH * Math.cos(-this.shoulderAngle)) + this.rightShoulderJoint.x;
+      this.rightElbow.y = -(ARM_SEGMENT_LENGTH * Math.sin(-this.shoulderAngle)) + this.rightShoulderJoint.y;
+    } else {
+      this.rightElbow.x = ARM_SEGMENT_LENGTH * Math.cos(this.shoulderAngle) + this.rightShoulderJoint.x;
+      this.rightElbow.y = ARM_SEGMENT_LENGTH * Math.sin(this.shoulderAngle) + this.rightShoulderJoint.y;
+    }
 
     //calculates coordinate point of right hand
     this.rightHand.x = ARM_SEGMENT_LENGTH * Math.cos(this.handAngle) + this.rightElbow.x;
@@ -298,42 +295,33 @@ function characterClass(character_team, character_color) {
   }
 
   this.calculateArmSpriteCoords = function () {
-	//calculates coordinate of upper arm sprite
-	this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
-	this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
-	
-	if (aimerX < this.x - (this.torsoSprite.width / 2))
-	{
-		//calculates coordinate of lower arm sprite
-		this.lowerArm.x = this.rightElbow.x - ((this.rightHand.x - this.rightElbow.x) / 2);
-		this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
-	}
-	else
-	{
-		//calculates coordinate of lower arm sprite
-		this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
-		this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
-	}
+    //calculates coordinate of upper arm sprite
+    this.upperArm.x = this.rightShoulderJoint.x + ((this.rightElbow.x - this.rightShoulderJoint.x) / 2);
+    this.upperArm.y = this.rightShoulderJoint.y + ((this.rightElbow.y - this.rightShoulderJoint.y) / 2);
+
+    if (aimerX < this.x - (this.torsoSprite.width / 2)) {
+      //calculates coordinate of lower arm sprite
+      this.lowerArm.x = this.rightElbow.x - ((this.rightHand.x - this.rightElbow.x) / 2);
+      this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
+    } else {
+      //calculates coordinate of lower arm sprite
+      this.lowerArm.x = this.rightElbow.x + ((this.rightHand.x - this.rightElbow.x) / 2);
+      this.lowerArm.y = this.rightElbow.y + ((this.rightHand.y - this.rightElbow.y) / 2);
+    }
   }
 
   this.drawHat = function (x, y, ang) {
-	if (aimerX < this.x - (this.torsoSprite.width / 2))
-	{
-		drawImageCenteredAtLocationWithRotation(cowboyHatLeftPic, x, y, -ang);
-	}
-	else
-	{
-		drawImageCenteredAtLocationWithRotation(cowboyHatRightPic, x, y, ang);
-	}
+    if (aimerX < this.x - (this.torsoSprite.width / 2)) {
+      drawImageCenteredAtLocationWithRotation(cowboyHatLeftPic, x, y, -ang);
+    } else {
+      drawImageCenteredAtLocationWithRotation(cowboyHatRightPic, x, y, ang);
+    }
   }
 
   this.drawWeapon = function (x, y) {
-    if (aimerX < this.x - (this.torsoSprite.width / 2))
-    {
+    if (aimerX < this.x - (this.torsoSprite.width / 2)) {
       drawImageCenteredAtLocationWithRotation(LeftweaponPic, x, y, this.handAngle); //TODO: add rotation angle
-    }
-    else
-    {
+    } else {
       drawImageCenteredAtLocationWithRotation(weaponPic, x, y, this.handAngle); //TODO: add rotation angle
     }
   }
@@ -370,6 +358,14 @@ function characterClass(character_team, character_color) {
         this.nextPathNode();
       }
     }
+  }
+
+  this.handleKeyPress = function(){
+    this.animationIndex++;
+    if(this.animationIndex > 2){
+      this.animationIndex = 0;
+    }
+    console.log("animation Index for " + this.color + " is " + this.animationIndex);	
   }
 
   this.characterReset = function () {
@@ -420,11 +416,11 @@ function characterClass(character_team, character_color) {
       this.bodyLeftPicUsed = enemyBodyLeftPic;
       this.bodyLeftPicInactive = enemyBodyLeftPic;
     }
-	this.torsoSprite = this.bodyRightPic;
-	this.headSprite = cowboyHatRightPic;
-	this.upperArmSprite = this.upperArmPic;
-	this.lowerArmSprite = this.lowerArmPic;
-	this.spriteArray = new Array(this.torsoSprite, this.upperArmSprite, this.lowerArmSprite, this.headSprite); //same order here as bones array in Skeletal Animation System
+    this.torsoSprite = this.bodyRightPic;
+    this.headSprite = cowboyHatRightPic;
+    this.upperArmSprite = this.upperArmPic;
+    this.lowerArmSprite = this.lowerArmPic;
+    this.spriteArray = new Array(this.torsoSprite, this.upperArmSprite, this.lowerArmSprite, this.headSprite); //same order here as bones array in Skeletal Animation System
   }
 
 }

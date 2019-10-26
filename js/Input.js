@@ -114,11 +114,11 @@ function keyPressed(evt) {
   
   //Animation test
   if(evt.keyCode == KEY_UP_ARROW){
-		animationIndex +=1;
-		if(animationIndex > 2){
-			animationIndex = 0;
-		}
-		console.log("animation Index is " + animationIndex);		
+
+    for (i = 0; i < allPlayerCharacters.length; i++){
+      allPlayerCharacters[i].handleKeyPress();
+    }
+		
 	}
 	//end animation test code
 	
