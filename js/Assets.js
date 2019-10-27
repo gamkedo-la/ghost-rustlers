@@ -34,6 +34,8 @@ var cratePic = document.createElement("img");
 var weaponPic = document.createElement("img");
 var LeftweaponPic = document.createElement("img");
 var bulletPic = document.createElement("img");
+var ghostImg = document.createElement("img");
+var labelImg = document.createElement("img");
 
 //var inActiveColor = "#88880088";
 //var usedColor = "#000000AA";
@@ -86,7 +88,9 @@ function initArt(){
   {varName:cratePic, theFile:"crate.png"},
   {varName:weaponPic, theFile:"weapon.png"},
   {varName:LeftweaponPic, theFile:"Left_weapon.png"},
-  {varName:bulletPic, theFile:"bullet.png"}
+  {varName:bulletPic, theFile:"bullet.png"},
+  {varName:ghostImg, theFile:"ghost.png"},
+  {varName:labelImg, theFile:"label.png"}
 ];
   
   picsToLoad	=	imageList.length;

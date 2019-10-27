@@ -25,7 +25,8 @@ function drawUI() {
     canvasContext.fillText("Press 1 & 2 to select Character.", 50, 70);
     canvasContext.fillText("Left Mouse Click to Move when not Aiming or Shoot when Aiming.", 50, 80);
     canvasContext.fillText("Press Arrow Keys to Pan Camera", 50, 90);
-	colorText(turnCount + "/" + levelTurns, canvas.width/2, 40, "white", font = "30px Arial Black");
+    colorText(turnCount + "/" + levelTurns, canvas.width/2, 40, "white", font = "30px Arial Black");
+    colorText(ghostsLeft + "/" + ghosts , canvas.width/2 - 50, 90, "white", font = "20px Arial Black");
 	
 	
     if (character1.actionsRemaining == 0 && character2.actionsRemaining == 0) {
@@ -55,7 +56,6 @@ function drawCharacterInfo() {
     canvasContext.fillText(character2.actionsRemaining, canvas.width/2 + 200 + 100, 90);
     canvasContext.fillStyle = 'white';
     canvasContext.font = "20px Verdana";
-    canvasContext.fillText("Ghosts", canvas.width/2, 90);
     /*
      if (character1.isActive) {
         canvasContext.strokeStyle = "red";
@@ -73,18 +73,26 @@ function drawCharacterInfo() {
         canvasContext.rect(495, 0, 225, 50);
         canvasContext.stroke();
     }
-    *///GhostBar
-   //for (var i = 1; i < ghosts.length; i++) {
-    drawGhost(canvasContext, canvas.width/2+20, 55, 8*i, 10);
-//}
-   canvasContext.drawImage(circleImg,canvas.width/2 - 200, 15, 60, 60);
-   canvasContext.drawImage(circleImg,canvas.width/2 + 200, 15, 60, 60);
-   drawActionsRemaining();
+    */
 
    for (i = 0; i < allCharacters.length; i++){
        drawHealthBar(allCharacters[i]);
    }
 
+   for (i = 0; i > ghosts.length; i--){
+       ghostsLeft = ghosts;
+}
+       // ghostsLeft--;
+    //}
+   
+
+
+  canvasContext.drawImage(circleImg,canvas.width/2 - 200, 15, 60, 60);
+  canvasContext.drawImage(circleImg,canvas.width/2 + 200, 15, 60, 60);
+  canvasContext.drawImage(labelImg,canvas.width/2 - 5, 5, 60, 50); 
+  canvasContext.drawImage(ghostImg,canvas.width/2 + 50, 40, 50, 50);
+
+  drawActionsRemaining();
 } //End of drawCharacterInfo
 
 function drawHealthBar(char) {
@@ -127,12 +135,6 @@ function drawActionsRemaining(x,y,r,sAngle,eAngle,counterclockwise){
         canvasContext.arc(canvas.width/2 + 230,45,25,0*Math.PI,character2.actionsRemaining*Math.PI);
         canvasContext.fillStyle = "#7F8C5D";
         canvasContext.fill();
-}
-
-
-function drawGhost(positionX, positionY, width, height, color){
-colorRect(screen - 340, 60, (ghosts / ghostsLeft), 22, 'white');
-colorLine(screen - 340, 60, ghosts, 22,"black");
 }
 
 
