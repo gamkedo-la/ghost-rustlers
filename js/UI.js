@@ -1,6 +1,4 @@
 var gameOver = false;
-let ghosts = 12;
-let ghostsLeft;
 
 function drawUI() {
     if (debugMode) {
@@ -26,7 +24,6 @@ function drawUI() {
     canvasContext.fillText("Left Mouse Click to Move when not Aiming or Shoot when Aiming.", 50, 80);
     canvasContext.fillText("Press Arrow Keys to Pan Camera", 50, 90);
     colorText(turnCount + "/" + levelTurns, canvas.width/2, 40, "white", font = "30px Arial Black");
-    colorText(ghostsLeft + "/" + ghosts , canvas.width/2 - 50, 90, "white", font = "20px Arial Black");
 	
 	
     if (character1.actionsRemaining == 0 && character2.actionsRemaining == 0) {
@@ -79,11 +76,11 @@ function drawCharacterInfo() {
        drawHealthBar(allCharacters[i]);
    }
 
-   for (i = 0; i > ghosts.length; i--){
-       ghostsLeft = ghosts;
-}
-       // ghostsLeft--;
+   for (i = 0; i < allEnemyCharacters.length; i++) {
+    //if (allEnemyCharacters[i].death){
+        colorText( i + "/" + allEnemyCharacters.lenghth , canvas.width/2 - 50, 90, "white", font = "20px Arial Black");
     //}
+  }
    
 
 
