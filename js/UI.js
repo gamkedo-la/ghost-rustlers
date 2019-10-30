@@ -44,15 +44,13 @@ function drawUI() {
 }
 
 function drawCharacterInfo() {        
-    canvasContext.fillStyle = '#7F87FB';
-    canvasContext.font = "14px Verdana";
-    //canvasContext.fillText("Character 1", 150, 20);
-    canvasContext.fillText("Character A:", canvas.width/2 - 200, 90);
-    canvasContext.fillText("Character B:", canvas.width/2 + 200, 90);
-    canvasContext.fillText(character1.actionsRemaining, canvas.width/2 - 200 + 100, 90);
-    canvasContext.fillText(character2.actionsRemaining, canvas.width/2 + 200 + 100, 90);
-    canvasContext.fillStyle = 'white';
+    canvasContext.fillStyle = 'yellow';
     canvasContext.font = "20px Verdana";
+    //canvasContext.fillText("Character 1", 150, 20);
+    canvasContext.fillText("Character A", canvas.width/2 - 230, 90);
+    canvasContext.fillText("Character B", canvas.width/2 + 180, 90);
+    colorText(character1.actionsRemaining, canvas.width/2 - 180 , 55, "white", font = "30px Arial Black");
+    colorText(character2.actionsRemaining, canvas.width/2 + 220 , 55, "white", font = "30px Arial Black");
     /*
      if (character1.isActive) {
         canvasContext.strokeStyle = "red";
@@ -77,9 +75,7 @@ function drawCharacterInfo() {
    }
 
    for (i = 0; i < allEnemyCharacters.length; i++) {
-    //if (allEnemyCharacters[i].death){
-        colorText( i + "/" + allEnemyCharacters.lenghth , canvas.width/2 - 50, 90, "white", font = "20px Arial Black");
-    //}
+        colorText( i + "/" + allEnemyCharacters.length , canvas.width/2 + 8, 80, "white", font = "20px Arial Black");
   }
    
 
