@@ -11,9 +11,11 @@ function drawTitleScreen(){
     canvasContext.drawImage(buttonPic,(canvas.width/2-50), (canvas.height/2-25) + 60, 100, 50);
 	colorText("Level 2", bx, by + 60, 'white');
 
-    canvasContext.drawImage(buttonPic,(canvas.width/2-50), (canvas.height/2-25) + 120, 100, 50);
-	colorText("Level 3", bx, by + 120, 'white');
+    canvasContext.drawImage(buttonPic,(canvas.width/2-50), (canvas.height/2-25) + 60 + 60, 100, 50);
+	colorText("Level 3", bx, by + 60 + 60, 'white');
 
+    canvasContext.drawImage(buttonPic,(canvas.width/2-50), (canvas.height/2-25) + 60 + 60 + 60, 100, 50);
+	colorText("Random", bx-5, by + 60 + 60 + 60, 'white');
 
 }
 
@@ -55,6 +57,17 @@ function titleScreenMouseClick(mousePosX, mousePosY){
         levelTileGrid = allLevels[2]; // which level data to use?
         updateState(STATE_GAME); // start playing!
 		hauntedHoedownSound.loopSong("hauntedHoedown"); // start music
-	}
+    }
+    
+    // level 4 clicked
+	if(	(mousePosX > x) && // left side
+    (mousePosX < x + w) && //right side
+    (mousePosY > y + 60 + 60 + 60) && //top side
+    (mousePosY < y + 60 + 60 + 60 + h)) //bottom side
+{		
+    levelTileGrid = generateRandomLevel(); // woo hoo!
+    updateState(STATE_GAME); // start playing!
+    hauntedHoedownSound.loopSong("hauntedHoedown"); // start music
+}
 
 }

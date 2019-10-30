@@ -22,7 +22,6 @@ var brickRightEdgeX;
 var brickBottomEdgeY;
 var firstTileGridPassComplete = false;
 
-/*
 var blank_level_template = [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
     1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
@@ -55,7 +54,6 @@ var blank_level_template = [
     1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 ];
-*/
 
 var level1 =  [ // the original level as used during development
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -175,6 +173,34 @@ const CACTUSBOTTOM_TILE = 8;
 const CRATE = 9;
 const RED_BARREL = 10;
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateRandomLevel() { // =) just for fun
+
+    console.log("Generating a random level!");
+
+    var newLevel = [];
+
+    for (var i = 0; i < blank_level_template.length; i++) {
+        newLevel[i] = blank_level_template[i];
+        if (newLevel[i] == 0) { // empty space? maybe fill it
+
+            var chance = Math.random();
+            if (chance<0.05) { newLevel[i] = PLATFORM_TILE; } // common
+            else if (chance<0.1) { newLevel[i] = WALL_TILE; } // average
+            else if (chance<0.12) { // rare
+                newLevel[i] = getRandomInt(EMPTY_TILE,RED_BARREL);
+            }
+
+        }
+    }
+
+    return newLevel;
+}
 
 function drawGroundBlocks() {
 
