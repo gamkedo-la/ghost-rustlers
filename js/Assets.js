@@ -32,6 +32,8 @@ var cactusBottomPic = document.createElement("img");
 var redBarrelPic = document.createElement("img");
 var cratePic = document.createElement("img");
 var weaponPic = document.createElement("img");
+var gunPic = document.createElement("img");
+var gunPicLeft = document.createElement("img");
 var LeftweaponPic = document.createElement("img");
 var bulletPic = document.createElement("img");
 var ghostImg = document.createElement("img");
@@ -59,10 +61,10 @@ function initArt(){
   {varName:characterBodyLeftPic,	theFile:"characterBodyPlaceHolderLeft.png"},
   {varName:characterUpperArmPic,	theFile:"characterUpperArmPlaceHolder.png"},
   {varName:characterLowerArmPic,	theFile:"characterLowerArmPlaceHolder.png"},
-  {varName:enemyBodyRightPic,	theFile:"ghostBanditBodyRight.gif"},
-  {varName:enemyBodyLeftPic,	theFile:"ghostBanditBodyLeft.gif"},
-  {varName:enemyLowerArmPic,	theFile:"enemyLowerArm.gif"},
-  {varName:enemyUpperArmPic,	theFile:"enemyUpperArm.gif"},
+  {varName:enemyBodyRightPic,	theFile:"ghostBanditBodyRight.png"},
+  {varName:enemyBodyLeftPic,	theFile:"ghostBanditBodyLeft.png"},
+  {varName:enemyLowerArmPic,	theFile:"enemyLowerArm.png"},
+  {varName:enemyUpperArmPic,	theFile:"enemyUpperArm.png"},
   {varName:wallInteriorPic,	theFile:"wall_rock_interior.png"},
   {varName:wallTopPic,	theFile:"wall_rock_top.png"},
   {varName:wallRightIntPic,	theFile:"wall_rock_right_int.png"},
@@ -87,6 +89,8 @@ function initArt(){
   {varName:redBarrelPic, theFile:"red_barrel.png"},
   {varName:cratePic, theFile:"crate.png"},
   {varName:weaponPic, theFile:"weapon.png"},
+  {varName:gunPic, theFile:"gun.png"},
+  {varName:gunPicLeft, theFile:"gunLeft.png"},
   {varName:LeftweaponPic, theFile:"Left_weapon.png"},
   {varName:bulletPic, theFile:"bullet.png"},
   {varName:ghostImg, theFile:"ghost.png"},

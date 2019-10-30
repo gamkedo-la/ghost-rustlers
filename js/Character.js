@@ -4,7 +4,7 @@ characterClass.prototype.constructor = characterClass;
 const RUN_SPEED = 4.0;
 const JUMP_SPEED = 1.6;
 const ACTIONS_PER_TURN = 2;
-const ARM_SEGMENT_LENGTH = 50;
+const ARM_SEGMENT_LENGTH = 20;
 const GUN_POS = 8;
 var isInAimMode = false;
 var damageAvailable = true;
@@ -29,6 +29,7 @@ function characterClass(character_team, character_color) {
   this.isActive = false;
   this.animationState = "";
   this.animationIndex = 0;
+  this.nextFrameReady = true;
 
   this.upperArm = {
     x: 0,
@@ -65,7 +66,7 @@ function characterClass(character_team, character_color) {
 
   this.drawCharacter = function () {
 
-    this.shoulderOffset = -this.torsoSprite.height / 4;
+    this.shoulderOffset = +this.torsoSprite.height / 14;
 
     //Here's another method that might look better than the tinted sprite approach.
     //To test this, uncomment this and the last line, and set the inActiveColor and usedColor to #00000000 in the Assets.js.
@@ -84,17 +85,17 @@ function characterClass(character_team, character_color) {
       this.animationState = "";
       this.drawArms();
       if (this.team == 'PLAYER_TEAM') {
-        this.drawHat(this.x, this.y - this.torsoSprite.height / 3, 1.9 * Math.PI);
+        this.drawHat(this.x  - this.torsoSprite.width / 8, this.y - this.torsoSprite.height / 3, 1.9 * Math.PI);
       }
     } else {
       //TODO: idle animation here
       this.animationState = "idle";
       if (this.color === 'green') {
-        drawFromAnimationData(this, ANIM_TIP_HAT);
+        drawFromAnimationData(this, ANIM_TIP_HAT, this.nextFrameReady);
       }
-      if (this.color === 'red') {
-        drawFromAnimationData(this, ANIM_TIP_HAT);
-      }
+      //if (this.color === 'red') {
+      //  drawFromAnimationData(this, ANIM_TIP_HAT, this.nextFrameReady);
+      //}
 
     }
     if (isInAimMode && this.isActive) {
@@ -312,17 +313,17 @@ function characterClass(character_team, character_color) {
 
   this.drawHat = function (x, y, ang) {
     if (aimerX < this.x - (this.torsoSprite.width / 2)) {
-      drawImageCenteredAtLocationWithRotation(cowboyHatLeftPic, x, y, -ang);
+      drawImageCenteredAtLocationWithRotation(cowboyHatLeftPic, x, y, -ang * 0);
     } else {
-      drawImageCenteredAtLocationWithRotation(cowboyHatRightPic, x, y, ang);
+      drawImageCenteredAtLocationWithRotation(cowboyHatRightPic, x, y, ang * 0);
     }
   }
 
   this.drawWeapon = function (x, y) {
     if (aimerX < this.x - (this.torsoSprite.width / 2)) {
-      drawImageCenteredAtLocationWithRotation(LeftweaponPic, x, y, this.handAngle); //TODO: add rotation angle
+      drawImageCenteredAtLocationWithRotation(gunPicLeft, x, y, this.handAngle); //TODO: add rotation angle
     } else {
-      drawImageCenteredAtLocationWithRotation(weaponPic, x, y, this.handAngle); //TODO: add rotation angle
+      drawImageCenteredAtLocationWithRotation(gunPic, x, y, this.handAngle); //TODO: add rotation angle
     }
   }
 
@@ -361,11 +362,11 @@ function characterClass(character_team, character_color) {
   }
 
   this.handleKeyPress = function(){
-    this.animationIndex++;
-    if(this.animationIndex > 2){
-      this.animationIndex = 0;
-    }
-    console.log("animation Index for " + this.color + " is " + this.animationIndex);	
+    //this.animationIndex++;
+    //if(this.animationIndex > 2){
+      //this.animationIndex = 0;
+    //}
+    //console.log("animation Index for " + this.color + " is " + this.animationIndex);	
   }
 
   this.characterReset = function () {
@@ -421,6 +422,15 @@ function characterClass(character_team, character_color) {
     this.upperArmSprite = this.upperArmPic;
     this.lowerArmSprite = this.lowerArmPic;
     this.spriteArray = new Array(this.torsoSprite, this.upperArmSprite, this.lowerArmSprite, this.headSprite); //same order here as bones array in Skeletal Animation System
+  
+    if (this.torsoSprite != undefined){
+      this.height = this.torsoSprite.height;
+      this.width = this.torsoSprite.width;
+      console.log(this.height);
+      console.log(this.width);
+
+    }
+
   }
 
 }

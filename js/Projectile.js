@@ -1,5 +1,5 @@
 var trajectoryPaths = [];
-var projectileSpeed = 1;
+var projectileSpeed = 25;
 var ricochetCount = 0;
 const MAX_BULLET_T = 1.0;
 const MAX_RICOCHETS = 5;

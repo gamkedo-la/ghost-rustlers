@@ -12,11 +12,11 @@ function destructableObjectClass(character_team) {
   this.drawObject = function () {
     //this.height = 40;
     //this.width = 40;
-    //this.height = sprite.getContentSize().height;
-    //this.width = sprite.getContentSize().width;
+    //this.height = torsoSprite.getContentSize().height;
+    //this.width = torsoSprite.getContentSize().width;
     //canvasContext.drawImage(sprite, this.x - (this.width / 2), this.y - (this.height / 2));
     drawImageCenteredAtLocationWithRotation(this.sprite, this.x, this.y, 0)
-    console.log(this.sprite.width + " " + this.sprite.height);
+    //console.log(this.sprite.width + " " + this.sprite.height);
   }
 
   this.objectSpawn = function (tileCol, tileRow) {

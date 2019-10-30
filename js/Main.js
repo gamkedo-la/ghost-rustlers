@@ -111,8 +111,8 @@ function loadLevel(levelToLoad) {
     enemy1 = new enemyClass('ENEMY_TEAM', 'white');
     //crate1 = new destructableObjectClass('CRATE');
 
-    character1.objectSpawn(5, 6);
-    character2.objectSpawn(7, 6);
+    character1.objectSpawn(6, 6);
+    character2.objectSpawn(7, 20);
     enemy1.objectSpawn(5, 12);
     //crate1.objectSpawn(11, 3);
 	
