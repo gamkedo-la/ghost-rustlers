@@ -120,7 +120,7 @@ function characterClass(character_team, character_color) {
     }
 
     if (this.hasFired) {
-      if (ricochetCount <= MAX_RICOCHETS) {
+      if (ricochetCount <= MAX_RICOCHETS && trajectoryPaths[0] != undefined) {
         animateProjectile(trajectoryPaths[ricochetCount].x1, trajectoryPaths[ricochetCount].y1, trajectoryPaths[ricochetCount].x2, trajectoryPaths[ricochetCount].y2);
       } else {
         this.hasFired = false;
@@ -148,7 +148,10 @@ function characterClass(character_team, character_color) {
     if (this.x > this.destinationXCoord) {
       if ((this.x - RUN_SPEED) < this.destinationXCoord) {
         this.x = this.destinationXCoord;
-        this.speedX = 0;
+        if (this.reachedDest){
+          this.speedX = 0;
+        }
+        
       } else {
         this.speedX = -RUN_SPEED
       }
@@ -157,7 +160,9 @@ function characterClass(character_team, character_color) {
     if (this.x < this.destinationXCoord) {
       if ((this.x + RUN_SPEED) > this.destinationXCoord) {
         this.x = this.destinationXCoord;
-        this.speedX = 0;
+        if (this.reachedDest){
+          this.speedX = 0;
+        }
       } else {
         this.speedX = RUN_SPEED;
       }
@@ -197,7 +202,7 @@ function characterClass(character_team, character_color) {
     }
 
     //Solid tile above
-    if (!this.isClimbing && this.speedY < 0 && isSolidTileAtPixelCoord(this.x, this.y - (this.torsoSprite.height / 2))) {
+    if (!this.isClimbing && this.speedY < 0 && isSolidTileAtPixelCoord(this.x, this.y - (this.torsoSprite.height / 4))) {
       this.y = (Math.floor(this.y / BRICK_H)) * BRICK_H + (this.torsoSprite.height / 2);
       this.speedY = 0.0;
     }

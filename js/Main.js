@@ -29,6 +29,7 @@ var turnCount = 1;
 var playersTurn = true;
 var aiMousePosX = 500;
 var aiMousePosY = 500;
+var aiAimTimer = 0;
 
 var background = new BackgroundClass();
 
