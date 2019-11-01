@@ -361,6 +361,7 @@ function characterClass(character_team, character_color) {
         if (!debugMode) {
           this.actionsRemaining--;
         }
+        menuSoundA.play();
         this.path = currentPath;
         this.nextPathNode();
       }
@@ -432,8 +433,6 @@ function characterClass(character_team, character_color) {
     if (this.torsoSprite != undefined){
       this.height = this.torsoSprite.height;
       this.width = this.torsoSprite.width;
-      console.log(this.height);
-      console.log(this.width);
 
     }
 

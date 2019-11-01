@@ -214,6 +214,7 @@ function enemyTurn() {
   }
 
   enemy1.activateCharacter();
+  menuSoundB.play();
 }
 
 function endEnemyTurn() {
