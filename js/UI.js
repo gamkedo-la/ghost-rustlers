@@ -25,14 +25,21 @@ function drawUI() {
     canvasContext.fillText("Press Arrow Keys to Pan Camera", 50, 90);
     colorText(turnCount + "/" + levelTurns, canvas.width/2, 40, "white", font = "30px Arial Black");
 	
-	
-    if (character1.actionsRemaining == 0 && character2.actionsRemaining == 0) {
-		if(turnCount <= levelTurns){
-        canvasContext.fillStyle = 'white';
-        canvasContext.font = "30px Verdana";
-        canvasContext.fillText("Press Space to End Turn", 225, 200);
-		}
-	}
+    if(turnCount <= levelTurns){
+        if (character1.actionsRemaining == 0 || character2.actionsRemaining == 0) {
+            canvasContext.fillStyle = 'white';
+            canvasContext.font = "30px Verdana";
+            canvasContext.textAlign = "center";
+            if(character1.actionsRemaining > 0 && character2.isActive) {
+                canvasContext.fillText("Press 1 to Change Characters", canvas.width/2, canvas.height/2);
+            } else if(character2.actionsRemaining > 0 && character1.isActive) {
+                canvasContext.fillText("Press 2 to Change Characters", canvas.width/2, canvas.height/2);
+            } else if (character1.actionsRemaining == 0 && character2.actionsRemaining == 0) {
+                canvasContext.fillText("Press Space to End Turn", canvas.width/2, canvas.height/2);
+            }
+            canvasContext.textAlign = "left";
+    	}
+    }
     
 	if (turnCount > levelTurns){
 		colorText("Game Over Man!", 225, 300, "white", font = "14px Arial Black");
