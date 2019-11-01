@@ -213,6 +213,8 @@ function enemyTurn() {
     allEnemyCharacters[i].characterReset();
   }
 
+  aiAimTimer = 0; // note: wouldn't yet support multiple enemies, if/when enemy1 becomes an array this would need to reset on or per enemy
+
   enemy1.activateCharacter();
   menuSoundB.play();
 }

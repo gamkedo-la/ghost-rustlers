@@ -1,5 +1,11 @@
 enemyClass.prototype = new characterClass('ENEMY_TEAM', 'white');
 
+const FRAMES_WAIT_AI_AIM = 150;
+const FRAMES_WAIT_AI_SHOOTING = 50;
+
+const FRAMES_DONE_WITH_AI_AIM = FRAMES_WAIT_AI_AIM;
+const FRAMES_DONE_WITH_AI_SHOOTING = FRAMES_DONE_WITH_AI_AIM+FRAMES_WAIT_AI_SHOOTING;
+
 function enemyClass(enemyTeam, enemyColor) {
 
     this.x = 100;
@@ -78,8 +84,8 @@ function enemyClass(enemyTeam, enemyColor) {
             this.reachedDest = (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20)
             if (this.reachedDest) {
                 
-               aiAimTimer++;
-                if (aiAimTimer > 300) {
+               aiAimTimer++; // incrementing while aiming
+                if (aiAimTimer == FRAMES_DONE_WITH_AI_AIM) {
                     this.actionsRemaining--;
                     this.AI_FireWeapon();
                 } else {
@@ -88,7 +94,10 @@ function enemyClass(enemyTeam, enemyColor) {
 
             }
         } else if (projectileAlive == false) {
-            endEnemyTurn();
+            aiAimTimer++; // also incrementing while giving projectile time to finish
+            if (aiAimTimer >= FRAMES_DONE_WITH_AI_SHOOTING) {
+                endEnemyTurn();
+            }
         }
     }
 
