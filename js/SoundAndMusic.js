@@ -3,6 +3,8 @@ var isMuted = false;
 var soundSetforMeetings = false; //make false to hear at normal level
 
 //sounds
+var shotSoundA = new SoundOverlapsClass("shooting2");
+var shotSoundB = new SoundOverlapsClass("shooting6");
 var hauntedHoedownSound = new BackgroundMusicClass("HauntedHoedown");
 
 function setFormat() {
@@ -14,11 +16,11 @@ function setFormat() {
     }
 }
 
-function SoundOverlapsClass() {
+function SoundOverlapsClass(filenameWithPath) {
     setFormat();
     var altSoundTurn = false;
-    var mainSound = new Audio("audio/" + filenameWithPath + audioFormat);
-    var altSound = new Audio("audio/" + filenameWithPath + audioFormat);
+    var mainSound = new Audio("audio/sounds/" + filenameWithPath + audioFormat);
+    var altSound = new Audio("audio/sounds/" + filenameWithPath + audioFormat);
     
     this.play = function() {
     	if (isMuted) {
@@ -54,6 +56,8 @@ function BackgroundMusicClass(filenameWithPath) {
 		musicSound = new Audio("audio/" + filenameWithPath + audioFormat);
 		if(soundSetforMeetings){
 			musicSound.volume = 0.04; //quieter for screen sharing during meetings
+		} else {
+			musicSound.volume = 0.3; // even outside of meetings reducing volume of music relative to sound effects
 		}
 		musicSound.loop = true;
 		musicSound.play();
