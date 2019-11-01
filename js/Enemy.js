@@ -112,6 +112,7 @@ function enemyClass(enemyTeam, enemyColor) {
     this.AI_FireWeapon = function () {
         //Console.log("Shot at " + this.target.team + " " + this.target.color);
         this.fireWeapon();
+        shotSoundB.play();
         aiAimTimer = 0;
     }
 }

@@ -345,6 +345,7 @@ function characterClass(character_team, character_color) {
     if (!debugMode) {
       this.actionsRemaining--;
     }
+    shotSoundA.play();
     this.hasFired = true;
     projectileAlive = true;
     bulletT = 0.0;

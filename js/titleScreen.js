@@ -36,7 +36,7 @@ function titleScreenMouseClick(mousePosX, mousePosY){
 
     if(showCredits) {
         showCredits = false;
-        shotSoundB.play();
+        menuSoundB.play();
         return;
     }
     
@@ -52,7 +52,7 @@ function titleScreenMouseClick(mousePosX, mousePosY){
             (mousePosY < y + 60*i + h)) //bottom side
         {
             buttonList[i].action();
-            shotSoundA.play();
+            menuSoundA.play();
         }
     }
 }

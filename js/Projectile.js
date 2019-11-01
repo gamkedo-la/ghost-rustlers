@@ -93,8 +93,9 @@ function animateProjectile(fromX, fromY, toX, toY) {
     ang = trajectoryPaths[ricochetCount].angle;
     drawBulletAtPointOnLine(fromX, fromY, toX, toY, bulletT, ang);
   } else {
-    ricochetCount++
+    ricochetCount++;
     bulletT = 0;
+    ricoSound.play();
   }
 }
 
@@ -117,6 +118,7 @@ function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
       if (damageAvailable) {
         resetProjectile();
         allObjects[i].takeDamage(1);
+        shotHitSound.play();
         console.log("Hit! " + allObjects[i] + " health: " + allCharacters[i].health);
       }
     }

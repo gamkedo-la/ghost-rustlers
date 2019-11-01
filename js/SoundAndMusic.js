@@ -5,6 +5,12 @@ var soundSetforMeetings = false; //make false to hear at normal level
 //sounds
 var shotSoundA = new SoundOverlapsClass("shooting2");
 var shotSoundB = new SoundOverlapsClass("shooting6");
+var shotHitSound = new SoundOverlapsClass("shooting3");
+var ricoSound = new SoundOverlapsClass("woosh");
+var menuSoundA = new SoundOverlapsClass("menu_sound");
+var menuSoundB = new SoundOverlapsClass("menu_sound_2");
+var reload = new SoundOverlapsClass("reload");
+
 var hauntedHoedownSound = new BackgroundMusicClass("HauntedHoedown");
 
 function setFormat() {
