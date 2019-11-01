@@ -71,7 +71,14 @@ function drawCredits() {
     var textTopY = canvas.height/2-creditsHeight/2;
     var lineSkip = 15;
     for(var i=0;i<creditsText.length;i++) {
+        var chunks = creditsText[i].split(" - ");
+        var justTheName = chunks[0];
+        // shadow under the name
+        if (chunks[1]) colorText(justTheName,textLeftX+1,textTopY+lineSkip*i+1,"black", creditsFontSize); 
+        // full line of text
         colorText(creditsText[i],textLeftX,textTopY+lineSkip*i,"white", creditsFontSize); 
+        // decorate each name just for fun
+        if (chunks[1]) colorText(justTheName,textLeftX,textTopY+lineSkip*i,"orange", creditsFontSize); 
     }
 }
 
