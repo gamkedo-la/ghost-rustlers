@@ -97,6 +97,7 @@ var creditsText =
 "Gonzalo Delgado - Ghost enemy art",
 "Simon J Hoffiz - Pause button hookup",
 "Ricardo Velez - Mirroring character arm when aiming left",
+"Chris DeLeon - Sound effects integration",
 " ",
 "                       Game made in HomeTeam GameDev, find out more or apply to join at HomeTeamGameDev.com",
 " ",
