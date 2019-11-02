@@ -4,7 +4,7 @@ function destructableObjectClass(character_team) {
   this.height;
   this.width;
   this.team = character_team;
-  this.health = 1;
+  this.health = 8;
   this.maxHealth = 8;
   this.isDead = false;
   this.sprite;
