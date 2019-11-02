@@ -19,12 +19,16 @@ function startLevel(whichLevel) {
 
 function drawTitleScreen(){
     background.draw(Math.sin(performance.now()/5000)*100-150,0);
-	colorText("GHOST RUSTLERS", (canvas.width/2-300), (canvas.height/2-100), 'white', "64px Arial Black");
-
+    
     if(showCredits) {
         drawCredits();
         return;
     }
+
+    //colorText("GHOST RUSTLERS", (canvas.width/2-300), (canvas.height/2-100), 'white', "64px Arial Black");
+    canvasContext.drawImage(logoImg,
+        Math.round(canvas.width/2-logoImg.width/2),
+        Math.round(canvas.height/2-120-logoImg.height/2));
 
     var bx = canvas.width/2-25;
     var by = canvas.height/2+5;

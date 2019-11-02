@@ -38,6 +38,7 @@ var LeftweaponPic = document.createElement("img");
 var bulletPic = document.createElement("img");
 var ghostImg = document.createElement("img");
 var labelImg = document.createElement("img");
+var logoImg = document.createElement("img");
 
 //var inActiveColor = "#88880088";
 //var usedColor = "#000000AA";
@@ -94,7 +95,8 @@ function initArt(){
   {varName:LeftweaponPic, theFile:"Left_weapon.png"},
   {varName:bulletPic, theFile:"bullet.png"},
   {varName:ghostImg, theFile:"ghost.png"},
-  {varName:labelImg, theFile:"label.png"}
+  {varName:labelImg, theFile:"label.png"},
+  {varName:logoImg, theFile:"logo.png"},
 ];
   
   picsToLoad	=	imageList.length;
