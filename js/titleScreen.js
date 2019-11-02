@@ -10,6 +10,9 @@ var showCredits = false;
 
 function startLevel(whichLevel) {
     levelTileGrid = whichLevel; // which level data to use?
+
+    initNavGraph();
+    
     updateState(STATE_GAME); // start playing!
     hauntedHoedownSound.loopSong("hauntedHoedown"); // start music
 }
