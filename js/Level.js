@@ -189,16 +189,59 @@ function generateRandomLevel() { // =) just for fun
     for (var i = 0; i < blank_level_template.length; i++) {
         newLevel[i] = blank_level_template[i];
         if (newLevel[i] == 0) { // empty space? maybe fill it
-
-            var chance = Math.random();
-            if (chance<0.05) { newLevel[i] = PLATFORM_TILE; } // common
-            else if (chance<0.1) { newLevel[i] = WALL_TILE; } // average
-            else if (chance<0.12) { // rare
-                newLevel[i] = getRandomInt(EMPTY_TILE,RED_BARREL);
-            }
-
+            // pure random junk noise - not fun
+            // var chance = Math.random();
+            // if (chance<0.05) { newLevel[i] = PLATFORM_TILE; } // common
+            // else if (chance<0.1) { newLevel[i] = WALL_TILE; } // average
+            // else if (chance<0.12) { newLevel[i] = getRandomInt(EMPTY_TILE,RED_BARREL); }
         }
     }
+
+    // procgen level v2 - make them "fun-ish"
+    
+    // add some floors
+    for (var num = 0; num < 15; num++) {
+        var start = getRandomInt(0,newLevel.length); // pick a tile
+        var width = getRandomInt(3,10); // length of platform
+        for (var tile=0; tile<width; tile++) { // build it
+            var i = start+tile; // map array index
+            if (newLevel[i] == 0) { // only replace empty space
+
+                // if we're in the very center of the platform, add a ladder
+                if (tile==width/2) {
+                    var height = getRandomInt(3,16); // height of ladder
+                    for (var step=0; step<height; step++) { // build it
+                        var pos = i + (step*BRICK_COLS);
+                        if (newLevel[pos] == 0) {
+                            newLevel[pos] = step?LADDER_TILE:LADDER_PLATFORM_TILE;
+                        }
+                    }
+                } else { // normal part of the platform
+
+                    newLevel[i] = PLATFORM_TILE;
+
+                }
+
+            }
+        }
+    }
+
+    // add some walls
+    for (var num = 0; num < 10; num++) {
+        var start = getRandomInt(0,newLevel.length);
+        var width = getRandomInt(3,9);
+        var height = getRandomInt(3,9);
+        for (var w=0; w<width; w++) {
+            for (var h=0; h<height; h++) {
+                var i = start+w+(h*BRICK_COLS);
+                if (newLevel[i] == 0) {
+                    newLevel[i] = WALL_TILE;
+                }
+            }
+        }
+    }
+
+
 
     return newLevel;
 }
