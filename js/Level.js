@@ -236,6 +236,28 @@ function generateRandomLevel() { // =) just for fun
                 var i = start+w+(h*BRICK_COLS);
                 if (newLevel[i] == 0) {
                     newLevel[i] = WALL_TILE;
+                    // occasionally we get a cactus on top
+                    if (h==0 && Math.random()<0.1) {
+                        var cacpos = i-BRICK_COLS;
+                        if (cacpos>0 && newLevel[cacpos]==0)
+                            newLevel[cacpos] = CACTUS_TILE;
+                    }
+
+                }
+            }
+        }
+    }
+
+    // time for some crates, tnt, and cactii
+    for (var num = 0; num < 10; num++) {
+        var start = getRandomInt(0,newLevel.length);
+        var width = getRandomInt(3,9);
+        var height = getRandomInt(3,9);
+        for (var w=0; w<width; w++) {
+            for (var h=0; h<height; h++) {
+                var i = start+w+(h*BRICK_COLS);
+                if (newLevel[i] == 0) {
+                    newLevel[i] = WALL_TILE;
                 }
             }
         }
