@@ -203,12 +203,14 @@ function generateRandomLevel() { // =) just for fun
     for (var num = 0; num < 15; num++) {
         var start = getRandomInt(0,newLevel.length); // pick a tile
         var width = getRandomInt(3,10); // length of platform
+        var ladderlocation = getRandomInt(0,width); // one of them has a ladder
+
         for (var tile=0; tile<width; tile++) { // build it
             var i = start+tile; // map array index
             if (newLevel[i] == 0) { // only replace empty space
 
                 // if we're in the very center of the platform, add a ladder
-                if (tile==width/2) {
+                if (tile==ladderlocation) { // center: width/2) {
                     var height = getRandomInt(3,16); // height of ladder
                     for (var step=0; step<height; step++) { // build it
                         var pos = i + (step*BRICK_COLS);
@@ -220,6 +222,17 @@ function generateRandomLevel() { // =) just for fun
 
                     newLevel[i] = PLATFORM_TILE;
 
+                    // occasionally we get a prop on top
+                    if (Math.random()<0.2) {
+                        var cacpos = i-BRICK_COLS;
+                        if (cacpos>0 && newLevel[cacpos]==0)
+                            switch (getRandomInt(0,2)) {
+                                case 0: newLevel[cacpos] = RED_BARREL; break;
+                                case 1: newLevel[cacpos] = CRATE; break;
+                                default: newLevel[cacpos] = CACTUS_TILE; break;
+                            }
+                    }
+
                 }
 
             }
@@ -227,7 +240,7 @@ function generateRandomLevel() { // =) just for fun
     }
 
     // add some walls
-    for (var num = 0; num < 10; num++) {
+    for (var num = 0; num < 8; num++) {
         var start = getRandomInt(0,newLevel.length);
         var width = getRandomInt(3,9);
         var height = getRandomInt(3,9);
@@ -236,34 +249,22 @@ function generateRandomLevel() { // =) just for fun
                 var i = start+w+(h*BRICK_COLS);
                 if (newLevel[i] == 0) {
                     newLevel[i] = WALL_TILE;
-                    // occasionally we get a cactus on top
-                    if (h==0 && Math.random()<0.1) {
+
+                    // occasionally we get a prop on top
+                    if (h==0 && Math.random()<0.2) {
                         var cacpos = i-BRICK_COLS;
                         if (cacpos>0 && newLevel[cacpos]==0)
-                            newLevel[cacpos] = CACTUS_TILE;
+                            switch (getRandomInt(0,2)) {
+                                case 0: newLevel[cacpos] = RED_BARREL; break;
+                                case 1: newLevel[cacpos] = CRATE; break;
+                                default: newLevel[cacpos] = CACTUS_TILE; break;
+                            }
                     }
 
                 }
             }
         }
     }
-
-    // time for some crates, tnt, and cactii
-    for (var num = 0; num < 10; num++) {
-        var start = getRandomInt(0,newLevel.length);
-        var width = getRandomInt(3,9);
-        var height = getRandomInt(3,9);
-        for (var w=0; w<width; w++) {
-            for (var h=0; h<height; h++) {
-                var i = start+w+(h*BRICK_COLS);
-                if (newLevel[i] == 0) {
-                    newLevel[i] = WALL_TILE;
-                }
-            }
-        }
-    }
-
-
 
     return newLevel;
 }
