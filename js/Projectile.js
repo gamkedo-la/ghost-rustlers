@@ -123,6 +123,18 @@ function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
       }
     }
   }
+
+  for (i in allCharacters) {
+    console.log(allCharacters[i]);
+    if (allCharacters[i].wasHitByProjectile(positionNowX, positionNowY)) {
+      if (damageAvailable) {
+        resetProjectile();
+        allCharacters[i].takeDamage(1);
+        shotHitSound.play();
+        console.log("Hit! " + allCharacters[i] + " health: " + allCharacters[i].health);
+      }
+    }
+  }
 }
 
 function resetProjectile(){

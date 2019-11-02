@@ -174,8 +174,6 @@ function drawEverything() {
   //crate1.drawObject();
 
   if (debugMode) {
-    console.log(enemy1.x + " " + enemy1.y);
-    console.log(enemy1.bodyRightPic.width + " " + enemy1.bodyRightPic.height);
   }
 
   //TODO: This should be moved somewhere else.
