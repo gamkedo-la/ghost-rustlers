@@ -98,8 +98,8 @@ window.onload = function () {
   character2.deactivateCharacter();
 }
 
-function loadLevel(levelToLoad) {
-  if (levelToLoad == 1) {
+function loadLevel(levelToLoad) { 
+  if (levelToLoad == 1) { // FIXME - what about the other levels?
     currentLevel = 1
 
     allCharacters = [];

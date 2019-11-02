@@ -15,6 +15,27 @@ function startLevel(whichLevel) {
     
     updateState(STATE_GAME); // start playing!
     hauntedHoedownSound.loopSong("hauntedHoedown"); // start music
+
+    // adjust positions of entities depending on level
+    // except level one which has hardcoded positios in loadLevel func
+    
+    if (whichLevel==level1) {
+        //character1
+        //character2
+        //enemy1
+    } else if (whichLevel==level2) {
+        //character1
+        //character2
+        //enemy1
+    } else if (whichLevel==level2) {
+        //character1
+        //character2
+        //enemy1
+    } else { // random level
+        enemy1.x = suggested_enemy_spawn_x;
+        enemy1.y = suggested_enemy_spawn_y;
+    }
+
 }
 
 function drawTitleScreen(){

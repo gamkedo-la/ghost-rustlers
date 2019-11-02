@@ -180,6 +180,9 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+var suggested_enemy_spawn_x = null;
+var suggested_enemy_spawn_y = null;
+
 function generateRandomLevel() { // =) just for fun
 
     console.log("Generating a random level!");
@@ -231,6 +234,13 @@ function generateRandomLevel() { // =) just for fun
                                 case 1: newLevel[cacpos] = CRATE; break;
                                 default: newLevel[cacpos] = CACTUS_TILE; break;
                             }
+                    } else { // and possibly the enemy spawn pos!!!
+
+                        if (suggested_enemy_spawn_x == null || Math.random()<0.2) {
+                            suggested_enemy_spawn_x = Math.round((start+tile) % BRICK_COLS) * BRICK_W;
+                            suggested_enemy_spawn_y = Math.round((start+tile) / BRICK_COLS) * BRICK_H;
+                        }
+
                     }
 
                 }
