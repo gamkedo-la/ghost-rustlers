@@ -114,7 +114,7 @@ function characterClass(character_team, character_color) {
       return
     }
 
-    if (isInAimMode && !this.hasFired) {
+    if (isInAimMode && !this.hasFired && !isWallTileAtPixelCoord(this.rightHand.x, this.rightHand.y) ) {
       calculateProjectileTrajectory(this);
       drawTrajectoryPath();
     }
