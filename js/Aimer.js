@@ -49,12 +49,15 @@ function moveAimer() {
 }
 
 function wobbleAimer() {
-    if (!isInAimMode || !playersTurn) {
+    if (!isInAimMode) {
         return;
     }
 
-    aimerX = mousePos.x + camPanX;
-    aimerY = mousePos.y + camPanY;
+    if (playersTurn) {
+        aimerX = mousePos.x + camPanX;
+        aimerY = mousePos.y + camPanY;
+    }
+
 
     // wobbly aimer is actually a trick
     if (WOBBLE_AIMER) {
@@ -68,6 +71,11 @@ function wobbleAimer() {
 }
 
 function drawAimer() {
+
+    if (!playersTurn){
+        return
+    }
+
     if (isInAimMode) {
         canvasContext.drawImage(targetAimerPic, aimerX - targetAimerPic.width / 2, aimerY - targetAimerPic.height / 2);
     } else {

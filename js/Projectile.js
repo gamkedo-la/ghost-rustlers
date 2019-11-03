@@ -81,6 +81,10 @@ function calculateTrajectoryPath() {
 
 function drawTrajectoryPath() {
   //draw each trajectory path.
+  if (!playersTurn){
+    return;
+  }
+
   for (i = 0; i < trajectoryPaths.length; i++) {
     colorLine(trajectoryPaths[i].x1, trajectoryPaths[i].y1, trajectoryPaths[i].x2, trajectoryPaths[i].y2, aimColor);
   }

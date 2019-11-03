@@ -68,7 +68,7 @@ function enemyClass(enemyTeam, enemyColor) {
             if (this.target === null) {
                 let AI_Destination = this.x + BRICK_W * DISTANCE_PER_ACTION * this.wanderDir;
                 this.path = getPathfor(this, AI_Destination, this.y, playerNavGraph);
-            } else {
+            } else if (this.movementDetermined === false) {
                 this.path = getPathfor(this, this.target.x, this.target.y, playerNavGraph);
                 this.wanderDir = this.target.x > this.x ? 1 : -1;
                 if (this.path.length > DISTANCE_PER_ACTION) {
