@@ -13,6 +13,7 @@ function drawUI() {
         canvasContext.fillText("Turn: " + turnCount, 50, 150);
         canvasContext.fillText("C1 Actions: " + allPlayerCharacters[0].actionsRemaining, 50, 160);
         canvasContext.fillText("C2 Actions: " + allPlayerCharacters[1].actionsRemaining, 50, 170);
+        canvasContext.fillText("aiAimTimer: " + aiAimTimer, 50, 190);
     }
 
     drawCharacterInfo();
@@ -54,8 +55,8 @@ function drawCharacterInfo() {
     canvasContext.fillStyle = 'yellow';
     canvasContext.font = "20px Verdana";
     //canvasContext.fillText("Character 1", 150, 20);
-    canvasContext.fillText("Character A", canvas.width/2 - 230, 90);
-    canvasContext.fillText("Character B", canvas.width/2 + 180, 90);
+    canvasContext.fillText("Wild 'Red' Rudy", canvas.width/2 - 230, 90);
+    canvasContext.fillText("Doc Green", canvas.width/2 + 180, 90);
     colorText(character1.actionsRemaining, canvas.width/2 - 180 , 55, "white", font = "30px Arial Black");
     colorText(character2.actionsRemaining, canvas.width/2 + 220 , 55, "white", font = "30px Arial Black");
     /*
@@ -112,7 +113,20 @@ function drawHealthBar(char) {
     canvasContext.fillStyle = char.color;
     canvasContext.font = "12px Verdana";
     canvasContext.textAlign = 'center';
-    canvasContext.fillText(char.team + ' ' + char.color, char.x, pipPositionY - (pipSize + pipGap))
+
+    if (char.color === 'red'){
+        var name = "Wild 'Red' Rudy";
+    }
+
+    if (char.color === 'green'){
+        var name = "Doc Green";
+    }
+
+    if (char.color === 'white'){
+        var name = "Spooky the Kid";
+    }
+
+    canvasContext.fillText(name, char.x, pipPositionY - (pipSize + pipGap))
 
     colorRect(pipPositionX - pipGap, pipPositionY - pipGap, (pipSize + pipGap) * char.health + pipGap, pipSize + pipGap * 2, 'black');
     for (var i = 0; i < char.health; i++) {
