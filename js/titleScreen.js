@@ -112,10 +112,10 @@ function drawCredits() {
 
 var creditsText =
 [
-"Brian J. Boucher - Project lead, core gameplay prototype, aim calculations, character switching feature, health bar, projectile and ricochet logic, camera pan improvements, debug visualization features, enemy support, destroyable object code, exploding barrels, additional asset integration and assorted bug fixing",
+"Brian J. Boucher - Project lead, core gameplay prototype, aim calculations, character switching feature, projectile and ricochet logic, camera pan improvements, debug visualization features, enemy support, destroyable object code, exploding barrels, additional asset integration and assorted bug fixing",
 "Brian Nielsen - Skeletal animation system which includes the custom animation format, internal/team-use editor, and in-game integration",
 "Christer \"McFunkypants\" Kaitila - Sunset background, glare/rays effects, parallax background support, sky improvements, cursor idle bobbing, tumbleweeds, editor saving improvement, mouse cursors, decorative sprite support, html cleanup, initialization race condition fix, fullscreen HD canvas support, level random generation and level switch support",
-"Andrew Mushel - Path finding, ledge hopping, ladder climbing, nav debug support, stylish cowboy hat, AI follow behavior, health and name tags, input refactor, movement cursor logic, aimer improvements, camera pan support, new platform collisions, tumbleweed improvement, cacti tweak, assorted bug fixes",
+"Andrew Mushel - Path finding, ledge hopping, ladder climbing, nav debug support, stylish cowboy hat, AI follow behavior, health bar and name tags, input refactor, movement cursor logic, aimer improvements, camera pan support, new platform collisions, tumbleweed improvement, cacti tweak, assorted bug fixes",
 "Vaan Hope Khani - Ghost diamonds, actions remaining interface, UI updates, boulder, sounds (whoosh, multiple shots, menu, explosion), 2 cowboy images, body parts, gun art, UI sprites, character sprite, text fixes for UI",
 "Vince McKeown - Color text support, attack colliders, turn end detection, turn limits, ghost transparency, audio integration, game states, start button art, early AI implementation",
 "Bilal A. Cheema - Selectable character tint indicators, camera tracking, cactus art, limb bug fix, realignment for UI and parallax background",
