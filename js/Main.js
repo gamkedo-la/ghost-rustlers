@@ -223,6 +223,7 @@ function endEnemyTurn() {
   enemy1.hasFired = false;
   enemy1.deactivateCharacter();
   character1.activateCharacter();
+  isInAimMode = false;
   playersTurn = true;
 }
 
