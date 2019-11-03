@@ -121,7 +121,7 @@ function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
     if (allObjects[i].wasHitByProjectile(positionNowX, positionNowY)) {
       if (damageAvailable) {
         resetProjectile();
-        allObjects[i].takeDamage(1);
+        allObjects[i].takeDamage(4);
         shotHitSound.play();
         console.log("Hit! " + allObjects[i] + " health: " + allCharacters[i].health);
       }
@@ -133,7 +133,7 @@ function checkForCollisionAgainstEnemy(positionNowX, positionNowY) {
     if (allCharacters[i].wasHitByProjectile(positionNowX, positionNowY)) {
       if (damageAvailable) {
         resetProjectile();
-        allCharacters[i].takeDamage(1);
+        allCharacters[i].takeDamage(3);
         shotHitSound.play();
         console.log("Hit! " + allCharacters[i] + " health: " + allCharacters[i].health);
       }

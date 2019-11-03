@@ -168,7 +168,7 @@ function characterClass(character_team, character_color) {
       }
     }
     //Update destination on reaching current path node
-    if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= BRICK_H / 2) {
+    if (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= this.sprite.height / 2) {
       this.nextPathNode();
     }
 
@@ -195,7 +195,7 @@ function characterClass(character_team, character_color) {
       //Hop one tile gaps
     } else if (Math.abs(this.x - this.destinationXCoord) > BRICK_W * 1.75) {
       this.speedY -= JUMP_SPEED;
-    } else if (this.isClimbing && this.destinationYCoord - BRICK_H / 2 > this.y && Math.abs(this.x - this.destinationXCoord) <= BRICK_H / 2) {
+    } else if (this.isClimbing && this.destinationYCoord - this.sprite.height / 2 > this.y && Math.abs(this.x - this.destinationXCoord) <= BRICK_W / 2) {
       this.speedY = RUN_SPEED;
     } else if (this.isClimbing) {
       this.speedY = 0;

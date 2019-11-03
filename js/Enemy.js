@@ -81,7 +81,7 @@ function enemyClass(enemyTeam, enemyColor) {
             this.movementDetermined = true;
             //}
 
-            this.reachedDest = (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= 20)
+            this.reachedDest = (this.x === this.destinationXCoord && Math.abs(this.y - this.destinationYCoord) <= this.sprite.height / 2)
             if (this.reachedDest) {
                 
                aiAimTimer++; // incrementing while aiming
