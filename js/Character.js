@@ -325,10 +325,19 @@ function characterClass(character_team, character_color) {
   }
 
   this.drawWeapon = function (x, y) {
-    if (aimerX < this.x - (this.torsoSprite.width / 2)) {
-      drawImageCenteredAtLocationWithRotation(gunPicLeft, x, y, this.handAngle); //TODO: add rotation angle
+
+    if (this.team == "PLAYER_TEAM"){
+      weaponImgRight = gunPic;
+      weaponImgLeft = gunPicLeft;
     } else {
-      drawImageCenteredAtLocationWithRotation(gunPic, x, y, this.handAngle); //TODO: add rotation angle
+      weaponImgRight = weaponPic;
+      weaponImgLeft = LeftweaponPic;
+    }
+    
+    if (aimerX < this.x - (this.torsoSprite.width / 2)) {
+      drawImageCenteredAtLocationWithRotation(weaponImgLeft, x, y, this.handAngle); //TODO: add rotation angle
+    } else {
+      drawImageCenteredAtLocationWithRotation(weaponImgRight, x, y, this.handAngle); //TODO: add rotation angle
     }
   }
 
