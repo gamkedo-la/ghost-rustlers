@@ -14,7 +14,7 @@ function startLevel(whichLevel) {
     initNavGraph();
     
     updateState(STATE_GAME); // start playing!
-    hauntedHoedownSound.loopSong("hauntedHoedown"); // start music
+    hauntedHoedownSound.loopSong("HauntedHoedown"); // start music
 
     // adjust positions of entities depending on level
     // except level one which has hardcoded positios in loadLevel func
