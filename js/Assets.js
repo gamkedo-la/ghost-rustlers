@@ -88,7 +88,7 @@ function initArt(){
   {varName:cactusTopPic, theFile:"cactusTop.png"},
   {varName:cactusBottomPic, theFile:"cactusBottom.png"},
   {varName:redBarrelPic, theFile:"red_barrel.png"},
-  {varName:cratePic, theFile:"crate.png"},
+  {varName:cratePic, theFile:"Crate.png"},
   {varName:weaponPic, theFile:"weapon.png"},
   {varName:gunPic, theFile:"gun.png"},
   {varName:gunPicLeft, theFile:"gunLeft.png"},
